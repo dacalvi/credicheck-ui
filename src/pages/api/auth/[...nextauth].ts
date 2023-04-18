@@ -19,8 +19,8 @@ export const authOptions: NextAuthOptions = {
       type: "credentials",
 
       async authorize(credentials, req) {
-        const {username, password} = credentials as {
-          username: string;
+        const {email, password} = credentials as {
+          email: string;
           password: string;
         };
 
@@ -31,12 +31,13 @@ export const authOptions: NextAuthOptions = {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username,
+            email,
             password,
           }),
         });
 
         const data = await response.json();
+
         if (data.success) {
           return data;
         } else {

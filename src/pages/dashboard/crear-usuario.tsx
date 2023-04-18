@@ -9,6 +9,9 @@ import {Loading} from "components/loading";
 import {useState} from "react";
 import Alert from "components/alerts";
 import {FiAlertCircle} from "react-icons/fi";
+import {useSession} from "next-auth/react";
+import {useRouter} from "next/router";
+import {useEffect} from "react";
 
 export type FormProps = {
   username: string;
@@ -16,6 +19,14 @@ export type FormProps = {
 };
 
 const Index: React.FC = () => {
+  const {status} = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/auth/signin");
+    }
+  }, [router, status]);
+
   const methods = useForm<FormProps>({
     defaultValues: {
       username: "",

@@ -5,11 +5,11 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    if (!req.body.username || !req.body.password) {
+    if (!req.body.email || !req.body.password) {
       return res
         .status(400)
-        .json({message: "Missing username or password", success: false});
-      //validate if username length is greater than 4
+        .json({message: "Missing email or password", success: false});
+      //validate if email length is greater than 4
     } else {
       return await validateCredentials(req, res);
     }
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
 async function validateCredentials(req, res) {
   const user = await prisma.user.findUnique({
     where: {
-      username: req.body.username,
+      email: req.body.email,
     },
   });
   if (!user) {
