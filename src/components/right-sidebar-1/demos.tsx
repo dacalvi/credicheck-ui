@@ -8,9 +8,9 @@ type Demo = {
 
 const Demos: React.FC = () => {
   const demos: Demo[] = [
-    {name: "demo-1", title: "Light background"},
-    {name: "demo-2", title: "Dark background"},
-    {name: "demo-3", title: "Small sidebar"},
+    {name: "demo-1", title: "Fondo Claro"},
+    {name: "demo-2", title: "Fondo Oscuro"},
+    {name: "demo-3", title: "Barra lateral pequeña"},
   ];
   const dispatch = useAppDispatch();
 
@@ -84,7 +84,7 @@ const Demos: React.FC = () => {
   return (
     <div className="flex flex-col p-4">
       <div className="mb-2 text-sm font-bold tracking-wider uppercase">
-        Demos
+        Pantalla
       </div>
       <div className="flex flex-col">
         {demos.map((demo, i) => (

@@ -23,22 +23,22 @@ const Item: React.FC<ItemProps> = ({title, description, icon}) => (
 const Features: React.FC = () => (
   <div className="flex flex-row flex-wrap items-center justify-center pt-12 mb-4">
     <Item
-      title="Zero Configuration"
+      title="Reportes"
       description="Automatic code splitting, filesystem based routing, hot code reloading and universal rendering."
       icon={<FiSettings className="text-3xl stroke-current" />}
     />
     <Item
-      title="Ready for production"
+      title="Configurable"
       description="Optimized for a smaller build size, faster development compilation and easy to deploy"
       icon={<FiSend className="text-3xl stroke-current" />}
     />
     <Item
-      title="100+ widgets and components"
+      title="Rapida"
       description="Lots of widgets and components to help you develop your application faster"
       icon={<FiLayers className="text-3xl stroke-current" />}
     />
     <Item
-      title="SSR ready"
+      title="Escalable"
       description="Statically generated and server-rendered React ready to deploy to your server"
       icon={<FiActivity className="text-3xl stroke-current" />}
     />

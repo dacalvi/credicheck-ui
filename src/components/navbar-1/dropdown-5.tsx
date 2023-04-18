@@ -16,9 +16,6 @@ const Dropdown: React.FC = () => {
               alt="avatar"
               className="rounded-full shadow-lg"
             />
-            <span className="absolute inline-flex items-center justify-center w-4 h-4 p-0 font-bold leading-none text-center text-white bg-red-500 rounded-full top-[-6px] right-[-6px] text-xs ring-2 ring-white">
-              2
-            </span>
           </div>
         </Menu.Button>
       </div>

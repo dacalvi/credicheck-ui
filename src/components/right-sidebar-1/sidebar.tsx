@@ -43,7 +43,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="flex flex-col p-4">
       <div className="uppercase text-sm font-bold tracking-wider mb-2">
-        Toggle sidebar
+        Alternar Barra Lateral
       </div>
       <div className="flex flex-col">
         <Component />

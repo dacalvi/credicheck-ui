@@ -7,7 +7,7 @@ const Search: React.FC = () => {
         <input
           type="search"
           name="search"
-          placeholder="Search..."
+          placeholder="Buscar..."
           className="w-full h-10 pl-10 pr-5 text-sm rounded-full appearance-none focus:outline-none bg-gray-100 dark:bg-gray-800 border border-gray-100 dark:border-gray-700"
         />
         <button type="submit" className="absolute top-0 left-0 mt-3 ml-4">

@@ -23,11 +23,6 @@ const Index: React.FC = () => {
       <div className="flex items-center justify-around w-full px-4 py-4 text-gray-900 bg-white dark:bg-gray-900 dark:text-white">
         <Logo />
         <div className="hidden lg:flex lg:flex-row whitespace-nowrap">
-          <Link href="/documentation">
-            <a className="px-4 py-2 text-xs font-bold uppercase">
-              Documentation
-            </a>
-          </Link>
           {status === "unauthenticated" ? (
             <button
               onClick={() => {
@@ -64,7 +59,7 @@ const Index: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2 text-xs font-bold text-blue-500 uppercase bg-transparent border border-blue-500 rounded-lg hover:text-blue-700 hover:border-blue-700">
-                Purchase now
+                Contactar con un representante
               </a>
             </div>
           </div>

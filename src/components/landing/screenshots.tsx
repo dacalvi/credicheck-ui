@@ -9,12 +9,12 @@ export type ItemProps = {
 const Screenshots: React.FC = () => {
   const backgrounds: ItemProps[] = [
     {
-      title: "Light",
+      title: "Claro",
       url: "/demo-1",
       img: "/screenshots/1.png",
     },
     {
-      title: "Dark",
+      title: "Oscuro",
       url: "/demo-2",
       img: "/screenshots/2.png",
     },
@@ -35,7 +35,7 @@ const Screenshots: React.FC = () => {
     <>
       <div className="flex flex-col items-center mb-4">
         <div className="text-sm leading-6 text-blue-500 font-semibold tracking-wide uppercase mb-4">
-          Available backgrounds
+          Fondos disponibles
         </div>
         <div className="flex flex-row flex-wrap items-center justify-center mb-4">
           {backgrounds.map((item, i) => (

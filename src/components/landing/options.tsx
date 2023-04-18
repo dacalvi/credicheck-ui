@@ -11,10 +11,10 @@ const Item: React.FC<ItemProps> = ({number, title}) => (
 
 const Options: React.FC = () => (
   <div className="flex flex-row flex-wrap items-center justify-center mb-4 text-center uppercase">
-    <Item number={2} title="Backgrounds" />
-    <Item number={2} title="Layouts" />
-    <Item number="+100" title="Components" />
-    <Item number={5} title="Sample apps" />
+    <Item number={1987} title="Evaluaciones" />
+    <Item number={256} title="Empresas" />
+    <Item number="+100M" title="Registros analizados" />
+    <Item number={130} title="Indicadores" />
   </div>
 );
 

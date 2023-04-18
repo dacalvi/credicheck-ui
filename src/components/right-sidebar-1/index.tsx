@@ -10,7 +10,7 @@ const RightSidebar: React.FC = () => {
     {bg: "bg-white", text: "text-white", name: "light"},
     {bg: "bg-gray-900", text: "text-gray-900", name: "dark"},
   ];
-  const items = [{title: "Background", key: "background"}];
+  const items = [{title: "Fondo", key: "background"}];
   const config = useAppSelector((state) => state.config);
   const {rightSidebar} = config;
 
@@ -26,7 +26,7 @@ const RightSidebar: React.FC = () => {
           <div className="flex flex-col">
             <div className="flex flex-row items-center justify-between h-16 px-4 text-white bg-blue-500">
               <div className="text-sm font-bold tracking-wider uppercase">
-                Settings
+                Configuración
               </div>
               <Toggle />
             </div>
@@ -38,7 +38,7 @@ const RightSidebar: React.FC = () => {
           <div className="flex flex-col p-4">
             <div className="mb-2">
               <div className="mb-2 text-sm font-bold tracking-wider uppercase">
-                Colors
+                Colores
               </div>
             </div>
 

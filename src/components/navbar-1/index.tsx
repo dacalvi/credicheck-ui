@@ -1,11 +1,6 @@
 import {useAppSelector, useAppDispatch} from "store";
 import {FiSettings, FiMenu} from "react-icons/fi";
-import Dropdown1 from "components/navbar-1/dropdown-1";
-import Dropdown2 from "components/navbar-1/dropdown-2";
-import Dropdown3 from "components/navbar-1/dropdown-3";
-import Dropdown4 from "components/navbar-1/dropdown-4";
 import Dropdown5 from "components/navbar-1/dropdown-5";
-import Dropdown6 from "components/navbar-1/dropdown-6";
 import Search from "components/navbar-1/search";
 import {setConfig} from "slices/config";
 
@@ -29,12 +24,7 @@ const Navbar: React.FC = () => {
         </button>
         <Search />
 
-        <Dropdown6 />
         <span className="ml-auto"></span>
-        <Dropdown2 />
-        <Dropdown1 />
-        <Dropdown4 />
-        <Dropdown3 />
         <Dropdown5 />
         <button
           className="flex items-center justify-center w-8 h-16 mx-4"
