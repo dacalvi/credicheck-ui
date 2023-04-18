@@ -46,6 +46,7 @@ const Layouts: React.FC<LayoutProps> = ({children}) => {
     case "/500":
       return <Centered>{children}</Centered>;
     case "/login-1":
+    case "/auth/signin":
     case "/contact-us-1":
     case "/create-account":
     case "/email-confirmation":
@@ -57,7 +58,8 @@ const Layouts: React.FC<LayoutProps> = ({children}) => {
     case "/error-page":
     case "/coming-soon":
       return <Centered>{children}</Centered>;
-    case "/landing":
+    case "/":
+    case "/home":
     case "/login-2":
     case "/login-3":
     case "/sidebars":

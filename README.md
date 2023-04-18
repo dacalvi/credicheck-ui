@@ -1,4 +1,5 @@
-###D-board
+###Credicheck
+
 
 D-board is an advanced, responsive admin template built with Typescript, React, Redux Toolkit, Next.js and Tailwind CSS.
 

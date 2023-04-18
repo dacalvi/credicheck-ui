@@ -16,7 +16,7 @@ const Ecommerce: React.FC<ECommerceProps> = ({children}) => {
   return (
     <>
       <Head>
-        <title>D-board</title>
+        <title>D-board*</title>
       </Head>
       <div
         data-layout="e-commerce"
