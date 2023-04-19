@@ -1,11 +1,9 @@
 import {PrismaClient} from "@prisma/client";
 import bcrypt from "bcrypt";
-import {getServerSession} from "next-auth/next";
-import {authOptions} from "./auth/[...nextauth]";
 
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
+export default async function handler(req: any, res: any) {
   //const session = await getServerSession(req, res, authOptions);
   //if (session) {
   if (req.method === "POST") {
@@ -51,7 +49,7 @@ async function generatePassword(password: string) {
   return hash;
 }
 
-async function createUser(req, res) {
+async function createUser(req: any, res: any) {
   const body = req.body;
   const hashedPassword = await generatePassword(body.password);
   try {

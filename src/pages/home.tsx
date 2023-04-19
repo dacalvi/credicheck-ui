@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Logo from "components/landing/logo";
 import Icons from "components/landing/icons";
 import Images from "components/landing/images";

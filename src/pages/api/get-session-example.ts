@@ -1,7 +1,7 @@
 import {getServerSession} from "next-auth/next";
 import {authOptions} from "./auth/[...nextauth]";
 
-const getSession = async (req, res) => {
+const getSession = async (req: any, res: any) => {
   const session = await getServerSession(req, res, authOptions);
   if (session) {
     // Signed in

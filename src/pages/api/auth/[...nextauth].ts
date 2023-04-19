@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
       credentials: {},
       type: "credentials",
 
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const {email, password} = credentials as {
           email: string;
           password: string;
@@ -37,6 +37,7 @@ export const authOptions: NextAuthOptions = {
         });
 
         const data = await response.json();
+        // eslint-disable-next-line no-console
         console.log(data);
         if (data.success) {
           return data;

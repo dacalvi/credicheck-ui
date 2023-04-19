@@ -3,7 +3,16 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: {method: string; body: {email: any; password: any}},
+  res: {
+    status: (arg0: number) => {
+      (): any;
+      new (): any;
+      json: {(arg0: {message: string; success: boolean}): any; new (): any};
+    };
+  }
+) {
   if (req.method === "POST") {
     if (!req.body.email || !req.body.password) {
       return res
@@ -20,7 +29,10 @@ export default async function handler(req, res) {
   }
 }
 
-async function validateCredentials(req, res) {
+async function validateCredentials(
+  req: {method?: string; body: any},
+  res: {status: any}
+) {
   const user = await prisma.user.findUnique({
     where: {
       email: req.body.email,
@@ -40,7 +52,7 @@ async function validateCredentials(req, res) {
         .status(400)
         .json({message: "Invalid username or password", success: false});
     } else {
-      return res.status(200).json({username: user.username, success: true});
+      return res.status(200).json({username: user.email, success: true});
     }
   }
 }
