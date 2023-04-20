@@ -14,7 +14,7 @@ import {useRouter} from "next/router";
 import {useEffect} from "react";
 
 export type FormProps = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -29,7 +29,7 @@ const Index: React.FC = () => {
 
   const methods = useForm<FormProps>({
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -92,22 +92,21 @@ const Index: React.FC = () => {
               <div className="space-y-6">
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-12">
                   <InputWrapper outerClassName="sm:col-span-4">
-                    <Label>Nombre de Usuario</Label>
+                    <Label>Email</Label>
                     <Input
-                      id="username"
-                      name="username"
-                      type="text"
+                      id="email"
+                      name="email"
+                      type="email"
                       rules={{
-                        required: "Nombre de usuario es requerido",
+                        required: "Email es requerido",
                         minLength: {
                           value: 4,
-                          message:
-                            "Nombre de usuario debe tener al menos 4 caracteres",
+                          message: "Email debe tener al menos 4 caracteres",
                         },
                       }}
                     />
-                    {errors?.username?.message && (
-                      <ErrorMessage>{errors.username.message}</ErrorMessage>
+                    {errors?.email?.message && (
+                      <ErrorMessage>{errors.email.message}</ErrorMessage>
                     )}
                   </InputWrapper>
 

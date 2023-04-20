@@ -19,22 +19,27 @@ export const authOptions: NextAuthOptions = {
       type: "credentials",
 
       async authorize(credentials) {
+        // eslint-disable-next-line no-console
+        console.log(process.env.VERCEL_URL);
         const {email, password} = credentials as {
           email: string;
           password: string;
         };
 
         // Add logic to validate credentials using login endpoint
-        const response = await fetch("http://localhost:3000/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        });
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_API_URL + "/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          }
+        );
 
         const data = await response.json();
         // eslint-disable-next-line no-console
