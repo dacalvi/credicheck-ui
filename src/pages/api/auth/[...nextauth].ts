@@ -20,7 +20,7 @@ export const authOptions: NextAuthOptions = {
 
       async authorize(credentials) {
         // eslint-disable-next-line no-console
-        console.info(process.env.VERCEL_URL);
+        console.info("***" + process.env.VERCEL_URL);
         const {email, password} = credentials as {
           email: string;
           password: string;
