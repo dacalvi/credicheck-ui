@@ -11,10 +11,6 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {},
       type: "credentials",
 
@@ -24,9 +20,8 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
 
-        // Add logic to validate credentials using login endpoint
         const response = await fetch(
-          "https://" + process.env.VERCEL_URL + "/api/login",
+          process.env.NEXT_PUBLIC_API_URL + "/login",
           {
             method: "POST",
             headers: {
@@ -47,7 +42,6 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
-    // ...add more providers here
   ],
 };
 export default NextAuth(authOptions);
