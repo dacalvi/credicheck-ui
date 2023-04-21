@@ -19,8 +19,6 @@ export const authOptions: NextAuthOptions = {
       type: "credentials",
 
       async authorize(credentials) {
-        // eslint-disable-next-line no-console
-        console.info("***" + process.env.VERCEL_URL);
         const {email, password} = credentials as {
           email: string;
           password: string;
@@ -28,7 +26,7 @@ export const authOptions: NextAuthOptions = {
 
         // Add logic to validate credentials using login endpoint
         const response = await fetch(
-          process.env.NEXT_PUBLIC_API_URL + "/login",
+          "https://" + process.env.VERCEL_URL + "/api/login",
           {
             method: "POST",
             headers: {
@@ -42,8 +40,6 @@ export const authOptions: NextAuthOptions = {
         );
 
         const data = await response.json();
-        // eslint-disable-next-line no-console
-        console.log(data);
         if (data.success) {
           return data;
         } else {
