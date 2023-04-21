@@ -19,7 +19,8 @@ export const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-
+        // eslint-disable-next-line no-console
+        console.log(process.env.NEXT_PUBLIC_URL + "/api/login");
         const response = await fetch(
           process.env.NEXT_PUBLIC_URL + "/api/login",
           {
