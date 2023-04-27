@@ -19,8 +19,6 @@ export const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-        // eslint-disable-next-line no-console
-        console.log(process.env.NEXT_PUBLIC_URL + "/api/login");
         const response = await fetch(
           process.env.NEXT_PUBLIC_URL + "/api/login",
           {
@@ -37,6 +35,9 @@ export const authOptions: NextAuthOptions = {
 
         const data = await response.json();
         if (data.success) {
+          delete data.success;
+          // eslint-disable-next-line no-console
+          console.log("DATA", data);
           return data;
         } else {
           return null;
@@ -44,5 +45,40 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({token, user}) {
+      // eslint-disable-next-line no-console
+      console.log("function jwt before assign", token, user);
+      if (user) {
+        token.roleId = user.roleId;
+        token.id = user.id;
+        token.email = user.email;
+        token.companyId = user.companyId;
+      }
+      // eslint-disable-next-line no-console
+      console.log("function jwt before return", token);
+      return token;
+    },
+    session({session, token}) {
+      // eslint-disable-next-line no-console
+      console.log("function session before assign", session, token);
+      if (token && session.user) {
+        session.user.roleId = token.roleId;
+        session.user.id = token.id;
+        session.user.email = token.email;
+        session.user.companyId = token.companyId;
+
+        //calculate gravatar image from email and save it to session
+        const hash = require("crypto")
+          .createHash("md5")
+          .update(session.user.email)
+          .digest("hex");
+        session.user.image = `https://www.gravatar.com/avatar/${hash}`;
+      }
+      // eslint-disable-next-line no-console
+      console.log("function session before return", session);
+      return session;
+    },
+  },
 };
 export default NextAuth(authOptions);

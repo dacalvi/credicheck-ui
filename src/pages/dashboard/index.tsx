@@ -17,8 +17,13 @@ import {useEffect} from "react";
 import {useRouter} from "next/router";
 
 const Index: React.FC = () => {
-  const {status} = useSession();
+  const {status, data} = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(data);
+  }, [data]);
 
   useEffect(() => {
     if (status === "unauthenticated") {

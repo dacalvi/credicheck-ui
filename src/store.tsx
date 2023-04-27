@@ -4,6 +4,7 @@ import colorsReducer from "slices/colors";
 import configReducer from "slices/config";
 import leftSidebarReducer from "slices/left-sidebar";
 import navigationReducer from "slices/navigation";
+import rolesReducer from "slices/roles";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     config: configReducer,
     leftSidebar: leftSidebarReducer,
     navigation: navigationReducer,
+    roles: rolesReducer,
   },
 });
 

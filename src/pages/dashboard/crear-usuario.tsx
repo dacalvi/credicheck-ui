@@ -12,15 +12,28 @@ import {FiAlertCircle} from "react-icons/fi";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
+import {Select} from "components/forms/select";
+import {useAppSelector} from "store";
 
 export type FormProps = {
   email: string;
   password: string;
+  roleId: number | null;
 };
 
 const Index: React.FC = () => {
   const {status} = useSession();
   const router = useRouter();
+  const roles = useAppSelector((state) => state.roles);
+
+  //rename id to key and name to value in the roles array
+  const rolesArray = roles.map((role) => {
+    return {
+      key: role.id,
+      value: role.name,
+    };
+  });
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
@@ -41,10 +54,12 @@ const Index: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [roleId, setRoleId] = useState<number | null>(null);
 
   const onSubmit = async (data: FormProps) => {
     try {
       setLoading(true);
+      data.roleId = roleId;
       const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/user", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -89,9 +104,9 @@ const Index: React.FC = () => {
         ) : (
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="space-y-6">
+              <div className="space-y-6 w-2/5">
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-12">
-                  <InputWrapper outerClassName="sm:col-span-4">
+                  <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Email</Label>
                     <Input
                       id="email"
@@ -110,7 +125,7 @@ const Index: React.FC = () => {
                     )}
                   </InputWrapper>
 
-                  <InputWrapper outerClassName="sm:col-span-4">
+                  <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Contraseña</Label>
                     <Input
                       id="password"
@@ -133,6 +148,21 @@ const Index: React.FC = () => {
                     {errors?.password?.message && (
                       <ErrorMessage>{errors.password.message}</ErrorMessage>
                     )}
+                  </InputWrapper>
+
+                  <InputWrapper outerClassName="sm:col-span-12">
+                    <Label>Rol</Label>
+                    <Select
+                      width="w-48"
+                      name="roleId"
+                      placeholder="Seleccione un rol"
+                      options={rolesArray}
+                      onChange={(e) => {
+                        // eslint-disable-next-line no-console
+                        console.log(e.target.value);
+                        setRoleId(parseInt(e.target.value));
+                      }}
+                    />
                   </InputWrapper>
                 </div>
               </div>

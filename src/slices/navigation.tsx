@@ -10,18 +10,45 @@ export type NavigationState = {
     color: string;
     text: string | number;
   };
+  roleId?: number;
 };
 
 const initialState: NavigationState[] = [
   {
     title: "Menu Principal",
     items: [
+      /* Dashboard */
       {
         url: "/dashboard",
         icon: <FiCompass size={20} />,
         title: "Inicio",
         items: [],
+        roleId: 1,
       },
+      {
+        url: "/dashboard",
+        icon: <FiCompass size={20} />,
+        title: "Inicio",
+        items: [],
+        roleId: 2,
+      },
+
+      /* Super Admin */
+      {
+        url: "/dashboard/configuracion",
+        icon: <FiClock size={20} />,
+        title: "Configuracion",
+        items: [
+          {
+            url: "/dashboard/crear-usuario",
+            title: "Crear Usuario",
+            items: [],
+            roleId: 1,
+          },
+        ],
+        roleId: 1,
+      },
+
       /* Agente */
       {
         url: "/dashboard/procesos",
@@ -41,62 +68,69 @@ const initialState: NavigationState[] = [
         ],
       },
       /* Supervisor */
+
       {
-        url: "/dashboard/procesos",
+        url: "/dashboard/iniciar-proceso",
         icon: <FiClock size={20} />,
-        title: "Supervisor",
-        items: [
-          {
-            url: "/dashboard/crear-usuario",
-            title: "Crear Usuario",
-            items: [],
-          },
-          {
-            url: "/dashboard/iniciar-proceso",
-            title: "Iniciar Proceso",
-            items: [],
-          },
-          {
-            url: "/dashboard/ver-procesos",
-            title: "Ver Procesos",
-            items: [],
-          },
-          {
-            url: "/dashboard/nuevo-agente",
-            title: "Nuevo Agente",
-            items: [],
-          },
-          {
-            url: "/dashboard/editar-reglas",
-            title: "Editar Reglas",
-            items: [],
-          },
-          {
-            url: "/dashboard/crear-fuente",
-            title: "Crear Fuente",
-            items: [],
-          },
-          {
-            url: "/dashboard/crear-indicador",
-            title: "Crear Indicador",
-            items: [],
-          },
-          {
-            url: "/dashboard/editar-indicador",
-            title: "Editar Indicador",
-            items: [],
-          },
-          {
-            url: "/dashboard/editar-indicador-detalle",
-            title: "Editar Indicador Det",
-            items: [],
-          },
-          {
-            url: "/dashboard/editar-caracteristica",
-            title: "Editar Caracteristica",
-            items: [],
-          },
-        ],
+        title: "Iniciar Proceso",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/ver-procesos",
+        icon: <FiClock size={20} />,
+        title: "Ver Procesos",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/nuevo-agente",
+        icon: <FiClock size={20} />,
+        title: "Nuevo Agente",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/editar-reglas",
+        icon: <FiClock size={20} />,
+        title: "Editar Reglas",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/crear-fuente",
+        icon: <FiClock size={20} />,
+        title: "Crear Fuente",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/crear-indicador",
+        icon: <FiClock size={20} />,
+        title: "Crear Indicador",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/editar-indicador",
+        icon: <FiClock size={20} />,
+        title: "Editar Indicador",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/editar-indicador-detalle",
+        icon: <FiClock size={20} />,
+        title: "Editar Indicador Det",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/editar-caracteristica",
+        icon: <FiClock size={20} />,
+        title: "Editar Caracteristica",
+        items: [],
+        roleId: 2,
       },
       /* Publicas */
       {

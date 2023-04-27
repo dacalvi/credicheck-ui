@@ -52,7 +52,13 @@ async function validateCredentials(
         .status(400)
         .json({message: "Invalid username or password", success: false});
     } else {
-      return res.status(200).json({username: user.email, success: true});
+      return res.status(200).json({
+        id: user.id,
+        email: user.email,
+        success: true,
+        roleId: user.roleId,
+        companyId: user.companyId,
+      });
     }
   }
 }

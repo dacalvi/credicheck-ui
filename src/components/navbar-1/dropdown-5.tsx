@@ -4,17 +4,23 @@ import clsx from "clsx";
 import {Menu, Transition} from "@headlessui/react";
 import {Fragment} from "react";
 import profilePic from "components/navbar-1/m1.png";
+import {useSession} from "next-auth/react";
 
 const Dropdown: React.FC = () => {
+  //get image from nextauth session
+  const {data} = useSession();
+  const image = data?.user?.image || profilePic;
+
   return (
     <Menu as="div" className="relative hidden lg:inline-block text-left">
       <div>
         <Menu.Button className="focus:outline-none">
           <div className="relative w-8 h-8">
             <Image
-              src={profilePic}
+              src={image}
               alt="avatar"
               className="rounded-full shadow-lg"
+              layout="fill"
             />
           </div>
         </Menu.Button>

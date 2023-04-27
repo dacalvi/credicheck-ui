@@ -8,10 +8,16 @@ import Options from "components/landing/options";
 import Screenshots from "components/landing/screenshots";
 import {signIn, useSession} from "next-auth/react";
 import {useRouter} from "next/router";
+import {useEffect} from "react";
 
 const Index: React.FC = () => {
-  const {status} = useSession();
+  const {status, data} = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log("hola", data?.user?.roleId);
+  }, [data]);
 
   const goToDashboard = () => {
     router.replace("/dashboard");
