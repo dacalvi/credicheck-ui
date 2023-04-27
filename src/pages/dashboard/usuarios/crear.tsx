@@ -3,7 +3,7 @@ import {InputWrapper} from "components/forms/input-wrapper";
 import SectionTitle from "components/section-title";
 import Widget from "components/widget";
 import {Input} from "components/react-hook-form/input";
-import {Label} from "components/forms/label";
+import {Label} from "flowbite-react";
 import {FormProvider, useForm} from "react-hook-form";
 import {Loading} from "components/loading";
 import {useState} from "react";
@@ -60,7 +60,7 @@ const Index: React.FC = () => {
     try {
       setLoading(true);
       data.roleId = roleId;
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/user", {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),

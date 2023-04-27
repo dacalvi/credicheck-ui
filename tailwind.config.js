@@ -2,9 +2,17 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 const colors = require("tailwindcss/colors");
 const plugin = require("tailwindcss/plugin");
 
+/**
+ * @type {import('@types/tailwindcss/tailwind-config').TailwindConfig}
+ */
 module.exports = {
   darkMode: "class",
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/flowbite-react/**/*.js",
+    "./pages/**/*.{ts,tsx}",
+    "./public/**/*.html",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -20,6 +28,7 @@ module.exports = {
     },
   },
   plugins: [
+    require("flowbite/plugin"),
     require("@tailwindcss/forms")({
       strategy: "class",
     }),

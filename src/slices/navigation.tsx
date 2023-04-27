@@ -40,8 +40,8 @@ const initialState: NavigationState[] = [
         title: "Configuracion",
         items: [
           {
-            url: "/dashboard/crear-usuario",
-            title: "Crear Usuario",
+            url: "/dashboard/usuarios",
+            title: "Usuarios",
             items: [],
             roleId: 1,
           },
@@ -53,16 +53,27 @@ const initialState: NavigationState[] = [
       {
         url: "/dashboard/procesos",
         icon: <FiClock size={20} />,
-        title: "Agente",
+        title: "Prospectos",
+        roleId: 3,
+        items: [
+          {
+            url: "/dashboard/nuevo-prospecto",
+            title: "Nuevo Prospecto",
+            roleId: 3,
+            items: [],
+          },
+        ],
+      },
+      {
+        url: "/dashboard/procesos",
+        icon: <FiClock size={20} />,
+        title: "Procesos",
+        roleId: 3,
         items: [
           {
             url: "/dashboard/ver-procesos",
             title: "Ver Procesos",
-            items: [],
-          },
-          {
-            url: "/dashboard/nuevo-prospecto",
-            title: "Nuevo Prospecto",
+            roleId: 3,
             items: [],
           },
         ],

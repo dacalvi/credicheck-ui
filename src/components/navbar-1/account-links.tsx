@@ -33,7 +33,7 @@ const AccountLinks: React.FC = () => {
         {items.map((item, i) =>
           item.name === "Salir" ? (
             <li key={i}>
-              <button onClick={() => signOut()}>
+              <button onClick={() => signOut()} className="w-full">
                 <a className="flex flex-row items-center justify-start w-full h-10 px-2 text-gray-900 bg-white dark:bg-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                   {item.icon}
                   <span className="mx-2">{item.name}</span>

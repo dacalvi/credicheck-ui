@@ -29,6 +29,9 @@ export default async function handler(req: any, res: any) {
       });
     }
     return await createUser(req, res);
+  } else if (req.method === "GET") {
+    const users = await getUsers();
+    return res.status(200).json({users, success: true});
   } else {
     return res
       .status(405)
@@ -47,6 +50,22 @@ async function generatePassword(password: string) {
   // eslint-disable-next-line no-console
   const hash = await bcrypt.hash(password, "$2b$10$gaZiwMSD2p06JeCDpcukC.");
   return hash;
+}
+
+async function getUsers() {
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      roleId: true,
+      role: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  return users;
 }
 
 async function createUser(req: any, res: any) {

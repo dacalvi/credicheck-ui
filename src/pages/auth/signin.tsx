@@ -102,7 +102,7 @@ const SignIn: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex justify-start space-x-2">
+                  <div className="flex justify-start space-x-2 mt-5">
                     <button
                       onClick={() => {
                         reset();
