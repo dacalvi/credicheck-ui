@@ -26,7 +26,7 @@ const Index: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   const loadUsers = async () => {
-    const response = await fetch("http://localhost:3000/api/users");
+    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users");
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);
