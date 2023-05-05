@@ -54,6 +54,8 @@ const Index: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [roleId, setRoleId] = useState<number | null>(null);
 
   const onSubmit = async (data: FormProps) => {
@@ -70,10 +72,18 @@ const Index: React.FC = () => {
         // eslint-disable-next-line no-console
         console.log("something went wrong");
         //set an error banner here
+        setShowErrorMessage(true);
+        setShowSuccessMessage(false);
+
+        response.json().then((response) => setErrorMessage(response.error));
       } else {
         setLoading(false);
         setShowSuccessMessage(true);
         reset();
+
+        //redirect to users page
+        router.push("/dashboard/usuarios");
+
         // eslint-disable-next-line no-console
         console.log("form submitted successfully !!!");
         //set a success banner here
@@ -97,6 +107,16 @@ const Index: React.FC = () => {
           Usuario Creado Correctamente
         </Alert>
       ) : null}
+
+      {showErrorMessage ? (
+        <Alert
+          color="bg-red-500 text-white"
+          icon={<FiAlertCircle className="w-4 h-4 mr-2 stroke-current" />}
+          onClick={() => setShowErrorMessage(false)}>
+          {errorMessage}
+        </Alert>
+      ) : null}
+
       <SectionTitle title="Usuarios" subtitle="Crear Usuario" />
       <Widget>
         {loading ? (

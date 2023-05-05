@@ -26,7 +26,6 @@ const Index: React.FC = () => {
   const router = useRouter();
   const roles = useAppSelector((state) => state.roles);
 
-  //rename id to key and name to value in the roles array
   const rolesArray = roles.map((role) => {
     return {
       key: role.id,
@@ -46,6 +45,7 @@ const Index: React.FC = () => {
       password: "",
     },
   });
+
   const {
     handleSubmit,
     reset,

@@ -2,7 +2,7 @@ import SectionTitle from "components/section-title";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {Button, Table} from "flowbite-react";
+import {Button, Spinner, Table} from "flowbite-react";
 
 export type FormProps = {
   email: string;
@@ -24,13 +24,16 @@ const Index: React.FC = () => {
   const router = useRouter();
 
   const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const loadUsers = async () => {
+    setLoading(true);
     const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users");
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);
     setUsers(data.users);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -60,30 +63,39 @@ const Index: React.FC = () => {
         </div>
       </div>
 
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Email</Table.HeadCell>
-          <Table.HeadCell>Rol</Table.HeadCell>
-          <Table.HeadCell>
-            <span className="sr-only">Edit</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {users.map((user) => (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {user.email}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {user.role.name}
-              </Table.Cell>
-              <Table.Cell align="right">
-                <Button onClick={() => editUser(user.id)}>Editar</Button>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      {loading ? (
+        <div className="flex">
+          <Spinner color="info" aria-label="Info spinner example" />
+          <div className="ml-2 mt-1">Cargando Usuarios</div>
+        </div>
+      ) : (
+        <Table>
+          <Table.Head>
+            <Table.HeadCell>Email</Table.HeadCell>
+            <Table.HeadCell>Rol</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Edit</span>
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {users.map((user, index) => (
+              <Table.Row
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                key={index}>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {user.email}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {user.role.name}
+                </Table.Cell>
+                <Table.Cell align="right">
+                  <Button onClick={() => editUser(user.id)}>Editar</Button>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </>
   );
 };

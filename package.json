@@ -8,7 +8,10 @@
     "start": "next start",
     "type-check": "tsc --pretty --noEmit",
     "lint": "eslint . --ext ts --ext tsx --ext js --cache --fix --max-warnings 0",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pscale-connect": "pscale connect credicheck-dev main --port 3309",
+    "pscale-shell": "pscale shell credicheck-dev main",
+    "db-push": "npx prisma db push"
   },
   "lint-staged": {
     "src/**/*.css": [
@@ -56,7 +59,7 @@
     "react-dom": "18.1.0",
     "react-hook-form": "^7.31.1",
     "react-hotkeys-hook": "^3.4.6",
-    "react-icons": "^4.3.1",
+    "react-icons": "^4.8.0",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.1",
     "react-select": "^5.7.2",

@@ -36,8 +36,6 @@ export const authOptions: NextAuthOptions = {
         const data = await response.json();
         if (data.success) {
           delete data.success;
-          // eslint-disable-next-line no-console
-          console.log("DATA", data);
           return data;
         } else {
           return null;
@@ -47,21 +45,15 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({token, user}) {
-      // eslint-disable-next-line no-console
-      console.log("function jwt before assign", token, user);
       if (user) {
         token.roleId = user.roleId;
         token.id = user.id;
         token.email = user.email;
         token.companyId = user.companyId;
       }
-      // eslint-disable-next-line no-console
-      console.log("function jwt before return", token);
       return token;
     },
     session({session, token}) {
-      // eslint-disable-next-line no-console
-      console.log("function session before assign", session, token);
       if (token && session.user) {
         session.user.roleId = token.roleId;
         session.user.id = token.id;
@@ -75,8 +67,6 @@ export const authOptions: NextAuthOptions = {
           .digest("hex");
         session.user.image = `https://www.gravatar.com/avatar/${hash}`;
       }
-      // eslint-disable-next-line no-console
-      console.log("function session before return", session);
       return session;
     },
   },

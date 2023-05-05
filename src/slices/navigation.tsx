@@ -1,5 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {FiClock, FiCompass} from "react-icons/fi";
+import {HiOfficeBuilding} from "react-icons/hi";
 
 export type NavigationState = {
   title: string;
@@ -28,6 +29,7 @@ const initialState: NavigationState[] = [
       {
         url: "/dashboard",
         icon: <FiCompass size={20} />,
+
         title: "Inicio",
         items: [],
         roleId: 2,
@@ -48,17 +50,31 @@ const initialState: NavigationState[] = [
         ],
         roleId: 1,
       },
+      {
+        url: "/dashboard/empresas",
+        icon: <HiOfficeBuilding size={20} />,
+        title: "Empresas",
+        items: [
+          {
+            url: "/dashboard/empresas",
+            title: "Ver empresas",
+            items: [],
+            roleId: 1,
+          },
+        ],
+        roleId: 1,
+      },
 
       /* Agente */
       {
-        url: "/dashboard/procesos",
+        url: "/dashboard/prospectos",
         icon: <FiClock size={20} />,
         title: "Prospectos",
         roleId: 3,
         items: [
           {
-            url: "/dashboard/nuevo-prospecto",
-            title: "Nuevo Prospecto",
+            url: "/dashboard/prospectos",
+            title: "Ver Prospectos",
             roleId: 3,
             items: [],
           },
@@ -71,7 +87,7 @@ const initialState: NavigationState[] = [
         roleId: 3,
         items: [
           {
-            url: "/dashboard/ver-procesos",
+            url: "/dashboard/procesos",
             title: "Ver Procesos",
             roleId: 3,
             items: [],
