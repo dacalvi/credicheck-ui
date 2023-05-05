@@ -40,25 +40,22 @@ const SignIn: React.FC = () => {
       password: data.password,
       redirect: false,
     });
-    setLoading(false);
-
-    // eslint-disable-next-line no-console
-    console.log(res);
 
     if (res?.ok) {
       router.replace("/dashboard");
+      //setLoading(false);
     }
   };
 
   return (
     <>
       <Layout>
-        <CenteredForm
-          title="Ingresar"
-          subtitle="Por favor ingrese su usuario y contraseña">
-          <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              {!loading ? (
+        {!loading ? (
+          <CenteredForm
+            title="Ingresar"
+            subtitle="Por favor ingrese su usuario y contraseña">
+            <FormProvider {...methods}>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
                   <div className="space-y-6">
                     <div className="grid grid-cols-1 gap-y-1 gap-x-2 sm:grid-cols-12">
@@ -118,12 +115,12 @@ const SignIn: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              ) : (
-                <Loading size={35} message="Autenticando usuario..." />
-              )}
-            </form>
-          </FormProvider>
-        </CenteredForm>
+              </form>
+            </FormProvider>
+          </CenteredForm>
+        ) : (
+          <Loading size={35} message="Autenticando usuario..." />
+        )}
       </Layout>
     </>
   );

@@ -65,13 +65,13 @@ const Index: React.FC = () => {
       </div>
       <Widget>
         {loading ? (
-          <div className="flex">
+          <div className="flex w-full text-center p-5">
             <Spinner color="info" aria-label="Info spinner example" />
             <div className="ml-2 mt-1">Cargando Procesos...</div>
           </div>
         ) : processes.length === 0 ? (
           <div className="flex justify-center">
-            <div className="text-gray-500">
+            <div className="text-gray-500 w-full text-center p-5">
               No hay procesos de análisis iniciados todavía.
               <br></br>
               <Link href="/dashboard/procesos/crear">
