@@ -51,6 +51,7 @@ model Client {
   owner User @relation(fields: [ownerId], references: [id])
   ownerId Int
   processes Process[]
+  rfc String
   @@index([ownerId])
 }
 

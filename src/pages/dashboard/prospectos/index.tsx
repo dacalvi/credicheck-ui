@@ -6,6 +6,7 @@ import {Button, Table} from "flowbite-react";
 
 type Prospect = {
   id: number;
+  rfc: string;
   firstName: string;
   lastName: string;
   cellphone: string;
@@ -65,6 +66,7 @@ const Index: React.FC = () => {
 
       <Table>
         <Table.Head>
+          <Table.HeadCell>RFC</Table.HeadCell>
           <Table.HeadCell>Nombre</Table.HeadCell>
           <Table.HeadCell>Apellido</Table.HeadCell>
           <Table.HeadCell>Celular</Table.HeadCell>
@@ -74,8 +76,13 @@ const Index: React.FC = () => {
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
-          {prospects.map((prospect) => (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+          {prospects.map((prospect, index) => (
+            <Table.Row
+              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+              key={index}>
+              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                {prospect.rfc}
+              </Table.Cell>
               <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                 {prospect.firstName}
               </Table.Cell>

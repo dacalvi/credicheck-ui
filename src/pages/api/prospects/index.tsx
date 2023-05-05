@@ -9,7 +9,8 @@ export default async function handler(req: any, res: any) {
       !req.body.email ||
       !req.body.cellPhone ||
       !req.body.firstName ||
-      !req.body.lastName
+      !req.body.lastName ||
+      !req.body.rfc
     ) {
       return res
         .status(400)
@@ -35,6 +36,11 @@ export default async function handler(req: any, res: any) {
         message: "Last Name is required",
         success: false,
       });
+    } else if (req.body.rfc.length < 1) {
+      return res.status(400).json({
+        message: "RFC is required",
+        success: false,
+      });
     }
 
     return await createProspect(req, res);
@@ -52,6 +58,7 @@ async function getProspects() {
   const prospects = await prisma.client.findMany({
     select: {
       id: true,
+      rfc: true,
       email: true,
       cellPhone: true,
       firstName: true,
@@ -76,6 +83,7 @@ async function createProspect(req: any, res: any) {
         cellPhone: req.body.cellPhone,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        rfc: req.body.rfc,
         owner: {
           connect: {
             id: Number(token?.id),

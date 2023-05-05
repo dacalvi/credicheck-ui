@@ -23,6 +23,7 @@ const Index: React.FC = () => {
       cellPhone: "",
       firstName: "",
       lastName: "",
+      rfc: "",
       startProcess: "false",
     },
   });
@@ -75,7 +76,7 @@ const Index: React.FC = () => {
                   <TextInput
                     id="email"
                     type="email"
-                    placeholder="ind@flowbite.com"
+                    placeholder="daniel@credicheck.com"
                     required={true}
                     {...field}
                   />
@@ -133,6 +134,25 @@ const Index: React.FC = () => {
                     id="lastName"
                     type="text"
                     placeholder="Perez"
+                    required={true}
+                    {...field}
+                  />
+                )}
+              />
+            </div>
+
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="rfc" value="RFC" />
+              </div>
+              <Controller
+                name="rfc"
+                control={control}
+                render={({field}) => (
+                  <TextInput
+                    id="rfc"
+                    type="text"
+                    placeholder="ANYG000200GD3"
                     required={true}
                     {...field}
                   />
