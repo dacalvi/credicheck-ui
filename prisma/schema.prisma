@@ -124,7 +124,7 @@ model Process {
   name        String @unique @default(uuid())
   description String
   order       Int    @default(1)
-  state       State
+  state       State @default(PENDING)
   client      Client @relation(fields: [clientId], references: [id])
   clientId    Int
   steps        Step[]
