@@ -30,20 +30,18 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({active, payload}) => {
 
 const Donut1: React.FC = () => {
   const data = [
-    {name: "Group A", value: 400},
-    {name: "Group B", value: 300},
-    {name: "Group C", value: 300},
-    {name: "Group D", value: 200},
+    {name: "Aprobados", value: 7},
+    {name: "Revision", value: 7},
+    {name: "Rechazados", value: 2},
   ];
   const colors = [
-    getColor("blue-500"),
-    getColor("red-500"),
     getColor("green-500"),
     getColor("yellow-500"),
+    getColor("red-500"),
   ];
 
   return (
-    <div style={{width: "100%", height: 400}}>
+    <div style={{width: "100%", height: 300}}>
       <ResponsiveContainer>
         <PieChart>
           <Pie

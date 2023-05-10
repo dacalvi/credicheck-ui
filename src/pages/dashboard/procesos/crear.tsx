@@ -1,3 +1,4 @@
+import {Select} from "components/forms/select";
 import SectionTitle from "components/section-title";
 import Widget from "components/widget";
 import {Button, Label, Spinner, TextInput} from "flowbite-react";
@@ -10,10 +11,28 @@ const Index: React.FC = () => {
   const {status} = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [clients, setClients] = useState<any[]>([]);
+
+  const loadClients = async () => {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + "/prospects"
+    );
+    const data = await response.json();
+    const clients = data.prospects.map((prospect: any) => {
+      return {
+        key: prospect.id,
+        value:
+          prospect.firstName + " " + prospect.lastName + " - " + prospect.rfc,
+      };
+    });
+    setClients(clients);
+  };
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
+    } else {
+      loadClients();
     }
   }, [router, status]);
 
@@ -21,6 +40,7 @@ const Index: React.FC = () => {
     defaultValues: {
       name: "",
       description: "",
+      clientId: "",
     },
   });
 
@@ -57,6 +77,23 @@ const Index: React.FC = () => {
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col gap-4">
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="clientId" value="Cliente" />
+              </div>
+              <Controller
+                name="clientId"
+                control={control}
+                render={({field}) => (
+                  <Select
+                    placeholder="Selecciona un cliente"
+                    {...field}
+                    options={clients}
+                  />
+                )}
+              />
+            </div>
+
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="name" value="Nombre del proceso" />
