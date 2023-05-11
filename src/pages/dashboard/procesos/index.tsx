@@ -5,7 +5,7 @@ import {useSession} from "next-auth/react";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {FiClock, FiCheck, FiMinus} from "react-icons/fi";
+import {FiClock, FiCheck, FiMinus, FiInfo} from "react-icons/fi";
 
 import {getColor} from "functions/colors";
 
@@ -19,6 +19,7 @@ type Step = {
   state: string;
   result: string;
   score: number;
+  resultExplanation?: string;
 };
 
 type Process = {
@@ -171,7 +172,12 @@ const Index: React.FC = () => {
                 <Accordion.Title>
                   <span className="flex">
                     {process.state === "PENDING" ? (
-                      <FiClock size={22} className=" mb-1 ml-1" color="gray" />
+                      <FiClock
+                        size={22}
+                        className=" mb-1 ml-1"
+                        color="gray"
+                        title="Pendiente"
+                      />
                     ) : null}
 
                     {process.state === "IN_PROGRESS" ? (
@@ -195,7 +201,8 @@ const Index: React.FC = () => {
                     ) : null}
 
                     <div className="ml-3 mt-1">
-                      #{process.id} - {process.name} - {process.steps[0]?.state}{" "}
+                      #{process.id} {process.client.firstName}{" "}
+                      {process.client.lastName} - {process.name}
                     </div>
                   </span>
                 </Accordion.Title>
@@ -265,7 +272,7 @@ const Index: React.FC = () => {
                         {process.steps.map((step, index) => (
                           <div className="flex flex-row" key={index}>
                             <div className="w-1/2">
-                              {step.state === "PENDING" ? (
+                              {step.result === "" ? (
                                 <div className="flex flex-row">
                                   <FiClock
                                     color="gray"
@@ -273,21 +280,10 @@ const Index: React.FC = () => {
                                     className="mt-1 mb-1 ml-1"
                                   />{" "}
                                   <div className="text-gray pt-1 pl-2">
-                                    Opinion de Cumplimiento Fiscal
+                                    {step.name}
                                   </div>
                                 </div>
-                              ) : step.state === "IN_PROGRESS" ? (
-                                <div className="flex flex-row">
-                                  <FiMinus
-                                    color="yellow"
-                                    size={22}
-                                    className="mt-1 mb-1 ml-1"
-                                  />{" "}
-                                  <div className="text-gray pt-1 pl-2">
-                                    Años de actividad
-                                  </div>
-                                </div>
-                              ) : step.state === "FINISHED" ? (
+                              ) : step.result === "SKIP" ? (
                                 <div className="flex flex-row">
                                   <FiCheck
                                     color="green"
@@ -295,10 +291,10 @@ const Index: React.FC = () => {
                                     className="mt-1 mb-1 ml-1"
                                   />{" "}
                                   <div className="text-gray pt-1 pl-2">
-                                    Lista Negra del SAT
+                                    {step.name}
                                   </div>
                                 </div>
-                              ) : step.state === "CANCELLED" ? (
+                              ) : step.result === "MANUAL" ? (
                                 <div className="flex flex-row">
                                   <FiMinus
                                     color="yellow"
@@ -306,7 +302,24 @@ const Index: React.FC = () => {
                                     className="mt-1 mb-1 ml-1"
                                   />{" "}
                                   <div className="text-gray pt-1 pl-2">
-                                    % de Crecimiento YoY
+                                    {step.name}
+                                  </div>
+                                </div>
+                              ) : step.result === "REJECT" ? (
+                                <div className="flex flex-row">
+                                  <FiMinus
+                                    color="red"
+                                    size={22}
+                                    className="mt-1 mb-1 ml-1"
+                                  />{" "}
+                                  <div className="text-gray pt-1 pl-2">
+                                    <div className="flex flex-row">
+                                      {step.name}{" "}
+                                      <FiInfo
+                                        title={step.resultExplanation}
+                                        className="ml-1"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               ) : null}

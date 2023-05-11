@@ -1,0 +1,11 @@
+export const enum Values {
+  MORE_OR_EQUAL_3_MILLONS = "MORE_OR_EQUAL_3_MILLONS",
+  BETWEEN_1_AND_3_MILLONS = "BETWEEN_1_AND_3_MILLONS",
+  LESS_THAN_1_MILLON = "LESS_THAN_1_MILLON",
+}
+
+export const enum Result {
+  SKIP = "SKIP",
+  REJECT = "REJECT",
+  MANUAL = "MANUAL",
+}
