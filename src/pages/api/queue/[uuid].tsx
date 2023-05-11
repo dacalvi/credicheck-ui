@@ -1,42 +1,17 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {PrismaClient} from "@prisma/client";
-import axios from "axios";
+import {StepType} from "types/step.type";
 import {Result} from "constants/values";
+import {CommonPayloadType} from "types/commonPayload.type";
+import {AssociatedFunctionResponseType} from "types/associatedFunctionResponse.type";
+import {getSalesRevenue} from "functions/sat.ws/getSalesRevenue";
+import {taxComplianceCheck} from "functions/sat.ws/taxComplianceCheck";
+import {blackListStatus} from "functions/sat.ws/blackListStatus";
+import {yearsOfActivity} from "functions/sat.ws/yearsOfActivity";
+import {percentOfGrowYoY} from "functions/sat.ws/percentOfGrowYoY";
+import {percentBigClientsConcentration} from "functions/sat.ws/percentBigClientsConcentration";
 
 const prisma = new PrismaClient();
-
-type StepType = {
-  id: number;
-  name: string;
-  description: string;
-  uuid: string;
-  process: {
-    id: number;
-    client: {
-      rfc: string;
-    };
-  };
-  indicator: {
-    id: number;
-    associated_function: string;
-  };
-};
-
-type CommonPayloadType = {
-  sat_ws_url: string;
-  sat_ws_api_key: string;
-  processId: number;
-  uuid: string;
-  rfc?: string;
-};
-
-type AssociatedFunctionResponseType = {
-  processId: number;
-  uuid: string;
-  result: string;
-  score: number;
-  result_explanation?: string;
-} | null;
 
 export default async function handler(
   req: NextApiRequest,
@@ -90,9 +65,37 @@ async function call_associated_function(step: StepType) {
     uuid: step.uuid,
     rfc: step.process.client.rfc,
   };
+  /*
+    Crear una funcion en la carpeta de funciones asociadas
+    importarla aqui
+    agregar una condicion para llamarla con el payload correcto
+    agregar registro en la base de datos en la tabla Indicator con el nombre de la funcion asociada
+  */
+
+  if (step?.indicator.associated_function === "tax-compliance-check") {
+    saveResult(await taxComplianceCheck(payload));
+  }
 
   if (step?.indicator.associated_function === "sales-revenue") {
     saveResult(await getSalesRevenue(payload));
+  }
+
+  if (step?.indicator.associated_function === "black-list-status") {
+    saveResult(await blackListStatus(payload));
+  }
+
+  if (step?.indicator.associated_function === "years-of-activity") {
+    saveResult(await yearsOfActivity(payload));
+  }
+
+  if (step?.indicator.associated_function === "percent-of-grow-yoy") {
+    saveResult(await percentOfGrowYoY(payload));
+  }
+
+  if (
+    step?.indicator.associated_function === "percent-big-clients-concentration"
+  ) {
+    saveResult(await percentBigClientsConcentration(payload));
   }
 }
 
@@ -143,53 +146,3 @@ async function updateProcessState(processId: number) {
     },
   });
 }
-
-const getSalesRevenue = async (
-  payload: CommonPayloadType
-): Promise<AssociatedFunctionResponseType> => {
-  const url = `${payload.sat_ws_url}/insights/${payload.rfc}/sales-revenue`;
-  const headers = {
-    "X-API-KEY": payload.sat_ws_api_key,
-    "Content-Type": "application/json",
-  };
-
-  try {
-    const response = await axios.get(url, {headers});
-    const months = response.data.data;
-    //iterate over months and get the total  of sales revenue using the mxnAmount field
-
-    const acc_salesRevenue = months.reduce((acc: any, month: any) => {
-      return acc + month.mxnAmount;
-    }, 0);
-
-    const result = {
-      processId: payload.processId,
-      uuid: payload.uuid,
-      result: "",
-      score: 0,
-      result_explanation: `Ventas acumuladas: $${acc_salesRevenue}`,
-    };
-
-    switch (acc_salesRevenue) {
-      case acc_salesRevenue >= 3000000:
-        result.result = Result.SKIP;
-        result.score = 100;
-        break;
-      case acc_salesRevenue >= 1000000 && acc_salesRevenue < 3000000:
-        result.result = Result.SKIP;
-        result.score = 50;
-        break;
-      case acc_salesRevenue < 1000000:
-        result.result = Result.REJECT;
-        result.score = 0;
-        break;
-      default:
-        break;
-    }
-    return result;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
-    return null;
-  }
-};

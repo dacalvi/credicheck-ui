@@ -2,7 +2,7 @@ import SectionTitle from "components/section-title";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {Button, Table} from "flowbite-react";
+import {Button, Spinner, Table} from "flowbite-react";
 
 type Company = {
   id: number;
@@ -14,15 +14,16 @@ const Index: React.FC = () => {
   const router = useRouter();
 
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const loadCompanies = async () => {
+    setLoading(true);
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_URL + "/companies"
     );
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
     setCompanies(data.companies);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const Index: React.FC = () => {
   }, [router, status]);
 
   const editCompany = async (id: number) => {
-    router.push(`/dashboard/empresas/${id}/editar`);
+    router.push(`/dashboard/empresas/${id}`);
   };
 
   return (
@@ -52,30 +53,39 @@ const Index: React.FC = () => {
         </div>
       </div>
 
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>Nombre</Table.HeadCell>
-          <Table.HeadCell>
-            <span className="sr-only">Editar</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {companies.map((company) => (
-            <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {company.name}
-              </Table.Cell>
-              <Table.Cell align="right">
-                <div className="flex flex-row justify-end">
-                  <Button onClick={() => editCompany(company.id)} className="">
-                    Editar
-                  </Button>
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      {loading ? (
+        <div className="flex">
+          <Spinner color="info" aria-label="Info spinner example" />
+          <div className="ml-2 mt-1">Cargando Empresas</div>
+        </div>
+      ) : (
+        <Table>
+          <Table.Head>
+            <Table.HeadCell>Nombre</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Editar</span>
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {companies.map((company) => (
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {company.name}
+                </Table.Cell>
+                <Table.Cell align="right">
+                  <div className="flex flex-row justify-end">
+                    <Button
+                      onClick={() => editCompany(company.id)}
+                      className="">
+                      Editar
+                    </Button>
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </>
   );
 };

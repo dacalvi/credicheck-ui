@@ -2,7 +2,7 @@ import SectionTitle from "components/section-title";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {Button, Table} from "flowbite-react";
+import {Button, Spinner, Table} from "flowbite-react";
 
 type Prospect = {
   id: number;
@@ -22,8 +22,10 @@ const Index: React.FC = () => {
   const router = useRouter();
 
   const [prospects, setProspects] = useState<Prospect[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const loadProspects = async () => {
+    setLoading(true);
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_URL + "/prospects"
     );
@@ -31,6 +33,7 @@ const Index: React.FC = () => {
     // eslint-disable-next-line no-console
     console.log(data);
     setProspects(data.prospects);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -63,56 +66,62 @@ const Index: React.FC = () => {
           </button>
         </div>
       </div>
-
-      <Table>
-        <Table.Head>
-          <Table.HeadCell>RFC</Table.HeadCell>
-          <Table.HeadCell>Nombre</Table.HeadCell>
-          <Table.HeadCell>Apellido</Table.HeadCell>
-          <Table.HeadCell>Celular</Table.HeadCell>
-          <Table.HeadCell>Email</Table.HeadCell>
-          <Table.HeadCell>
-            <span className="sr-only">Editar</span>
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          {prospects.map((prospect, index) => (
-            <Table.Row
-              className="bg-white dark:border-gray-700 dark:bg-gray-800"
-              key={index}>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {prospect.rfc}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {prospect.firstName}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {prospect.lastName}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {prospect.cellphone}
-              </Table.Cell>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {prospect.email}
-              </Table.Cell>
-              <Table.Cell align="right">
-                <div className="flex flex-row justify-end">
-                  <Button
-                    onClick={() => editProspect(prospect.id)}
-                    className="">
-                    Editar
-                  </Button>
-                  <Button
-                    onClick={() => showProcesses(prospect.id)}
-                    className="ml-3">
-                    Procesos (2)
-                  </Button>
-                </div>
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      {loading ? (
+        <div className="flex">
+          <Spinner color="info" aria-label="Info spinner example" />
+          <div className="ml-2 mt-1">Cargando Prospectos</div>
+        </div>
+      ) : (
+        <Table>
+          <Table.Head>
+            <Table.HeadCell>RFC</Table.HeadCell>
+            <Table.HeadCell>Nombre</Table.HeadCell>
+            <Table.HeadCell>Apellido</Table.HeadCell>
+            <Table.HeadCell>Celular</Table.HeadCell>
+            <Table.HeadCell>Email</Table.HeadCell>
+            <Table.HeadCell>
+              <span className="sr-only">Editar</span>
+            </Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {prospects.map((prospect, index) => (
+              <Table.Row
+                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                key={index}>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {prospect.rfc}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {prospect.firstName}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {prospect.lastName}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {prospect.cellphone}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {prospect.email}
+                </Table.Cell>
+                <Table.Cell align="right">
+                  <div className="flex flex-row justify-end">
+                    <Button
+                      onClick={() => editProspect(prospect.id)}
+                      className="">
+                      Editar
+                    </Button>
+                    <Button
+                      onClick={() => showProcesses(prospect.id)}
+                      className="ml-3">
+                      Procesos (2)
+                    </Button>
+                  </div>
+                </Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      )}
     </>
   );
 };
