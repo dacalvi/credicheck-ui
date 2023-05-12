@@ -4,7 +4,7 @@ import {Accordion, Spinner} from "flowbite-react";
 import {useSession} from "next-auth/react";
 import Link from "next/link";
 import {useRouter} from "next/router";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {FiClock, FiCheck, FiMinus, FiInfo} from "react-icons/fi";
 
 import {getColor} from "functions/colors";
@@ -71,8 +71,6 @@ const Index: React.FC = () => {
     getColor("red-500"),
   ];
 
-  //create a function to call api and get processes
-
   const [processes, setProcesses] = useState<Process[]>([]);
 
   async function calculateScoreSum(process: Process) {
@@ -104,7 +102,7 @@ const Index: React.FC = () => {
     };
   }
 
-  const loadProcesses = async () => {
+  const loadProcesses = useCallback(async () => {
     //set loading state to true
     setLoading(true);
     const response = await fetch(
@@ -123,7 +121,7 @@ const Index: React.FC = () => {
     console.log(data.processes);
 
     setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -131,7 +129,7 @@ const Index: React.FC = () => {
     } else {
       loadProcesses();
     }
-  }, [router, status]);
+  }, [loadProcesses, router, status]);
 
   return (
     <>
