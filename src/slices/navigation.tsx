@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {FiClock, FiCompass} from "react-icons/fi";
+import {FiActivity, FiClock, FiCompass, FiUsers} from "react-icons/fi";
 import {HiOfficeBuilding} from "react-icons/hi";
 
 export type NavigationState = {
@@ -68,7 +68,7 @@ const initialState: NavigationState[] = [
       /* Agente */
       {
         url: "/dashboard/prospectos",
-        icon: <FiClock size={20} />,
+        icon: <FiUsers size={20} />,
         title: "Prospectos",
         roleId: 3,
         items: [
@@ -82,7 +82,7 @@ const initialState: NavigationState[] = [
       },
       {
         url: "/dashboard/procesos",
-        icon: <FiClock size={20} />,
+        icon: <FiActivity size={20} />,
         title: "Procesos",
         roleId: 3,
         items: [

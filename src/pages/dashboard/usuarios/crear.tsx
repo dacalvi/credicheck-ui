@@ -12,19 +12,22 @@ import {FiAlertCircle} from "react-icons/fi";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
-import {Select} from "components/forms/select";
+import {Select} from "components/react-hook-form/select";
 import {useAppSelector} from "store";
 
 export type FormProps = {
   email: string;
   password: string;
   roleId: number | null;
+  companyId: number | null;
 };
 
 const Index: React.FC = () => {
   const {status} = useSession();
   const router = useRouter();
   const roles = useAppSelector((state) => state.roles);
+
+  const [companiesArray, setCompaniesArray] = useState([]);
 
   //rename id to key and name to value in the roles array
   const rolesArray = roles.map((role) => {
@@ -37,13 +40,30 @@ const Index: React.FC = () => {
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
+    } else {
+      loadCompanies();
     }
   }, [router, status]);
+
+  const loadCompanies = async () => {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/companies");
+    const {companies} = await res.json();
+
+    const companiesArray = companies.map((company: any) => {
+      return {
+        key: company.id,
+        value: company.name,
+      };
+    });
+    setCompaniesArray(companiesArray);
+  };
 
   const methods = useForm<FormProps>({
     defaultValues: {
       email: "",
       password: "",
+      roleId: null,
+      companyId: null,
     },
   });
   const {
@@ -56,12 +76,11 @@ const Index: React.FC = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [roleId, setRoleId] = useState<number | null>(null);
 
   const onSubmit = async (data: FormProps) => {
     try {
       setLoading(true);
-      data.roleId = roleId;
+
       const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -173,16 +192,35 @@ const Index: React.FC = () => {
                   <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Rol</Label>
                     <Select
+                      id="roleId"
                       width="w-48"
                       name="roleId"
                       placeholder="Seleccione un rol"
                       options={rolesArray}
-                      onChange={(e) => {
-                        // eslint-disable-next-line no-console
-                        console.log(e.target.value);
-                        setRoleId(parseInt(e.target.value));
+                      rules={{
+                        required: "Rol es requerido",
                       }}
                     />
+                    {errors?.roleId?.message && (
+                      <ErrorMessage>{errors.roleId.message}</ErrorMessage>
+                    )}
+                  </InputWrapper>
+
+                  <InputWrapper outerClassName="sm:col-span-12">
+                    <Label>Empresa</Label>
+                    <Select
+                      id="companyId"
+                      width="w-48"
+                      name="companyId"
+                      placeholder="Seleccione una empresa"
+                      options={companiesArray}
+                      rules={{
+                        required: "Empresa es requerido",
+                      }}
+                    />
+                    {errors?.companyId?.message && (
+                      <ErrorMessage>{errors.companyId.message}</ErrorMessage>
+                    )}
                   </InputWrapper>
                 </div>
               </div>

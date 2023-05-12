@@ -10,7 +10,7 @@ const Logo: React.FC = () => {
   if (showLogo) {
     return (
       <div className="logo truncate">
-        <Link href="/">
+        <Link href="/dashboard">
           <a className="flex flex-row items-center justify-start space-x-2">
             <FiBox size={28} />
             <span>{name}</span>

@@ -79,6 +79,9 @@ async function createProcess(req: any, res: any) {
 
 async function getProcesses() {
   const processes = await prisma.process.findMany({
+    orderBy: {
+      id: "desc",
+    },
     select: {
       id: true,
       name: true,

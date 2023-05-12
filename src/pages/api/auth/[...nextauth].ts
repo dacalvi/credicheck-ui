@@ -50,6 +50,7 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
         token.companyId = user.companyId;
+        token.companyName = user.companyName;
       }
       return token;
     },
@@ -59,6 +60,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id;
         session.user.email = token.email;
         session.user.companyId = token.companyId;
+        session.user.companyName = token.companyName;
 
         //calculate gravatar image from email and save it to session
         const hash = require("crypto")

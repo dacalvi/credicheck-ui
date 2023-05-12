@@ -16,7 +16,7 @@ export type ItemProps = {
 const AccountLinks: React.FC = () => {
   const items: ItemProps[] = [
     {
-      url: "/",
+      url: "/perfil",
       icon: <FiUser size={18} className="stroke-current" />,
       name: "Perfil",
     },

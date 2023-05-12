@@ -20,6 +20,8 @@ const LeftSidebar: React.FC = () => {
         <Fragment key={i}>
           <Title>
             {roles.find((role) => role.id === data?.user?.roleId)?.name || "-"}
+            <br />
+            <small>{data?.user?.companyName}</small>
           </Title>
           <ul>
             {menu.items.map(

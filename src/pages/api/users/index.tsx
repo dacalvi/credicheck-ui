@@ -77,6 +77,7 @@ async function createUser(req: any, res: any) {
         email: body.email,
         password: hashedPassword,
         roleId: Number(body.roleId),
+        companyId: Number(body.companyId),
       },
     });
     return res.status(200).json({success: true});

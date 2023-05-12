@@ -34,6 +34,18 @@ async function validateCredentials(
   res: {status: any}
 ) {
   const user = await prisma.user.findUnique({
+    select: {
+      id: true,
+      email: true,
+      roleId: true,
+      password: true,
+      companyId: true,
+      company: {
+        select: {
+          name: true,
+        },
+      },
+    },
     where: {
       email: req.body.email,
     },
@@ -58,6 +70,7 @@ async function validateCredentials(
         success: true,
         roleId: user.roleId,
         companyId: user.companyId,
+        companyName: user.company?.name,
       });
     }
   }
