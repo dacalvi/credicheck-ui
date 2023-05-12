@@ -1,6 +1,5 @@
 import {PrismaClient} from "@prisma/client";
 import {getToken} from "next-auth/jwt";
-import {generateUUID} from "../../../functions/uuid";
 
 const prisma = new PrismaClient();
 
@@ -78,7 +77,7 @@ async function getProspects() {
 async function createProspect(req: any, res: any) {
   const token = await getToken({req});
   if (token?.id) {
-    const client = await prisma.client.create({
+    await prisma.client.create({
       data: {
         email: req.body.email,
         cellPhone: req.body.cellPhone,
@@ -92,17 +91,6 @@ async function createProspect(req: any, res: any) {
         },
       },
     });
-
-    if (req.body.startProcess) {
-      await prisma.process.create({
-        data: {
-          name: req.body.firstName + " " + req.body.lastName,
-          description: "Initial process",
-          clientId: client.id,
-          uuid: generateUUID(),
-        },
-      });
-    }
   }
 
   return res.status(200).json({message: "Prospect created", success: true});
