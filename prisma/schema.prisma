@@ -25,6 +25,8 @@ enum Action {
 
 model User {
   id        Int      @id @default(autoincrement())
+  firstName String  @default("")
+  lastName  String @default("")
   email     String   @unique
   password  String
   role      Role     @relation(fields: [roleId], references: [id])
@@ -83,7 +85,8 @@ model Client {
   ownerId   Int
   processes Process[]
   rfc       String
-
+  uuid        String @unique
+  satwsid     String? @unique
   @@index([ownerId])
 }
 

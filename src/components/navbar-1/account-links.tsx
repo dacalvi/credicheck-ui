@@ -1,4 +1,4 @@
-import {signOut} from "next-auth/react";
+import {signOut, useSession} from "next-auth/react";
 import Link from "next/link";
 import {FiUser, FiLogIn} from "react-icons/fi";
 
@@ -14,11 +14,12 @@ export type ItemProps = {
 };
 
 const AccountLinks: React.FC = () => {
+  const {data} = useSession();
   const items: ItemProps[] = [
     {
       url: "/perfil",
       icon: <FiUser size={18} className="stroke-current" />,
-      name: "Perfil",
+      name: data?.user?.email || "",
     },
     {
       url: "#",

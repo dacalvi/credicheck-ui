@@ -41,6 +41,7 @@ const Layouts: React.FC<LayoutProps> = ({children}) => {
 
   const router = useRouter();
   const {pathname} = router;
+  // eslint-disable-next-line no-console
   switch (pathname) {
     case "/404":
     case "/500":
@@ -63,6 +64,7 @@ const Layouts: React.FC<LayoutProps> = ({children}) => {
     case "/login-2":
     case "/login-3":
     case "/sidebars":
+    case "/credenciales/[id]":
       return <>{children}</>;
     case "/e-commerce":
       return <ECommerce>{children}</ECommerce>;

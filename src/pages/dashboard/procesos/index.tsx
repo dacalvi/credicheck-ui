@@ -111,7 +111,7 @@ const Index: React.FC = () => {
     const data = await response.json();
 
     //enrich the data.processes with the scoreSum and set it to the score property of the process
-    data.processes.forEach((process: Process) => {
+    data.processes?.forEach((process: Process) => {
       calculateScoreSum(process);
       getPieDataByResult(process);
     });
@@ -147,11 +147,13 @@ const Index: React.FC = () => {
       </div>
       <Widget>
         {loading ? (
-          <div className="flex w-full text-center p-5">
-            <Spinner color="info" aria-label="Info spinner example" />
-            <div className="ml-2 mt-1">Cargando Procesos...</div>
+          <div className="flex justify-center">
+            <div className="text-gray-500 w-full text-center p-5">
+              <Spinner color="info" aria-label="Info spinner example" />
+              <div className="ml-2 mt-1">Cargando Procesos...</div>
+            </div>
           </div>
-        ) : processes.length === 0 ? (
+        ) : processes?.length === 0 ? (
           <div className="flex justify-center">
             <div className="text-gray-500 w-full text-center p-5">
               No hay procesos de análisis iniciados todavía.
@@ -165,7 +167,7 @@ const Index: React.FC = () => {
           </div>
         ) : (
           <Accordion>
-            {processes.map((process, index) => (
+            {processes?.map((process, index) => (
               <Accordion.Panel key={index}>
                 <Accordion.Title>
                   <span className="flex">

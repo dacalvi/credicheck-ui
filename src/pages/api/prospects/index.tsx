@@ -1,4 +1,5 @@
 import {PrismaClient} from "@prisma/client";
+import {generateUUID} from "functions/uuid";
 import {getToken} from "next-auth/jwt";
 
 const prisma = new PrismaClient();
@@ -45,7 +46,7 @@ export default async function handler(req: any, res: any) {
 
     return await createProspect(req, res);
   } else if (req.method === "GET") {
-    const prospects = await getProspects();
+    const prospects = await getProspects(req, res);
     return res.status(200).json({prospects, success: true});
   } else {
     return res
@@ -54,8 +55,17 @@ export default async function handler(req: any, res: any) {
   }
 }
 
-async function getProspects() {
+async function getProspects(req: any, res: any) {
+  const token = await getToken({req});
+  if (!token) {
+    return res.status(401).json({message: "Unauthorized", success: false});
+  }
   const prospects = await prisma.client.findMany({
+    where: {
+      owner: {
+        id: Number(token?.id),
+      },
+    },
     select: {
       id: true,
       rfc: true,
@@ -63,6 +73,8 @@ async function getProspects() {
       cellPhone: true,
       firstName: true,
       lastName: true,
+      uuid: true,
+      satwsid: true,
       owner: {
         select: {
           id: true,
@@ -84,6 +96,7 @@ async function createProspect(req: any, res: any) {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         rfc: req.body.rfc,
+        uuid: generateUUID(),
         owner: {
           connect: {
             id: Number(token?.id),

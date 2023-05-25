@@ -37,6 +37,8 @@ async function validateCredentials(
     select: {
       id: true,
       email: true,
+      firstName: true,
+      lastName: true,
       roleId: true,
       password: true,
       companyId: true,
@@ -67,6 +69,8 @@ async function validateCredentials(
       return res.status(200).json({
         id: user.id,
         email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
         success: true,
         roleId: user.roleId,
         companyId: user.companyId,

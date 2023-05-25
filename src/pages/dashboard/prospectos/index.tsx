@@ -3,15 +3,20 @@ import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {Button, Spinner, Table} from "flowbite-react";
+import Link from "next/link";
+import {FiLink} from "react-icons/fi";
+import {FaWhatsapp} from "react-icons/fa";
 
 type Prospect = {
   id: number;
   rfc: string;
   firstName: string;
   lastName: string;
-  cellphone: string;
+  cellPhone: string;
   email: string;
   ownerId: number;
+  uuid: string;
+  satwsid: string;
   owner: {
     id: number;
   };
@@ -67,9 +72,23 @@ const Index: React.FC = () => {
         </div>
       </div>
       {loading ? (
-        <div className="flex">
-          <Spinner color="info" aria-label="Info spinner example" />
-          <div className="ml-2 mt-1">Cargando Prospectos</div>
+        <div className="flex justify-center">
+          <div className="text-gray-500 w-full text-center p-5">
+            <Spinner color="info" aria-label="Info spinner example" />
+            <div className="ml-2 mt-1">Cargando Prospectos...</div>
+          </div>
+        </div>
+      ) : prospects.length === 0 ? (
+        <div className="flex justify-center">
+          <div className="text-gray-500 w-full text-center p-5">
+            No hay prospectos todavía.
+            <br></br>
+            <Link href="/dashboard/prospectos/crear">
+              <a className="text-blue-500 hover:text-blue-700">
+                Crear Nuevo Prospecto
+              </a>
+            </Link>
+          </div>
         </div>
       ) : (
         <Table>
@@ -98,23 +117,37 @@ const Index: React.FC = () => {
                   {prospect.lastName}
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {prospect.cellphone}
+                  {prospect.cellPhone}
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {prospect.email}
                 </Table.Cell>
                 <Table.Cell align="right">
-                  <div className="flex flex-row justify-end">
+                  <div className="flex flex-col justify-end">
                     <Button
                       onClick={() => editProspect(prospect.id)}
                       className="">
                       Editar
                     </Button>
-                    <Button
-                      onClick={() => showProcesses(prospect.id)}
-                      className="ml-3">
-                      Procesos (2)
-                    </Button>
+                    {prospect.satwsid === null && (
+                      <>
+                        <Link
+                          href={`/credenciales/${prospect.uuid}`}
+                          onClick={() => showProcesses(prospect.id)}>
+                          <a className="pt-3 flex" target="_blank">
+                            <FiLink className="w-5 h-5 mr-1" />
+                            Toma de Credenciales
+                          </a>
+                        </Link>
+                        <Link
+                          href={`https://api.whatsapp.com/send?phone=${prospect.cellPhone}&text=Para ingresar sus credenciales ingrese al siguiente link \n\n ${process.env.NEXT_PUBLIC_URL}/credenciales/${prospect.uuid}`}>
+                          <a className="pt-3 flex" target="_blank">
+                            <FaWhatsapp className="w-5 h-5 mr-1" />
+                            Enviar Whatsapp de Credenciales
+                          </a>
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </Table.Cell>
               </Table.Row>

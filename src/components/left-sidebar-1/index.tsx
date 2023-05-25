@@ -22,6 +22,10 @@ const LeftSidebar: React.FC = () => {
             {roles.find((role) => role.id === data?.user?.roleId)?.name || "-"}
             <br />
             <small>{data?.user?.companyName}</small>
+            <br />
+            <small>
+              {data?.user?.firstName} {data?.user?.lastName}
+            </small>
           </Title>
           <ul>
             {menu.items.map(

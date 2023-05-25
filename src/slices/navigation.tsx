@@ -111,9 +111,9 @@ const initialState: NavigationState[] = [
         roleId: 2,
       },
       {
-        url: "/dashboard/nuevo-agente",
-        icon: <FiClock size={20} />,
-        title: "Nuevo Agente",
+        url: "/dashboard/agentes",
+        icon: <FiUsers size={20} />,
+        title: "Oficiales de Cuenta",
         items: [],
         roleId: 2,
       },

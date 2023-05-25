@@ -16,6 +16,8 @@ import {Select} from "components/react-hook-form/select";
 import {useAppSelector} from "store";
 
 export type FormProps = {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   roleId: number | null;
@@ -60,6 +62,8 @@ const Index: React.FC = () => {
 
   const methods = useForm<FormProps>({
     defaultValues: {
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       roleId: null,
@@ -145,6 +149,44 @@ const Index: React.FC = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-6 w-2/5">
                 <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-12">
+                  <InputWrapper outerClassName="sm:col-span-12">
+                    <Label>Nombre</Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      type="text"
+                      rules={{
+                        required: "Nombre es requerido",
+                        minLength: {
+                          value: 4,
+                          message: "Nombre debe tener al menos 4 caracteres",
+                        },
+                      }}
+                    />
+                    {errors?.firstName?.message && (
+                      <ErrorMessage>{errors.firstName.message}</ErrorMessage>
+                    )}
+                  </InputWrapper>
+
+                  <InputWrapper outerClassName="sm:col-span-12">
+                    <Label>Apellido</Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      type="text"
+                      rules={{
+                        required: "Apellido es requerido",
+                        minLength: {
+                          value: 4,
+                          message: "Apellido debe tener al menos 4 caracteres",
+                        },
+                      }}
+                    />
+                    {errors?.lastName?.message && (
+                      <ErrorMessage>{errors.lastName.message}</ErrorMessage>
+                    )}
+                  </InputWrapper>
+
                   <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Email</Label>
                     <Input

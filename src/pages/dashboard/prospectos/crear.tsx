@@ -1,6 +1,7 @@
 import SectionTitle from "components/section-title";
 import Widget from "components/widget";
-import {Button, Checkbox, Label, Spinner, TextInput} from "flowbite-react";
+import {Button, Label, Spinner, TextInput} from "flowbite-react";
+//import {sendMail} from "functions/mail";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
@@ -31,7 +32,7 @@ const Index: React.FC = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      const response = await fetch(
+      const response = (await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/prospects",
         {
           method: "POST",
@@ -40,7 +41,15 @@ const Index: React.FC = () => {
           },
           body: JSON.stringify(data),
         }
+      )) as any;
+      /*
+      sendMail(
+        response.prospects[0].email,
+        "Ingreso de Credenciales SAT",
+        `Hola, necesitamos que ingreses tus credenciales de SAT en el siguiente link ${process.env.NEXT_PUBLIC_URL}/credenciales/${response.prospects[0].uuid}}`
       );
+      */
+
       // eslint-disable-next-line no-console
       console.log(response);
       setLoading(false);
@@ -157,17 +166,6 @@ const Index: React.FC = () => {
                     {...field}
                   />
                 )}
-              />
-            </div>
-
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="startProcess" value="Iniciar Proceso" />
-              </div>
-              <Controller
-                name="startProcess"
-                control={control}
-                render={({field}) => <Checkbox id="startProcess" {...field} />}
               />
             </div>
 

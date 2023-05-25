@@ -55,6 +55,8 @@ async function generatePassword(password: string) {
 async function getUsers() {
   const users = await prisma.user.findMany({
     select: {
+      firstName: true,
+      lastName: true,
       id: true,
       email: true,
       roleId: true,
@@ -74,6 +76,8 @@ async function createUser(req: any, res: any) {
   try {
     await prisma.user.create({
       data: {
+        firstName: body.firstName,
+        lastName: body.lastName,
         email: body.email,
         password: hashedPassword,
         roleId: Number(body.roleId),
