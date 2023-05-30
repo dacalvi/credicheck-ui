@@ -89,7 +89,7 @@ async function getProspects(req: any, res: any) {
 async function createProspect(req: any, res: any) {
   const token = await getToken({req});
   if (token?.id) {
-    await prisma.client.create({
+    const newProspect = await prisma.client.create({
       data: {
         email: req.body.email,
         cellPhone: req.body.cellPhone,
@@ -104,7 +104,14 @@ async function createProspect(req: any, res: any) {
         },
       },
     });
+    return res
+      .status(200)
+      .json({
+        message: "Prospect created",
+        success: true,
+        newProspect: newProspect,
+      });
+  } else {
+    return res.status(401).json({message: "Unauthorized", success: false});
   }
-
-  return res.status(200).json({message: "Prospect created", success: true});
 }

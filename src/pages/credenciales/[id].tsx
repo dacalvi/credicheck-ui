@@ -264,7 +264,7 @@ const Credenciales: React.FC = () => {
     try {
       const response = await fetch(
         process.env.NEXT_PUBLIC_API_URL +
-          `/clients?where={"uuid": "${router.query.id}"}`,
+          `/crud/clients?where={"uuid": "${router.query.id}"}`,
         {
           method: "GET",
           headers: {"Content-Type": "application/json"},
@@ -273,6 +273,7 @@ const Credenciales: React.FC = () => {
 
       setLoading(false);
       const body = await response.json();
+      // eslint-disable-next-line no-console
       console.log(body);
       if (body.length === 0) {
         setClientFound(false);

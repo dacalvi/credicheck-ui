@@ -1,7 +1,7 @@
 import SectionTitle from "components/section-title";
 import Widget from "components/widget";
 import {Button, Label, Spinner, TextInput} from "flowbite-react";
-//import {sendMail} from "functions/mail";
+import {sendMail} from "functions/mail";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
@@ -32,7 +32,7 @@ const Index: React.FC = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      const response = (await fetch(
+      const fetchResponse = (await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/prospects",
         {
           method: "POST",
@@ -42,13 +42,19 @@ const Index: React.FC = () => {
           body: JSON.stringify(data),
         }
       )) as any;
-      /*
+
+      const response = await fetchResponse.json();
+
+      //uncomment to enable mail functions
+
       sendMail(
-        response.prospects[0].email,
+        response.newProspect.email,
         "Ingreso de Credenciales SAT",
-        `Hola, necesitamos que ingreses tus credenciales de SAT en el siguiente link ${process.env.NEXT_PUBLIC_URL}/credenciales/${response.prospects[0].uuid}}`
+        `Hola, 
+          necesitamos que ingreses tus credenciales de SAT en el siguiente link 
+          <a href='${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}' 
+            target='_blank'>${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}</a>`
       );
-      */
 
       // eslint-disable-next-line no-console
       console.log(response);

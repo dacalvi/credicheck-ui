@@ -78,7 +78,7 @@ const Index: React.FC = () => {
             <div className="ml-2 mt-1">Cargando Prospectos...</div>
           </div>
         </div>
-      ) : prospects.length === 0 ? (
+      ) : prospects?.length === 0 ? (
         <div className="flex justify-center">
           <div className="text-gray-500 w-full text-center p-5">
             No hay prospectos todavía.
@@ -105,7 +105,7 @@ const Index: React.FC = () => {
           <Table.Body className="divide-y">
             {prospects.map((prospect, index) => (
               <Table.Row
-                className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                className="bg-white dark:border-gray-700 dark:bg-gray-800 align-baseline"
                 key={index}>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {prospect.rfc}
