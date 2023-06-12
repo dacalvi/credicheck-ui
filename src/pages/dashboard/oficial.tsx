@@ -95,25 +95,25 @@ const Index: React.FC = () => {
     <>
       <SectionTitle title="Supervisor" subtitle="Tablero inicial" />
 
-      <div className="flex flex-col w-full mb-2 lg:flex-row lg:space-x-2 space-y-2 lg:space-y-0 lg:mb-4">
+      <div className="flex  flex-col w-full mb-2 lg:flex-row lg:space-x-2 space-y-2 lg:space-y-0 lg:mb-4">
         <div className="w-full lg:w-1/4">
           <div className="w-full p-4 rounded-lg bg-white border border-gray-100 dark:bg-gray-900 dark:border-gray-800">
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-col">
                 <div className="text-xs font-light text-gray-500 uppercase">
-                  Prospectos
+                  Clientes
                 </div>
                 {loadingProspectsCount ? (
                   <Spinner color="info" aria-label="Info spinner example" />
                 ) : (
                   <div className="text-xl font-bold">
-                    <Link href="/dashboard/prospectos">
+                    <Link href="/dashboard/clientes">
                       <a>{Number(prospectsCount)}</a>
                     </Link>
                   </div>
                 )}
               </div>
-              <Link href="/dashboard/prospectos/crear">
+              <Link href="/dashboard/clientes/crear">
                 <a>
                   <FiUsers size={24} className="text-gray-500 stroke-current" />
                 </a>

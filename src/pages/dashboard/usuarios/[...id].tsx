@@ -55,6 +55,7 @@ const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [roleId, setRoleId] = useState<number | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
 
   const onSubmit = async (data: FormProps) => {
     try {
@@ -91,6 +92,7 @@ const Index: React.FC = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
+        setLoadingUser(true);
         const response = await fetch(
           process.env.NEXT_PUBLIC_API_URL + "/users/" + router.query.id,
           {
@@ -98,6 +100,7 @@ const Index: React.FC = () => {
             headers: {"Content-Type": "application/json"},
           }
         );
+        setLoadingUser(false);
         if (response.status !== 200) {
           // eslint-disable-next-line no-console
           console.log("something went wrong");
@@ -134,8 +137,10 @@ const Index: React.FC = () => {
       ) : null}
       <SectionTitle title="Usuarios" subtitle="Editar Usuario" />
       <Widget>
-        {loading ? (
-          <Loading size={35} message="Creando usuario..." />
+        {loadingUser ? (
+          <Loading size={35} message="Cargando usuario..." />
+        ) : loading ? (
+          <Loading size={35} message="Actualizando usuario..." />
         ) : (
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -184,6 +189,30 @@ const Index: React.FC = () => {
                       <ErrorMessage>{errors.password.message}</ErrorMessage>
                     )}
                   </InputWrapper>
+                  <InputWrapper outerClassName="sm:col-span-12">
+                    <Label>Repetir Contraseña</Label>
+                    <Input
+                      id="password"
+                      name="password"
+                      type="password"
+                      rules={{
+                        required: "Contraseña es requerida",
+                        minLength: {
+                          value: 4,
+                          message:
+                            "Contraseña debe tener al menos 4 caracteres",
+                        },
+                        maxLength: {
+                          value: 16,
+                          message:
+                            "Contraseña no debe tener mas de 16 caracteres",
+                        },
+                      }}
+                    />
+                    {errors?.password?.message && (
+                      <ErrorMessage>{errors.password.message}</ErrorMessage>
+                    )}
+                  </InputWrapper>
 
                   <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Rol</Label>
@@ -192,6 +221,23 @@ const Index: React.FC = () => {
                       name="roleId"
                       placeholder="Seleccione un rol"
                       options={rolesArray}
+                      value={Number(roleId)}
+                      onChange={(e) => {
+                        // eslint-disable-next-line no-console
+                        console.log(e.target.value);
+                        setRoleId(parseInt(e.target.value));
+                      }}
+                    />
+                  </InputWrapper>
+
+                  <InputWrapper outerClassName="sm:col-span-12">
+                    <Label>Empresa</Label>
+                    <Select
+                      width="w-48"
+                      name="roleId"
+                      placeholder="Seleccione una empresa"
+                      options={rolesArray}
+                      value={Number(roleId)}
                       onChange={(e) => {
                         // eslint-disable-next-line no-console
                         console.log(e.target.value);

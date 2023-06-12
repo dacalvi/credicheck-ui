@@ -12,7 +12,7 @@ const Dropdown: React.FC = () => {
   const image = data?.user?.image || profilePic;
 
   return (
-    <Menu as="div" className="relative hidden lg:inline-block text-left">
+    <Menu as="div" className="relative hidden lg:inline-block text-left mx-4">
       <div>
         <Menu.Button className="focus:outline-none">
           <div className="relative w-8 h-8">
@@ -35,7 +35,7 @@ const Dropdown: React.FC = () => {
         leaveTo="transform opacity-0 scale-95">
         <Menu.Items
           className={clsx(
-            "absolute w-[192px] bg-white dark:bg-gray-800 shadow-lg divide-y divide-gray-100 dark:divide-gray-700 rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none",
+            "absolute w-[272px] bg-white dark:bg-gray-800 shadow-lg divide-y divide-gray-100 dark:divide-gray-700 rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none",
             "right-0 origin-top-right"
           )}>
           <AccountLinks />

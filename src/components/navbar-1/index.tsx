@@ -25,9 +25,8 @@ const Navbar: React.FC = () => {
         <Search />
 
         <span className="ml-auto"></span>
-        <Dropdown5 />
         <button
-          className="flex items-center justify-center w-8 h-16 mx-4"
+          className="flex items-center justify-center w-8 h-16 "
           onClick={() =>
             dispatch(
               setConfig({
@@ -37,6 +36,7 @@ const Navbar: React.FC = () => {
           }>
           <FiSettings size={18} />
         </button>
+        <Dropdown5 />
       </div>
     </div>
   );

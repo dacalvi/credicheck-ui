@@ -9,6 +9,7 @@ import {useRouter} from "next/router";
 import {signIn} from "next-auth/react";
 import {useState} from "react";
 import {Loading} from "components/loading";
+import Logo from "components/left-sidebar-1/logo";
 
 export type FormProps = {
   email: string;
@@ -50,6 +51,9 @@ const SignIn: React.FC = () => {
   return (
     <>
       <Layout>
+        <div className="flex justify-center mb-10">
+          <Logo />
+        </div>
         {!loading ? (
           <CenteredForm
             title="Ingresar"

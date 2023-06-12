@@ -3,5 +3,5 @@ export type CommonPayloadType = {
   sat_ws_api_key: string;
   processId: number;
   uuid: string;
-  rfc?: string;
+  rfc: string;
 };

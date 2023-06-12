@@ -27,6 +27,7 @@
     ]
   },
   "dependencies": {
+    "@crazyfactory/tinka": "^1.9.3",
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
     "@popperjs/core": "^2.11.5",

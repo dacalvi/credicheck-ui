@@ -50,24 +50,24 @@ const Index: React.FC = () => {
   }, [router, status]);
 
   const editProspect = async (id: number) => {
-    router.push(`/dashboard/prospectos/${id}`);
+    router.push(`/dashboard/clientes/${id}`);
   };
 
   const showProcesses = async (id: number) => {
-    router.push(`/dashboard/prospectos/${id}/procesos`);
+    router.push(`/dashboard/clientes/${id}/procesos`);
   };
 
   return (
     <>
       <div className="flex justify-between mb-8">
         <div>
-          <SectionTitle title="Prospectos" subtitle="Listar Prospectos" />
+          <SectionTitle title="Clientes" subtitle="Listar Clientes" />
         </div>
         <div>
           <button
             className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-            onClick={() => router.push("/dashboard/prospectos/crear")}>
-            Crear Prospecto
+            onClick={() => router.push("/dashboard/clientes/crear")}>
+            Crear Cliente
           </button>
         </div>
       </div>
@@ -81,9 +81,9 @@ const Index: React.FC = () => {
       ) : prospects?.length === 0 ? (
         <div className="flex justify-center">
           <div className="text-gray-500 w-full text-center p-5">
-            No hay prospectos todavía.
+            No hay Clientes todavía.
             <br></br>
-            <Link href="/dashboard/prospectos/crear">
+            <Link href="/dashboard/clientes/crear">
               <a className="text-blue-500 hover:text-blue-700">
                 Crear Nuevo Prospecto
               </a>
@@ -103,7 +103,7 @@ const Index: React.FC = () => {
             </Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
-            {prospects.map((prospect, index) => (
+            {prospects?.map((prospect, index) => (
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800 align-baseline"
                 key={index}>

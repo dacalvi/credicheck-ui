@@ -12,7 +12,7 @@ export default async function handler(req: any, res: any) {
   }
 
   if (req.method === "GET") {
-    const processes = await getProcesses();
+    const processes = await getProcesses(req, res);
     return res.status(200).json({processes, success: true});
   } else if (req.method === "POST") {
     return await createProcess(req, res);
@@ -77,8 +77,19 @@ async function createProcess(req: any, res: any) {
   return res.status(200).json({message: "Process created", success: true});
 }
 
-async function getProcesses() {
+async function getProcesses(req: any, res: any) {
+  const token = await getToken({req});
+
+  if (!token) {
+    return res.status(401).json({message: "Unauthorized", success: false});
+  }
+
   const processes = await prisma.process.findMany({
+    where: {
+      client: {
+        ownerId: Number(token.id),
+      },
+    },
     orderBy: {
       id: "desc",
     },

@@ -59,7 +59,7 @@ const Index: React.FC = () => {
       // eslint-disable-next-line no-console
       console.log(response);
       setLoading(false);
-      router.push("/dashboard/prospectos");
+      router.push("/dashboard/clientes");
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -68,7 +68,7 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <SectionTitle title="Prospectos" subtitle="Nuevo Prospecto" />
+      <SectionTitle title="Clientes" subtitle="Nuevo Cliente" />
       <div className="w-2/4">
         <Widget
           title="Informacion de Contacto"
