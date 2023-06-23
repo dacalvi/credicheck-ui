@@ -1,5 +1,8 @@
-import {IFetchResponse, Service} from "@crazyfactory/tinka";
+import {Service} from "@crazyfactory/tinka";
 import {SalesRevenueResponseType} from "./types/SalesRevenueResponseType";
+import {BalanceSheetResponseType} from "./types/BalanceSheetResponseType";
+import {InvoicingBlacklistStatusResponseType} from "./types/InvoicingBlacklistStatusResponseType";
+import {CustomerConcentrationResponseType} from "./types/CustomerConcentrationResponseType";
 
 export class InsightsNode extends Service {
   public getSalesRevenue(
@@ -15,23 +18,109 @@ export class InsightsNode extends Service {
       | "customer-type"
       | "payment-type"
       | "products"
-  ): Promise<IFetchResponse<SalesRevenueResponseType>> {
+  ): Promise<SalesRevenueResponseType> {
     //create a query string with the parameters from, to, periodicity and type if they are not undefined
     let query = "";
     if (from) {
-      query += `from=${from}`;
+      query += `options[from]=${from}`;
     }
     if (to) {
-      query += `&to=${to}`;
+      query += `&options[to]=${to}`;
     }
     if (periodicity) {
-      query += `&periodicity=${periodicity}`;
+      query += `&options[periodicity]=${periodicity}`;
     }
     if (type) {
-      query += `&type=${type}`;
+      query += `&options[type]=${type}`;
     }
+    // eslint-disable-next-line no-console
+    console.log("query", `/insights/${rfc}/sales-revenue?${query}`);
     return this.client.process({
       url: `/insights/${rfc}/sales-revenue?${query}`,
+    });
+  }
+
+  public getBalanceSheet(
+    rfc: string,
+    from?: string,
+    to?: string
+  ): Promise<BalanceSheetResponseType> {
+    //create a query string with the parameters from, to, periodicity and type if they are not undefined
+    let query = "";
+    if (from) {
+      query += `options[from]=${from}`;
+    }
+    if (to) {
+      query += `&options[to]=${to}`;
+    }
+    // eslint-disable-next-line no-console
+    console.log("query", `/insights/${rfc}/balance-sheet?${query}`);
+    return this.client.process({
+      url: `/insights/${rfc}/balance-sheet?${query}`,
+    });
+  }
+
+  public getInvoicingBlacklistStatus(
+    rfc: string,
+    from?: string,
+    to?: string
+  ): Promise<InvoicingBlacklistStatusResponseType> {
+    //create a query string with the parameters from, to, periodicity and type if they are not undefined
+    let query = "";
+    if (from) {
+      query += `options[from]=${from}`;
+    }
+    if (to) {
+      query += `&options[to]=${to}`;
+    }
+    // eslint-disable-next-line no-console
+    console.log("query", `/insights/${rfc}/invoicing-blacklist?${query}`);
+    return this.client.process({
+      url: `/insights/${rfc}/invoicing-blacklist?${query}`,
+    });
+  }
+
+  public getTrialBalance(
+    rfc: string,
+    from?: string,
+    to?: string,
+    periodicity?: "monthly" | "yearly"
+  ) {
+    //create a query string with the parameters from, to, periodicity and type if they are not undefined
+    let query = "";
+    if (from) {
+      query += `options[from]=${from}`;
+    }
+    if (to) {
+      query += `&options[to]=${to}`;
+    }
+    if (periodicity) {
+      query += `&options[periodicity]=${periodicity}`;
+    }
+    // eslint-disable-next-line no-console
+    console.log("query", `/insights/${rfc}/trial-balance?${query}`);
+    return this.client.process({
+      url: `/insights/${rfc}/trial-balance?${query}`,
+    });
+  }
+
+  public getCustomerConcentration(
+    rfc: string,
+    from?: string,
+    to?: string
+  ): Promise<CustomerConcentrationResponseType> {
+    //create a query string with the parameters from, to, periodicity and type if they are not undefined
+    let query = "";
+    if (from) {
+      query += `options[from]=${from}`;
+    }
+    if (to) {
+      query += `&options[to]=${to}`;
+    }
+    // eslint-disable-next-line no-console
+    console.log("query", `/insights/${rfc}/customer-concentration?${query}`);
+    return this.client.process({
+      url: `/insights/${rfc}/customer-concentration?${query}`,
     });
   }
 }

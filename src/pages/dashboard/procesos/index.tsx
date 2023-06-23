@@ -284,42 +284,59 @@ const Index: React.FC = () => {
                                   </div>
                                 </div>
                               ) : step.result === "SKIP" ? (
-                                <div className="flex flex-row">
-                                  <FiCheck
-                                    color="green"
-                                    size={22}
-                                    className="mt-1 mb-1 ml-1"
-                                  />{" "}
-                                  <div className="text-gray pt-1 pl-2">
-                                    {step.name}
+                                <div>
+                                  <div className="flex flex-row">
+                                    <FiCheck
+                                      color="green"
+                                      size={22}
+                                      className="mt-1 mb-1 ml-1"
+                                    />{" "}
+                                    <div className="text-gray pt-1 pl-2">
+                                      {step.name}
+                                    </div>
+                                  </div>
+                                  <div className="ml-10 mb-5">
+                                    <small>
+                                      <pre>{step.resultExplanation}</pre>
+                                    </small>
                                   </div>
                                 </div>
                               ) : step.result === "MANUAL" ? (
-                                <div className="flex flex-row">
-                                  <FiMinus
-                                    color="yellow"
-                                    size={22}
-                                    className="mt-1 mb-1 ml-1"
-                                  />{" "}
-                                  <div className="text-gray pt-1 pl-2">
-                                    {step.name}
+                                <div>
+                                  <div className="flex flex-row">
+                                    <FiMinus
+                                      color="yellow"
+                                      size={22}
+                                      className="mt-1 mb-1 ml-1"
+                                    />{" "}
+                                    <div className="text-gray pt-1 pl-2">
+                                      {step.name}
+                                    </div>
+                                  </div>
+                                  <div className="ml-10 mb-5">
+                                    <small>
+                                      <pre>{step.resultExplanation}</pre>
+                                    </small>
                                   </div>
                                 </div>
                               ) : step.result === "REJECT" ? (
-                                <div className="flex flex-row">
-                                  <FiMinus
-                                    color="red"
-                                    size={22}
-                                    className="mt-1 mb-1 ml-1"
-                                  />{" "}
-                                  <div className="text-gray pt-1 pl-2">
-                                    <div className="flex flex-row">
-                                      {step.name}{" "}
-                                      <FiInfo
-                                        title={step.resultExplanation}
-                                        className="ml-1"
-                                      />
+                                <div>
+                                  <div className="flex flex-row">
+                                    <FiMinus
+                                      color="red"
+                                      size={22}
+                                      className="mt-1 mb-1 ml-1"
+                                    />{" "}
+                                    <div className="text-gray pt-1 pl-2">
+                                      <div className="flex flex-row">
+                                        {step.name}
+                                      </div>
                                     </div>
+                                  </div>
+                                  <div className="ml-10 mb-5">
+                                    <small>
+                                      <pre>{step.resultExplanation}</pre>
+                                    </small>
                                   </div>
                                 </div>
                               ) : null}
