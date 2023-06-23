@@ -38,12 +38,12 @@ const initialState: NavigationState[] = [
       /* Super Admin */
       {
         url: "/dashboard/configuracion",
-        icon: <FiClock size={20} />,
-        title: "Configuracion",
+        icon: <FiUsers size={20} />,
+        title: "Usuarios",
         items: [
           {
             url: "/dashboard/usuarios",
-            title: "Usuarios",
+            title: "Ver Usuarios",
             items: [],
             roleId: 1,
           },

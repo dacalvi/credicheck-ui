@@ -19,6 +19,9 @@ type User = {
   role: {
     name: string;
   };
+  company: {
+    name: string;
+  };
 };
 
 const Index: React.FC = () => {
@@ -76,6 +79,7 @@ const Index: React.FC = () => {
             <Table.HeadCell>Nombre</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
             <Table.HeadCell>Rol</Table.HeadCell>
+            <Table.HeadCell>Empresa</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
@@ -93,6 +97,9 @@ const Index: React.FC = () => {
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {user.role.name}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {user.company.name}
                 </Table.Cell>
                 <Table.Cell align="right">
                   <Button onClick={() => editUser(user.id)}>Editar</Button>

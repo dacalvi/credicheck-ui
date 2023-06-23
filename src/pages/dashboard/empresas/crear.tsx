@@ -37,10 +37,14 @@ const Index: React.FC = () => {
           body: JSON.stringify(data),
         }
       );
-      // eslint-disable-next-line no-console
-      console.log(response);
+
+      const result = await response.json();
       setLoading(false);
-      router.push("/dashboard/empresas");
+      if (result.success) {
+        router.push("/dashboard/empresas");
+      } else {
+        alert(result.message);
+      }
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

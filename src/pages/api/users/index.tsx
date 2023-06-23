@@ -65,6 +65,11 @@ async function getUsers() {
           name: true,
         },
       },
+      company: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
   return users;
