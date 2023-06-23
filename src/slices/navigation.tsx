@@ -97,68 +97,13 @@ const initialState: NavigationState[] = [
       /* Supervisor */
 
       {
-        url: "/dashboard/iniciar-proceso",
-        icon: <FiClock size={20} />,
-        title: "Iniciar Proceso",
-        items: [],
-        roleId: 2,
-      },
-      {
-        url: "/dashboard/ver-procesos",
-        icon: <FiClock size={20} />,
-        title: "Ver Procesos",
-        items: [],
-        roleId: 2,
-      },
-      {
         url: "/dashboard/agentes",
         icon: <FiUsers size={20} />,
-        title: "Oficiales de Cuenta",
+        title: "Agentes",
         items: [],
         roleId: 2,
       },
-      {
-        url: "/dashboard/editar-reglas",
-        icon: <FiClock size={20} />,
-        title: "Editar Reglas",
-        items: [],
-        roleId: 2,
-      },
-      {
-        url: "/dashboard/crear-fuente",
-        icon: <FiClock size={20} />,
-        title: "Crear Fuente",
-        items: [],
-        roleId: 2,
-      },
-      {
-        url: "/dashboard/crear-indicador",
-        icon: <FiClock size={20} />,
-        title: "Crear Indicador",
-        items: [],
-        roleId: 2,
-      },
-      {
-        url: "/dashboard/editar-indicador",
-        icon: <FiClock size={20} />,
-        title: "Editar Indicador",
-        items: [],
-        roleId: 2,
-      },
-      {
-        url: "/dashboard/editar-indicador-detalle",
-        icon: <FiClock size={20} />,
-        title: "Editar Indicador Det",
-        items: [],
-        roleId: 2,
-      },
-      {
-        url: "/dashboard/editar-caracteristica",
-        icon: <FiClock size={20} />,
-        title: "Editar Caracteristica",
-        items: [],
-        roleId: 2,
-      },
+
       /* Publicas */
       {
         url: "/dashboard/credenciales-cliente",

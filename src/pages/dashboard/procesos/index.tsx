@@ -5,7 +5,7 @@ import {useSession} from "next-auth/react";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {useCallback, useEffect, useState} from "react";
-import {FiClock, FiCheck, FiMinus, FiInfo} from "react-icons/fi";
+import {FiClock, FiCheck, FiMinus} from "react-icons/fi";
 
 import {getColor} from "functions/colors";
 
