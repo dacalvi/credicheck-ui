@@ -12,20 +12,21 @@ import {FiAlertCircle} from "react-icons/fi";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
-import {Select} from "components/forms/select";
+import {Select} from "components/react-hook-form/select";
 import {useAppSelector} from "store";
 
 export type FormProps = {
   email: string;
   password: string;
   roleId: number | null;
+  companyId: number | null;
 };
 
 const Index: React.FC = () => {
   const {status} = useSession();
   const router = useRouter();
   const roles = useAppSelector((state) => state.roles);
-
+  const [companiesArray, setCompaniesArray] = useState([]);
   const rolesArray = roles.map((role) => {
     return {
       key: role.id,
@@ -33,9 +34,24 @@ const Index: React.FC = () => {
     };
   });
 
+  const loadCompanies = async () => {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/companies");
+    const {companies} = await res.json();
+
+    const companiesArray = companies.map((company: any) => {
+      return {
+        key: company.id,
+        value: company.name,
+      };
+    });
+    setCompaniesArray(companiesArray);
+  };
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
+    } else {
+      loadCompanies();
     }
   }, [router, status]);
 
@@ -217,15 +233,13 @@ const Index: React.FC = () => {
                   <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Rol</Label>
                     <Select
+                      id="roleId"
                       width="w-48"
                       name="roleId"
                       placeholder="Seleccione un rol"
                       options={rolesArray}
-                      value={Number(roleId)}
-                      onChange={(e) => {
-                        // eslint-disable-next-line no-console
-                        console.log(e.target.value);
-                        setRoleId(parseInt(e.target.value));
+                      rules={{
+                        required: "Rol es requerido",
                       }}
                     />
                   </InputWrapper>
@@ -233,17 +247,18 @@ const Index: React.FC = () => {
                   <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Empresa</Label>
                     <Select
+                      id="companyId"
                       width="w-48"
-                      name="roleId"
+                      name="companyId"
                       placeholder="Seleccione una empresa"
-                      options={rolesArray}
-                      value={Number(roleId)}
-                      onChange={(e) => {
-                        // eslint-disable-next-line no-console
-                        console.log(e.target.value);
-                        setRoleId(parseInt(e.target.value));
+                      options={companiesArray}
+                      rules={{
+                        required: "Empresa es requerido",
                       }}
                     />
+                    {errors?.companyId?.message && (
+                      <ErrorMessage>{errors.companyId.message}</ErrorMessage>
+                    )}
                   </InputWrapper>
                 </div>
               </div>
