@@ -77,8 +77,8 @@ model Company_indicator {
 
 model Client {
   id        Int       @id @default(autoincrement())
-  firstName String
-  lastName  String
+  firstName String? @default("")
+  lastName  String? @default("")
   cellPhone String
   email     String
   owner     User      @relation(fields: [ownerId], references: [id])
@@ -87,6 +87,7 @@ model Client {
   rfc       String
   uuid        String @unique
   satwsid     String? @unique
+  companyName String? @default("")
   @@index([ownerId])
 }
 

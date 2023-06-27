@@ -17,6 +17,7 @@ type Prospect = {
   ownerId: number;
   uuid: string;
   satwsid: string;
+  companyName: string;
   owner: {
     id: number;
   };
@@ -96,6 +97,7 @@ const Index: React.FC = () => {
             <Table.HeadCell>RFC</Table.HeadCell>
             <Table.HeadCell>Nombre</Table.HeadCell>
             <Table.HeadCell>Apellido</Table.HeadCell>
+            <Table.HeadCell>Empresa</Table.HeadCell>
             <Table.HeadCell>Celular</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
             <Table.HeadCell>
@@ -115,6 +117,9 @@ const Index: React.FC = () => {
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {prospect.lastName}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {prospect.companyName}
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {prospect.cellPhone}

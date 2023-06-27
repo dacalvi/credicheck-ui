@@ -6,17 +6,28 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: any, res: any) {
   if (req.method === "POST") {
-    if (
-      !req.body.email ||
-      !req.body.cellPhone ||
-      !req.body.firstName ||
-      !req.body.lastName ||
-      !req.body.rfc
-    ) {
+    //validate that rfc, email and cellPhone are not empty
+    if (!req.body.rfc || !req.body.email || !req.body.cellPhone) {
+      return res.status(400).json({
+        message: "Campos RFC, Email y Celular no deben estar vacios",
+        success: false,
+      });
+    } else if (req.body.rfc.length === 12 && req.body.companyName.length < 1) {
       return res
         .status(400)
-        .json({message: "Missing input fields", success: false});
-      //validate if email length is greater than 4
+        .json({message: "Razon social no puede estar vacia", success: false});
+    } else if (
+      req.body.rfc.length === 13 &&
+      (!req.body.firstName || !req.body.lastName)
+    ) {
+      return res.status(400).json({
+        message: "Nombre y Apellido no pueden estar vacios",
+        success: false,
+      });
+    } else if (req.body.rfc.length < 12 || req.body.rfc.length > 13) {
+      return res
+        .status(400)
+        .json({message: "RFC debe tener 12 o 13 caracteres", success: false});
     } else if (req.body.email.length < 1) {
       return res.status(400).json({
         message: "Email is required",
@@ -27,23 +38,12 @@ export default async function handler(req: any, res: any) {
         message: "Cell Phone is required",
         success: false,
       });
-    } else if (req.body.firstName.length < 1) {
-      return res.status(400).json({
-        message: "First Name is required",
-        success: false,
-      });
-    } else if (req.body.lastName.length < 1) {
-      return res.status(400).json({
-        message: "Last Name is required",
-        success: false,
-      });
     } else if (req.body.rfc.length < 1) {
       return res.status(400).json({
         message: "RFC is required",
         success: false,
       });
     }
-
     return await createProspect(req, res);
   } else if (req.method === "GET") {
     const prospects = await getProspects(req, res);
@@ -75,6 +75,7 @@ async function getProspects(req: any, res: any) {
       lastName: true,
       uuid: true,
       satwsid: true,
+      companyName: true,
       owner: {
         select: {
           id: true,
@@ -97,6 +98,7 @@ async function createProspect(req: any, res: any) {
         lastName: req.body.lastName,
         rfc: req.body.rfc,
         uuid: generateUUID(),
+        companyName: req.body.companyName,
         owner: {
           connect: {
             id: Number(token?.id),
@@ -104,13 +106,11 @@ async function createProspect(req: any, res: any) {
         },
       },
     });
-    return res
-      .status(200)
-      .json({
-        message: "Prospect created",
-        success: true,
-        newProspect: newProspect,
-      });
+    return res.status(200).json({
+      message: "Prospect created",
+      success: true,
+      newProspect: newProspect,
+    });
   } else {
     return res.status(401).json({message: "Unauthorized", success: false});
   }

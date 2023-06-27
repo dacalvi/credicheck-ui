@@ -11,6 +11,7 @@ const Index: React.FC = () => {
   const {status} = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [isPersonaMoral, setIsPersonaMoral] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -26,6 +27,7 @@ const Index: React.FC = () => {
       lastName: "",
       rfc: "",
       startProcess: "false",
+      companyName: "",
     },
   });
 
@@ -82,7 +84,98 @@ const Index: React.FC = () => {
             className="flex flex-col gap-4">
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="email1" value="Your email" />
+                <Label htmlFor="rfc" value="RFC" />
+              </div>
+              <Controller
+                name="rfc"
+                control={control}
+                render={({field: {onChange, value, ref}}) => (
+                  <>
+                    <TextInput
+                      onChange={onChange} // send value to hook form
+                      onBlur={() => {
+                        if (value.length === 12) {
+                          setIsPersonaMoral(true);
+                        } else if (value.length === 13) {
+                          setIsPersonaMoral(false);
+                        } else {
+                          setIsPersonaMoral(false);
+                        }
+                      }} // notify when input is touched
+                      value={value} // return updated value
+                      ref={ref} // set ref for focus management
+                    />
+                  </>
+                )}
+              />
+            </div>
+
+            {isPersonaMoral && (
+              <div>
+                <div className="mb-2 block">
+                  <Label htmlFor="companyName" value="Nombre de la empresa" />
+                </div>
+                <Controller
+                  name="companyName"
+                  control={control}
+                  render={({field}) => (
+                    <TextInput
+                      id="companyName"
+                      type="text"
+                      placeholder="Credicheck"
+                      required={true}
+                      {...field}
+                    />
+                  )}
+                />
+              </div>
+            )}
+
+            {!isPersonaMoral && (
+              <div>
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="firstName" value="Nombre" />
+                  </div>
+                  <Controller
+                    name="firstName"
+                    control={control}
+                    render={({field}) => (
+                      <TextInput
+                        id="firstName"
+                        type="text"
+                        placeholder="Juan"
+                        required={true}
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div>
+                  <div className="mb-2 block">
+                    <Label htmlFor="lastName" value="Apellido" />
+                  </div>
+                  <Controller
+                    name="lastName"
+                    control={control}
+                    render={({field}) => (
+                      <TextInput
+                        id="lastName"
+                        type="text"
+                        placeholder="Perez"
+                        required={true}
+                        {...field}
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+            )}
+
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="email1" value="Email" />
               </div>
               <Controller
                 name="email"
@@ -111,63 +204,6 @@ const Index: React.FC = () => {
                     id="cellPhone"
                     type="text"
                     placeholder="55 1234 5678"
-                    required={true}
-                    {...field}
-                  />
-                )}
-              />
-            </div>
-
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="firstName" value="Nombre" />
-              </div>
-              <Controller
-                name="firstName"
-                control={control}
-                render={({field}) => (
-                  <TextInput
-                    id="firstName"
-                    type="text"
-                    placeholder="Juan"
-                    required={true}
-                    {...field}
-                  />
-                )}
-              />
-            </div>
-
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="lastName" value="Apellido" />
-              </div>
-              <Controller
-                name="lastName"
-                control={control}
-                render={({field}) => (
-                  <TextInput
-                    id="lastName"
-                    type="text"
-                    placeholder="Perez"
-                    required={true}
-                    {...field}
-                  />
-                )}
-              />
-            </div>
-
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="rfc" value="RFC" />
-              </div>
-              <Controller
-                name="rfc"
-                control={control}
-                render={({field}) => (
-                  <TextInput
-                    id="rfc"
-                    type="text"
-                    placeholder="ANYG000200GD3"
                     required={true}
                     {...field}
                   />
