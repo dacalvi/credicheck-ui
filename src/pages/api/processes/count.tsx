@@ -1,11 +1,11 @@
 import {PrismaClient} from "@prisma/client";
+import {getToken} from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: any, res: any) {
   if (req.method === "GET") {
-    const processesCount = await getProcessesCount();
-    return res.status(200).json({processesCount, success: true});
+    return await getProcessesCount(req, res);
   } else {
     return res
       .status(405)
@@ -13,7 +13,30 @@ export default async function handler(req: any, res: any) {
   }
 }
 
-async function getProcessesCount() {
-  const processesCount = await prisma.process.count();
-  return processesCount;
+async function getProcessesCount(req: any, res: any) {
+  const token = await getToken({req});
+
+  if (!token) {
+    return res.status(401).json({message: "Unauthorized", success: false});
+  }
+
+  const processes = await prisma.process.findMany({
+    where: {
+      client: {
+        ownerId: Number(token.id),
+      },
+    },
+    orderBy: {
+      id: "desc",
+    },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+    },
+  });
+
+  const processesCount = processes.length;
+
+  return res.status(200).json({processesCount, success: true});
 }
