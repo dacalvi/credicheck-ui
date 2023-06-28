@@ -19,16 +19,4 @@ export class MoffinSdk extends Service {
     client.addMiddleware(new ApiKeyMiddleware(apiKey));
     return new MoffinSdk(client);
   }
-
-  public get insights(): InsightsNode {
-    return new InsightsNode(this.client);
-  }
-
-  public get taxStatus(): TaxStatusNode {
-    return new TaxStatusNode(this.client);
-  }
-
-  public get taxPayers(): TaxPayersNode {
-    return new TaxPayersNode(this.client);
-  }
 }
