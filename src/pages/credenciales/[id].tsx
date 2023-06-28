@@ -23,9 +23,7 @@ export type EfirmaFormProps = {
   uuid: string;
 };
 
-const Ciec: React.FC<{rfc: string}> = ({rfc}) => {
-  const [loading, setLoading] = useState(false);
-
+const Ciec: React.FC<{rfc: string; isLoading: any}> = ({rfc, isLoading}) => {
   const router = useRouter();
 
   const methods = useForm<CiecFormProps>({
@@ -43,8 +41,9 @@ const Ciec: React.FC<{rfc: string}> = ({rfc}) => {
   } = methods;
 
   const onSubmit = async (data: CiecFormProps) => {
-    setLoading(true);
+    isLoading(true);
     data.uuid = router.query.id as string;
+
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_URL + "/credentials/ciec",
       {
@@ -61,12 +60,12 @@ const Ciec: React.FC<{rfc: string}> = ({rfc}) => {
       router.reload();
     }
 
-    setLoading(false);
+    isLoading(false);
 
     // eslint-disable-next-line no-console
     console.log(response);
   };
-  return !loading ? (
+  return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
@@ -130,14 +129,10 @@ const Ciec: React.FC<{rfc: string}> = ({rfc}) => {
         </div>
       </form>
     </FormProvider>
-  ) : (
-    <Loading size={35} message="Autenticando usuario..." />
   );
 };
 
 const Efirma: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-
   const methods = useForm<EfirmaFormProps>({
     defaultValues: {
       certificate: "",
@@ -153,7 +148,6 @@ const Efirma: React.FC = () => {
   } = methods;
 
   const onSubmit = async (data: EfirmaFormProps) => {
-    setLoading(true);
     //eslint-disable-next-line
     console.log(JSON.stringify(data, null, 2));
 
@@ -170,7 +164,7 @@ const Efirma: React.FC = () => {
     // eslint-disable-next-line no-console
     console.log(response);
   };
-  return !loading ? (
+  return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div>
@@ -247,8 +241,6 @@ const Efirma: React.FC = () => {
         </div>
       </form>
     </FormProvider>
-  ) : (
-    <Loading size={35} message="Autenticando usuario..." />
   );
 };
 
@@ -261,6 +253,7 @@ const Credenciales: React.FC = () => {
 
   const loadClient = async () => {
     setLoading(true);
+
     try {
       const response = await fetch(
         process.env.NEXT_PUBLIC_API_URL +
@@ -301,7 +294,19 @@ const Credenciales: React.FC = () => {
   }, [router.isReady]);
 
   const tabs = [
-    {index: 0, title: "Ciec", active: true, content: <Ciec rfc={rfc} />},
+    {
+      index: 0,
+      title: "Ciec",
+      active: true,
+      content: (
+        <Ciec
+          rfc={rfc}
+          isLoading={(loadingState: boolean) => {
+            setLoading(loadingState);
+          }}
+        />
+      ),
+    },
     {index: 1, title: "E-firma", active: false, content: <Efirma />},
   ];
 
@@ -309,11 +314,9 @@ const Credenciales: React.FC = () => {
     <>
       <Layout>
         <div className="h-96">
-          {loading && <Loading size={35} message="Cargando ..." />}
-
           {!loading && !clientFound && <>No encontrado</>}
 
-          {!loading && clientFound && !idPresent ? (
+          {!loading && clientFound && !idPresent && (
             <CenteredForm
               title="Credenciales Fiscales"
               subtitle="Por favor ingrese sus credenciales">
@@ -325,9 +328,13 @@ const Credenciales: React.FC = () => {
               </small>
               <DefaultTabs tabs={tabs} />
             </CenteredForm>
-          ) : null}
+          )}
 
-          {!loading && clientFound && idPresent && <>Gracias</>}
+          {!loading && clientFound && idPresent ? (
+            <>Gracias</>
+          ) : (
+            <Loading size={35} message="Comprobando credenciales ..." />
+          )}
         </div>
       </Layout>
     </>
