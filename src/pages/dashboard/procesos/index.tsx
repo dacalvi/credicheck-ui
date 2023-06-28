@@ -102,9 +102,7 @@ const Index: React.FC = () => {
     };
   }
 
-  const loadProcesses = useCallback(async () => {
-    //set loading state to true
-    setLoading(true);
+  const loadProcessCall = useCallback(async () => {
     const response = await fetch(
       process.env.NEXT_PUBLIC_API_URL + "/processes"
     );
@@ -119,6 +117,14 @@ const Index: React.FC = () => {
     setProcesses(data.processes);
     // eslint-disable-next-line no-console
     console.log(data.processes);
+  }, []);
+
+  const loadProcesses = useCallback(async () => {
+    //set loading state to true
+    setLoading(true);
+
+    //load the processes
+    await loadProcessCall();
 
     setLoading(false);
   }, []);
@@ -128,8 +134,15 @@ const Index: React.FC = () => {
       router.replace("/auth/signin");
     } else {
       loadProcesses();
+
+      //call the loadProcesses function every 5 seconds
+      const interval = setInterval(() => {
+        loadProcessCall();
+      }, 5000);
+
+      return () => clearInterval(interval);
     }
-  }, [loadProcesses, router, status]);
+  }, [loadProcessCall, loadProcesses, router, status]);
 
   return (
     <>
@@ -272,7 +285,7 @@ const Index: React.FC = () => {
                         {process.steps.map((step, index) => (
                           <div className="flex flex-row" key={index}>
                             <div className="w-1/2">
-                              {step.result === "" ? (
+                              {step.state === "PENDING" ? (
                                 <div className="flex flex-row">
                                   <FiClock
                                     color="gray"
@@ -313,10 +326,16 @@ const Index: React.FC = () => {
                                       {step.name}
                                     </div>
                                   </div>
-                                  <div className="ml-10 mb-5">
+                                  <div className="flex ml-10 mb-5">
                                     <small>
                                       <pre>{step.resultExplanation}</pre>
                                     </small>
+                                    <button className="ml-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
+                                      Aprobar
+                                    </button>
+                                    <button className="ml-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-blue">
+                                      Rechazar
+                                    </button>
                                   </div>
                                 </div>
                               ) : step.result === "REJECT" ? (
