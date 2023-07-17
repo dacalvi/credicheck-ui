@@ -41,7 +41,7 @@ const Index: React.FC = () => {
       const result = await response.json();
       setLoading(false);
       if (result.success) {
-        router.push("/dashboard/empresas");
+        router.push("/dashboard/super/usuarios/crear");
       } else {
         alert(result.message);
       }

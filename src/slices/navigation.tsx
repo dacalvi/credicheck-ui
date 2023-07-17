@@ -34,7 +34,6 @@ const initialState: NavigationState[] = [
         items: [],
         roleId: 2,
       },
-
       /* Super Admin */
       {
         url: "/dashboard/configuracion",
@@ -42,7 +41,7 @@ const initialState: NavigationState[] = [
         title: "Usuarios",
         items: [
           {
-            url: "/dashboard/usuarios",
+            url: "/dashboard/super/usuarios",
             title: "Ver Usuarios",
             items: [],
             roleId: 1,
@@ -56,7 +55,7 @@ const initialState: NavigationState[] = [
         title: "Empresas",
         items: [
           {
-            url: "/dashboard/empresas",
+            url: "/dashboard/super/empresas",
             title: "Ver empresas",
             items: [],
             roleId: 1,
@@ -64,7 +63,6 @@ const initialState: NavigationState[] = [
         ],
         roleId: 1,
       },
-
       /* Agente */
       {
         url: "/dashboard/clientes",
@@ -95,15 +93,20 @@ const initialState: NavigationState[] = [
         ],
       },
       /* Supervisor */
-
       {
-        url: "/dashboard/agentes",
+        url: "/dashboard/supervisor/agentes",
         icon: <FiUsers size={20} />,
         title: "Agentes",
         items: [],
         roleId: 2,
       },
-
+      {
+        url: "/dashboard/supervisor/procesos",
+        icon: <FiActivity size={20} />,
+        title: "Procesos",
+        items: [],
+        roleId: 2,
+      },
       /* Publicas */
       {
         url: "/dashboard/credenciales-cliente",

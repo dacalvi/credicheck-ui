@@ -20,23 +20,56 @@ async function getProcessesCount(req: any, res: any) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
-  const processes = await prisma.process.findMany({
+  //get the user company
+  const user = await prisma.user.findUnique({
     where: {
-      client: {
-        ownerId: Number(token.id),
-      },
-    },
-    orderBy: {
-      id: "desc",
+      id: Number(token.id),
     },
     select: {
-      id: true,
-      name: true,
-      description: true,
+      role: {
+        select: {
+          name: true,
+        },
+      },
+      company: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
 
-  const processesCount = processes.length;
-
-  return res.status(200).json({processesCount, success: true});
+  if (user?.role.name === "super") {
+    const processes = await prisma.process.findMany({
+      orderBy: {
+        id: "desc",
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+      },
+    });
+    const processesCount = processes.length;
+    return res.status(200).json({processesCount, success: true});
+  } else {
+    const processes = await prisma.process.findMany({
+      where: {
+        client: {
+          ownerId: Number(token.id),
+        },
+      },
+      orderBy: {
+        id: "desc",
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+      },
+    });
+    const processesCount = processes.length;
+    return res.status(200).json({processesCount, success: true});
+  }
 }

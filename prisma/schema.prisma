@@ -133,6 +133,7 @@ model Process {
   clientId    Int
   steps        Step[]
   @@index([clientId])
+  deleted Boolean @default(false)
 }
 
 model Step {

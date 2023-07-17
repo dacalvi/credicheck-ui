@@ -26,6 +26,26 @@ const Index: React.FC = () => {
     setLoading(false);
   };
 
+  const deleteCompany = async (id: number) => {
+    //prompt the user to confirm
+    const confirm = window.confirm("¿Estás seguro de eliminar esta empresa?");
+    if (confirm) {
+      setLoading(true);
+      //delete the user
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + "/companies/" + id,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      // eslint-disable-next-line no-console
+      console.log(data);
+      //reload the users
+      loadCompanies();
+    }
+  };
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
@@ -35,7 +55,7 @@ const Index: React.FC = () => {
   }, [router, status]);
 
   const editCompany = async (id: number) => {
-    router.push(`/dashboard/empresas/${id}`);
+    router.push(`/dashboard/super/empresas/${id}`);
   };
 
   return (
@@ -47,7 +67,7 @@ const Index: React.FC = () => {
         <div>
           <button
             className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-            onClick={() => router.push("/dashboard/empresas/crear")}>
+            onClick={() => router.push("/dashboard/super/empresas/crear")}>
             Crear Empresa
           </button>
         </div>
@@ -78,6 +98,12 @@ const Index: React.FC = () => {
                       onClick={() => editCompany(company.id)}
                       className="">
                       Editar
+                    </Button>
+
+                    <Button
+                      onClick={() => deleteCompany(company.id)}
+                      className="ml-5">
+                      Borrar
                     </Button>
                   </div>
                 </Table.Cell>

@@ -84,42 +84,115 @@ async function getProcesses(req: any, res: any) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
-  const processes = await prisma.process.findMany({
+  //get the user company
+  const user = await prisma.user.findUnique({
     where: {
-      client: {
-        ownerId: Number(token.id),
-      },
-    },
-    orderBy: {
-      id: "desc",
+      id: Number(token.id),
     },
     select: {
-      id: true,
-      name: true,
-      description: true,
-      client: {
+      role: {
         select: {
-          id: true,
-          email: true,
-          firstName: true,
-          lastName: true,
+          name: true,
         },
       },
-      steps: {
+      company: {
         select: {
           id: true,
           name: true,
-          description: true,
-          state: true,
-          result: true,
-          score: true,
-          uuid: true,
-          resultExplanation: true,
         },
       },
-      state: true,
     },
   });
 
-  return processes;
+  if (user?.role.name === "supervisor") {
+    //get the processes for the current company
+    const processes = await prisma.process.findMany({
+      select: {
+        client: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+            owner: {
+              select: {
+                id: true,
+                email: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
+        id: true,
+        name: true,
+        description: true,
+        steps: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            state: true,
+            result: true,
+            score: true,
+            uuid: true,
+            resultExplanation: true,
+          },
+        },
+      },
+
+      where: {
+        client: {
+          owner: {
+            company: {
+              id: user.company.id,
+            },
+          },
+        },
+        deleted: false,
+      },
+    });
+    return processes;
+  } else if (user?.role.name === "agente") {
+    //process by agent
+    const processes = await prisma.process.findMany({
+      where: {
+        client: {
+          ownerId: Number(token.id),
+        },
+      },
+      orderBy: {
+        id: "desc",
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        client: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+        steps: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            state: true,
+            result: true,
+            score: true,
+            uuid: true,
+            resultExplanation: true,
+          },
+        },
+        state: true,
+      },
+    });
+    return processes;
+  } else {
+    return res.status(401).json({message: "Unauthorized", success: false});
+  }
 }
