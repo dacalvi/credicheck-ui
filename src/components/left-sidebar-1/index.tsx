@@ -27,7 +27,7 @@ const LeftSidebar: React.FC = () => {
               {data?.user?.firstName} {data?.user?.lastName}
             </small>
           </Title>
-          <ul>
+          <ul className="mt-10">
             {menu.items.map(
               (l0, a) =>
                 //check if the roleId is equal to the roleId of the menu item

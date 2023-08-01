@@ -55,7 +55,7 @@ const Index: React.FC = () => {
   };
 
   const showProcesses = async (id: number) => {
-    router.push(`/dashboard/clientes/${id}/procesos`);
+    router.push(`/dashboard/clientes/${id}/reportes`);
   };
 
   return (

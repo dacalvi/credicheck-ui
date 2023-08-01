@@ -94,7 +94,7 @@ const Index: React.FC = () => {
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-col">
                 <div className="text-xs font-light text-gray-500 uppercase">
-                  Procesos
+                  Reportes
                 </div>
                 {loadingProcessCount ? (
                   <Spinner color="info" aria-label="Info spinner example" />

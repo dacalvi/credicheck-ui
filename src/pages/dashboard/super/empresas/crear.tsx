@@ -53,7 +53,7 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <SectionTitle title="Procesos" subtitle="Nuevo Proceso" />
+      <SectionTitle title="Reportes" subtitle="Nuevo Reporte" />
       <div className="w-2/4">
         <Widget
           title="Informacion de la empresa"

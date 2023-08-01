@@ -41,7 +41,8 @@ export const percentOfGrowYoY = async (
       "total"
     );
 
-    const lastYearMonthEarnings = totals.data[0].mxnAmount;
+    const lastYearMonthEarnings =
+      totals.data.length === 0 ? 0 : totals.data[0].mxnAmount;
 
     //get the first day of the previous month of the current year
     const firstDayOfPreviousMonthOfCurrentYear = new Date();
@@ -65,7 +66,8 @@ export const percentOfGrowYoY = async (
       "total"
     );
 
-    const currentYearMonthEarnings = totals2.data[0].mxnAmount;
+    const currentYearMonthEarnings =
+      totals2.data.length === 0 ? 0 : totals2.data[0].mxnAmount;
 
     const percentOfGrow =
       ((currentYearMonthEarnings - lastYearMonthEarnings) /

@@ -121,8 +121,6 @@ const Index: React.FC = () => {
     });
 
     setProcesses(data.processes);
-    // eslint-disable-next-line no-console
-    console.log(data.processes);
   }, []);
 
   const loadProcesses = useCallback(async () => {
@@ -154,13 +152,13 @@ const Index: React.FC = () => {
     <>
       <div className="flex justify-between mb-8">
         <div>
-          <SectionTitle title="Procesos" subtitle="Listar Procesos" />
+          <SectionTitle title="Reportes" subtitle="Listar Reportes" />
         </div>
         <div>
           <button
             className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-            onClick={() => router.push("/dashboard/procesos/crear")}>
-            Crear Nuevo Proceso
+            onClick={() => router.push("/dashboard/reportes/crear")}>
+            Crear Nuevo Reporte
           </button>
         </div>
       </div>
@@ -169,17 +167,17 @@ const Index: React.FC = () => {
           <div className="flex justify-center">
             <div className="text-gray-500 w-full text-center p-5">
               <Spinner color="info" aria-label="Info spinner example" />
-              <div className="ml-2 mt-1">Cargando Procesos...</div>
+              <div className="ml-2 mt-1">Cargando reportes...</div>
             </div>
           </div>
         ) : processes?.length === 0 ? (
           <div className="flex justify-center">
             <div className="text-gray-500 w-full text-center p-5">
-              No hay procesos de análisis iniciados todavía.
+              No hay reportes de análisis iniciados todavía.
               <br></br>
-              <Link href="/dashboard/procesos/crear">
+              <Link href="/dashboard/reportes/crear">
                 <a className="text-blue-500 hover:text-blue-700">
-                  Crear Nuevo Proceso
+                  Crear Nuevo Reporte
                 </a>
               </Link>
             </div>

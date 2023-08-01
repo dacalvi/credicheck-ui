@@ -64,7 +64,7 @@ const Index: React.FC = () => {
       // eslint-disable-next-line no-console
       console.log(response);
       setLoading(false);
-      router.push("/dashboard/procesos");
+      router.push("/dashboard/reportes");
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -73,7 +73,7 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <SectionTitle title="Procesos" subtitle="Nuevo Proceso" />
+      <SectionTitle title="Reportes" subtitle="Nuevo Reporte" />
       <div className="w-2/4">
         {clientsLoading && (
           <Loading size={35} message="Cargando lista de clientes..." />
@@ -81,8 +81,8 @@ const Index: React.FC = () => {
 
         {!clientsLoading && (
           <Widget
-            title="Informacion del proceso"
-            description={<span>Informacion para seguir el nuevo proceso</span>}>
+            title="Informacion del reporte"
+            description={<span>Informacion para seguir el nuevo reporte</span>}>
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col gap-4">
@@ -105,7 +105,7 @@ const Index: React.FC = () => {
 
               <div>
                 <div className="mb-2 block">
-                  <Label htmlFor="name" value="Nombre del proceso" />
+                  <Label htmlFor="name" value="Nombre del reporte" />
                 </div>
                 <Controller
                   name="name"
@@ -114,7 +114,7 @@ const Index: React.FC = () => {
                     <TextInput
                       id="name"
                       type="text"
-                      placeholder="Nombre del proceso"
+                      placeholder="Nombre del reporte"
                       required={true}
                       {...field}
                     />

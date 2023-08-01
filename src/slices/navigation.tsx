@@ -1,5 +1,11 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {FiActivity, FiClock, FiCompass, FiUsers} from "react-icons/fi";
+import {
+  FiActivity,
+  FiClock,
+  FiCompass,
+  FiFileText,
+  FiUsers,
+} from "react-icons/fi";
 import {HiOfficeBuilding} from "react-icons/hi";
 
 export type NavigationState = {
@@ -76,17 +82,29 @@ const initialState: NavigationState[] = [
             roleId: 3,
             items: [],
           },
+          {
+            url: "/dashboard/clientes/crear",
+            title: "Crear Cliente",
+            roleId: 3,
+            items: [],
+          },
         ],
       },
       {
-        url: "/dashboard/procesos",
-        icon: <FiActivity size={20} />,
-        title: "Procesos",
+        url: "/dashboard/reportes",
+        icon: <FiFileText size={20} />,
+        title: "Reportes",
         roleId: 3,
         items: [
           {
-            url: "/dashboard/procesos",
-            title: "Ver Procesos",
+            url: "/dashboard/reportes/crear",
+            title: "Crear Reporte",
+            roleId: 3,
+            items: [],
+          },
+          {
+            url: "/dashboard/reportes",
+            title: "Ver Reportes",
             roleId: 3,
             items: [],
           },
@@ -101,9 +119,16 @@ const initialState: NavigationState[] = [
         roleId: 2,
       },
       {
-        url: "/dashboard/supervisor/procesos",
+        url: "/dashboard/supervisor/reportes",
+        icon: <FiFileText size={20} />,
+        title: "Reportes",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/supervisor/indicadores",
         icon: <FiActivity size={20} />,
-        title: "Procesos",
+        title: "Indicadores",
         items: [],
         roleId: 2,
       },

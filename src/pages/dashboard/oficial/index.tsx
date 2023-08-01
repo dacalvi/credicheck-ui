@@ -93,7 +93,7 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <SectionTitle title="Supervisor" subtitle="Tablero inicial" />
+      <SectionTitle title="Oficial de negocio" subtitle="Tablero inicial" />
 
       <div className="flex  flex-col w-full mb-2 lg:flex-row lg:space-x-2 space-y-2 lg:space-y-0 lg:mb-4">
         <div className="w-full lg:w-1/4">
@@ -126,19 +126,19 @@ const Index: React.FC = () => {
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-col">
                 <div className="text-xs font-light text-gray-500 uppercase">
-                  Procesos
+                  Reportes
                 </div>
                 <div className="text-xl font-bold">
                   {loadingProcessesCount ? (
                     <Spinner color="info" aria-label="Info spinner example" />
                   ) : (
-                    <Link href="/dashboard/procesos">
+                    <Link href="/dashboard/reportes">
                       <a>{Number(processesCount)}</a>
                     </Link>
                   )}
                 </div>
               </div>
-              <Link href="/dashboard/procesos/crear">
+              <Link href="/dashboard/reportes/crear">
                 <a>
                   <FiActivity
                     size={24}
@@ -153,14 +153,14 @@ const Index: React.FC = () => {
 
       <div className="w-full mb-2 lg:space-x-2 space-y-2 lg:space-y-0 lg:mb-4">
         <Section
-          title="Procesos"
-          description={<span>Listado de Procesos</span>}>
+          title="Reportes"
+          description={<span>Listado de Reportes</span>}>
           <div className="flex flex-col w-full">
             <div className="overflow-x-scroll lg:overflow-hidden">
               {loadingProcesses ? (
                 <div className="flex w-full text-center p-5">
                   <Spinner color="info" aria-label="Info spinner example" />
-                  <div className="ml-2 mt-1">Cargando Procesos...</div>
+                  <div className="ml-2 mt-1">Cargando Reportes...</div>
                 </div>
               ) : (
                 <table className="w-full text-left table-auto">

@@ -41,6 +41,7 @@ const Ciec: React.FC<{rfc: string; isLoading: any}> = ({rfc, isLoading}) => {
   } = methods;
 
   const onSubmit = async (data: CiecFormProps) => {
+    console.log("submitting", data);
     isLoading(true);
     data.uuid = router.query.id as string;
 
@@ -252,6 +253,7 @@ const Credenciales: React.FC = () => {
   const [clientFound, setClientFound] = useState(false);
 
   const loadClient = async () => {
+    console.log("test");
     setLoading(true);
 
     try {
@@ -266,7 +268,7 @@ const Credenciales: React.FC = () => {
 
       setLoading(false);
       const body = await response.json();
-      // eslint-disable-next-line no-console
+
       console.log(body);
       if (body.length === 0) {
         setClientFound(false);
@@ -330,11 +332,11 @@ const Credenciales: React.FC = () => {
             </CenteredForm>
           )}
 
-          {!loading && clientFound && idPresent ? (
-            <>Gracias</>
-          ) : (
+          {loading && (
             <Loading size={35} message="Comprobando credenciales ..." />
           )}
+
+          {!loading && clientFound && idPresent && <>Gracias</>}
         </div>
       </Layout>
     </>

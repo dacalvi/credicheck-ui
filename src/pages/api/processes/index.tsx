@@ -57,7 +57,7 @@ async function createProcess(req: any, res: any) {
   const steps = indicators.map((indicator, index) => {
     return {
       name: indicator.indicator.name,
-      description: "Proceso para " + indicator.indicator.name,
+      description: "Reporte para " + indicator.indicator.name,
       processId: newProcess.id,
       indicatorId: indicator.indicator.id,
       order: index,
@@ -152,6 +152,7 @@ async function getProcesses(req: any, res: any) {
         deleted: false,
       },
     });
+    console.log(user, processes);
     return processes;
   } else if (user?.role.name === "agente") {
     //process by agent
@@ -160,6 +161,7 @@ async function getProcesses(req: any, res: any) {
         client: {
           ownerId: Number(token.id),
         },
+        deleted: false,
       },
       orderBy: {
         id: "desc",

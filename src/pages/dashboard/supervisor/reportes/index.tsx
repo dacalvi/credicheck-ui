@@ -5,11 +5,13 @@ import {useSession} from "next-auth/react";
 import Link from "next/link";
 import {useRouter} from "next/router";
 import {useCallback, useEffect, useState} from "react";
-import {FiClock, FiCheck, FiMinus} from "react-icons/fi";
+import {FiClock, FiCheck, FiMinus, FiTrash} from "react-icons/fi";
 
 import {getColor} from "functions/colors";
 
 import {Tooltip, PieChart, Pie, Cell, ResponsiveContainer} from "recharts";
+import Line1 from "components/charts/line-1";
+import Area1 from "components/charts/area-1";
 
 type Step = {
   id: number;
@@ -115,8 +117,6 @@ const Index: React.FC = () => {
     });
 
     setProcesses(data.processes);
-    // eslint-disable-next-line no-console
-    console.log(data.processes);
   }, []);
 
   const loadProcesses = useCallback(async () => {
@@ -128,6 +128,37 @@ const Index: React.FC = () => {
 
     setLoading(false);
   }, []);
+
+  const deleteProcess = async (id: number) => {
+    const confirm = window.confirm(
+      "¿Estás seguro que deseas eliminar este reporte?"
+    );
+    if (confirm) {
+      //delete the process
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_API_URL + "/processes/" + id,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+
+      // eslint-disable-next-line no-console
+      console.log(data);
+
+      //reload the processes
+      await loadProcessCall();
+    }
+
+    // eslint-disable-next-line no-console
+    console.log("delete process with id: " + id);
+
+    //reload the processes
+    await loadProcessCall();
+
+    // eslint-disable-next-line no-console
+    console.log("reload processes");
+  };
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -148,32 +179,75 @@ const Index: React.FC = () => {
     <>
       <div className="flex justify-between mb-8">
         <div>
-          <SectionTitle title="Procesos" subtitle="Listar Procesos" />
+          <SectionTitle
+            title="Indicadores generales a lo largo del tiempo"
+            subtitle="Indicadores Globales"
+          />
         </div>
+
         <div>
           <button
             className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-            onClick={() => router.push("/dashboard/procesos/crear")}>
-            Crear Nuevo Proceso
+            onClick={() => router.push("/dashboard/reportes/crear")}>
+            Personalizar
           </button>
         </div>
       </div>
+      <div className="flex mb-20">
+        <div className="mr-10">
+          <Widget
+            description={<span>Monto facturado por mes vs. Empleados</span>}>
+            <div className="w-72">
+              <Line1 />
+            </div>
+          </Widget>
+        </div>
+        <div className="mr-10">
+          <Widget description={<span>Empleados Vs. Creditos Financieros</span>}>
+            <div className="w-72">
+              <Line1 />
+            </div>
+          </Widget>
+        </div>
+        <div className="mr-10">
+          <Widget
+            description={<span>Creditos Financieros Vs. Monto Facturado</span>}>
+            <div className="w-72">
+              <Area1 />
+            </div>
+          </Widget>
+        </div>
+      </div>
+      <div className="flex justify-between mb-8">
+        <div>
+          <SectionTitle title="Reportes" subtitle="Listar Reportes" />
+        </div>
+
+        <div>
+          <button
+            className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+            onClick={() => router.push("/dashboard/reportes/crear")}>
+            Crear Nuevo Reporte
+          </button>
+        </div>
+      </div>
+
       <Widget>
         {loading ? (
           <div className="flex justify-center">
             <div className="text-gray-500 w-full text-center p-5">
               <Spinner color="info" aria-label="Info spinner example" />
-              <div className="ml-2 mt-1">Cargando Procesos...</div>
+              <div className="ml-2 mt-1">Cargando Reportes...</div>
             </div>
           </div>
         ) : processes?.length === 0 ? (
           <div className="flex justify-center">
             <div className="text-gray-500 w-full text-center p-5">
-              No hay procesos de análisis iniciados todavía.
+              No hay reportes de análisis iniciados todavía.
               <br></br>
-              <Link href="/dashboard/procesos/crear">
+              <Link href="/dashboard/reportes/crear">
                 <a className="text-blue-500 hover:text-blue-700">
-                  Crear Nuevo Proceso
+                  Crear Nuevo Reporte
                 </a>
               </Link>
             </div>
@@ -214,12 +288,68 @@ const Index: React.FC = () => {
                     ) : null}
 
                     <div className="ml-3 mt-1">
-                      #{process.id} {process.client.firstName}{" "}
-                      {process.client.lastName} - {process.name}
+                      <div className="flex">
+                        #{process.id} {process.client.firstName}{" "}
+                        {process.client.lastName} - {process.name}{" "}
+                        <FiTrash
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteProcess(process.id);
+                          }}
+                          size={15}
+                          className="ml-2"
+                          color="red"
+                        />
+                      </div>
                     </div>
                   </span>
                 </Accordion.Title>
                 <Accordion.Content>
+                  <div className="flex justify-between mb-8">
+                    <div>
+                      <SectionTitle
+                        title="Indicadores generales a lo largo del tiempo"
+                        subtitle={
+                          "Indicadores Particulares para " +
+                          process.client.firstName +
+                          " " +
+                          process.client.lastName
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="flex mb-20">
+                    <div className="mr-10">
+                      <Widget
+                        description={
+                          <span>Monto facturado por mes vs. Empleados</span>
+                        }>
+                        <div className="w-72">
+                          <Line1 />
+                        </div>
+                      </Widget>
+                    </div>
+                    <div className="mr-10">
+                      <Widget
+                        description={
+                          <span>Empleados Vs. Creditos Financieros</span>
+                        }>
+                        <div className="w-72">
+                          <Line1 />
+                        </div>
+                      </Widget>
+                    </div>
+                    <div className="mr-10">
+                      <Widget
+                        description={
+                          <span>Creditos Financieros Vs. Monto Facturado</span>
+                        }>
+                        <div className="w-72">
+                          <Line1 />
+                        </div>
+                      </Widget>
+                    </div>
+                  </div>
                   <div className="flex flex-row w-full">
                     <div className="w-28">
                       <div style={{width: 80}}>
