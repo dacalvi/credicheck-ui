@@ -64,7 +64,7 @@ const Index: React.FC = () => {
       // eslint-disable-next-line no-console
       console.log(response);
       setLoading(false);
-      router.push("/dashboard/reportes");
+      router.push("/dashboard/oficial/reportes");
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

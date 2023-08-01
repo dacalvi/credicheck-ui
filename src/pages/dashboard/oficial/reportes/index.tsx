@@ -219,7 +219,7 @@ const Index: React.FC = () => {
         <div>
           <button
             className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-            onClick={() => router.push("/dashboard/reportes/crear")}>
+            onClick={() => router.push("/dashboard/oficial/reportes/crear")}>
             Crear Nuevo Reporte
           </button>
         </div>
@@ -237,7 +237,7 @@ const Index: React.FC = () => {
             <div className="text-gray-500 w-full text-center p-5">
               No hay reportes de análisis iniciados todavía.
               <br></br>
-              <Link href="/dashboard/reportes/crear">
+              <Link href="/dashboard/oficial/reportes/crear">
                 <a className="text-blue-500 hover:text-blue-700">
                   Crear Nuevo Reporte
                 </a>

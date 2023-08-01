@@ -97,13 +97,13 @@ const initialState: NavigationState[] = [
         roleId: 3,
         items: [
           {
-            url: "/dashboard/reportes/crear",
+            url: "/dashboard/oficial/reportes/crear",
             title: "Crear Reporte",
             roleId: 3,
             items: [],
           },
           {
-            url: "/dashboard/reportes",
+            url: "/dashboard/oficial/reportes",
             title: "Ver Reportes",
             roleId: 3,
             items: [],
