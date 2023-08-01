@@ -34,7 +34,7 @@ const Indicator: React.FC<IndicatorProps> = ({
   return (
     <div
       onClick={toggleChecked}
-      className={`mr-5 w-64 p-4 mb-4 rounded-lg bg-white border border-gray-100 ${
+      className={`mr-5 w-64 p-4 mb-4 rounded-lg  border border-gray-100 ${
         checked ? "bg-slate-600" : "dark:bg-gray-900"
       }  dark:border-gray-800`}>
       {(title || description) && (
