@@ -33,7 +33,7 @@ const Index: React.FC = () => {
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);
-    setIndicators(data.indicators.indicators);
+    setIndicators(data.indicators?.indicators);
     setLoading(false);
   };
 

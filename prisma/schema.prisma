@@ -89,7 +89,16 @@ model Client {
   uuid        String    @unique
   satwsid     String?   @unique
   companyName String?   @default("")
-
+  address     String?   @default("")
+  city        String?   @default("")
+  state       String?   @default("")
+  zipCode     String?   @default("")
+  exteriorNumber String? @default("")
+  interiorNumber String? @default("")
+  neighborhood String?   @default("")
+  municipality String?   @default("")
+  nationality  String?   @default("")
+  country      String?   @default("")
   @@index([ownerId])
 }
 
