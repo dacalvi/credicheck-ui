@@ -12,6 +12,8 @@ const Index: React.FC = () => {
       router.replace("/auth/signin");
     }
 
+    // eslint-disable-next-line no-console
+    console.log(data);
     if (data?.user?.roleId === 2) {
       router.replace("/dashboard/supervisor");
     } else if (data?.user?.roleId === 3) {
