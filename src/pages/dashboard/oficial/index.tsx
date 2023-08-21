@@ -41,6 +41,7 @@ type Process = {
     firstName: string;
     lastName: string;
   };
+  percent: number;
 };
 
 const Index: React.FC = () => {
@@ -179,6 +180,8 @@ const Index: React.FC = () => {
                       <tr key={i}>
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800 whitespace-nowrap">
                           <span className="ml-2">
+                            {process.name} {process.description}
+                            {" - "}
                             {process.client.firstName} {process.client.lastName}
                           </span>
                         </td>
@@ -186,8 +189,13 @@ const Index: React.FC = () => {
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800 whitespace-nowrap">
                           <div className="flex flex-col w-full">
                             <div className="flex flex-row items-center justify-around">
-                              <ProgressBar width={50} color={"bg-purple-500"} />
-                              <span className="ml-1 text-gray-500">{50}%</span>
+                              <ProgressBar
+                                width={process.percent}
+                                color={"bg-purple-500"}
+                              />
+                              <span className="ml-1 text-gray-500">
+                                {process.percent}%
+                              </span>
                             </div>
                           </div>
                         </td>

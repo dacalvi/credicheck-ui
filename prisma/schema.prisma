@@ -25,8 +25,8 @@ enum Action {
 
 model User {
   id        Int      @id @default(autoincrement())
-  firstName String  @default("")
-  lastName  String @default("")
+  firstName String   @default("")
+  lastName  String   @default("")
   email     String   @unique
   password  String
   role      Role     @relation(fields: [roleId], references: [id])
@@ -51,6 +51,7 @@ model Company {
   users                   User[]
   company_characteristics Company_characteristic[]
   company_indicators      Company_indicator[]
+  Chart_company           Chart_company[]
 }
 
 model Company_characteristic {
@@ -76,18 +77,19 @@ model Company_indicator {
 }
 
 model Client {
-  id        Int       @id @default(autoincrement())
-  firstName String? @default("")
-  lastName  String? @default("")
-  cellPhone String
-  email     String
-  owner     User      @relation(fields: [ownerId], references: [id])
-  ownerId   Int
-  processes Process[]
-  rfc       String
-  uuid        String @unique
-  satwsid     String? @unique
-  companyName String? @default("")
+  id          Int       @id @default(autoincrement())
+  firstName   String?   @default("")
+  lastName    String?   @default("")
+  cellPhone   String
+  email       String
+  owner       User      @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  processes   Process[]
+  rfc         String
+  uuid        String    @unique
+  satwsid     String?   @unique
+  companyName String?   @default("")
+
   @@index([ownerId])
 }
 
@@ -124,33 +126,62 @@ model Characteristic {
 }
 
 model Process {
-  id          Int    @id @default(autoincrement())
-  name        String @default(uuid())
+  id          Int     @id @default(autoincrement())
+  name        String  @default(uuid())
   description String
-  order       Int    @default(1)
-  state       State @default(PENDING)
-  client      Client @relation(fields: [clientId], references: [id])
+  order       Int     @default(1)
+  state       State   @default(PENDING)
+  client      Client  @relation(fields: [clientId], references: [id])
   clientId    Int
-  steps        Step[]
+  steps       Step[]
+  deleted     Boolean @default(false)
+
   @@index([clientId])
-  deleted Boolean @default(false)
 }
 
 model Step {
-  id          Int       @id @default(autoincrement())
-  name        String    
-  description String
-  order       Int
-  state       State @default(PENDING)
-  process     Process   @relation(fields: [processId], references: [id])
-  processId   Int
-  indicatorId Int
-  indicator   Indicator @relation(fields: [indicatorId], references: [id])
-  result      Action?
-  score       Int?
-  uuid        String @unique
+  id                Int       @id @default(autoincrement())
+  name              String
+  description       String
+  order             Int
+  state             State     @default(PENDING)
+  process           Process   @relation(fields: [processId], references: [id])
+  processId         Int
+  indicatorId       Int
+  indicator         Indicator @relation(fields: [indicatorId], references: [id])
+  result            Action?
+  score             Int?
+  uuid              String    @unique
   resultExplanation String?
 
   @@index([processId])
   @@index([indicatorId])
+}
+
+model Chart {
+  id              Int             @id @default(autoincrement())
+  name            String          @unique
+  description     String
+  order           Int
+  chart_companies Chart_company[]
+  chart_users     Chart_user[]
+}
+
+model Chart_company {
+  id        Int     @id @default(autoincrement())
+  chart     Chart   @relation(fields: [chartId], references: [id])
+  chartId   Int
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId Int
+
+  @@index([chartId])
+  @@index([companyId])
+}
+
+model Chart_user {
+  id      Int   @id @default(autoincrement())
+  chart   Chart @relation(fields: [chartId], references: [id])
+  chartId Int
+
+  @@index([chartId])
 }

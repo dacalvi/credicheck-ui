@@ -12,8 +12,6 @@ import {FiAlertCircle} from "react-icons/fi";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect} from "react";
-import {Select} from "components/react-hook-form/select";
-import {useAppSelector} from "store";
 
 export type FormProps = {
   firstName: string;
@@ -27,38 +25,12 @@ export type FormProps = {
 const Index: React.FC = () => {
   const {status} = useSession();
   const router = useRouter();
-  const roles = useAppSelector((state) => state.roles);
-
-  const [companiesArray, setCompaniesArray] = useState([]);
-
-  //rename id to key and name to value in the roles array
-  const rolesArray = roles.map((role) => {
-    return {
-      key: role.id,
-      value: role.name,
-    };
-  });
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
-    } else {
-      loadCompanies();
     }
   }, [router, status]);
-
-  const loadCompanies = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/companies");
-    const {companies} = await res.json();
-
-    const companiesArray = companies.map((company: any) => {
-      return {
-        key: company.id,
-        value: company.name,
-      };
-    });
-    setCompaniesArray(companiesArray);
-  };
 
   const methods = useForm<FormProps>({
     defaultValues: {

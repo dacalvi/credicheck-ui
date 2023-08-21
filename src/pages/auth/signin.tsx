@@ -10,6 +10,7 @@ import {signIn} from "next-auth/react";
 import {useState} from "react";
 import {Loading} from "components/loading";
 import Logo from "components/left-sidebar-1/logo";
+import Link from "next/link";
 
 export type FormProps = {
   email: string;
@@ -27,7 +28,6 @@ const SignIn: React.FC = () => {
   });
   const {
     handleSubmit,
-    reset,
     formState: {errors},
   } = methods;
 
@@ -101,20 +101,19 @@ const SignIn: React.FC = () => {
                         )}
                       </InputWrapper>
                     </div>
+                    <div>
+                      <Link href="/auth/forgot-password" className="mt-10">
+                        <a className="text-sm text-blue-600 hover:underline mt-10">
+                          Olvidaste tu contraseña?
+                        </a>
+                      </Link>
+                    </div>
                   </div>
 
                   <div className="flex justify-start space-x-2 mt-5">
                     <button
-                      onClick={() => {
-                        reset();
-                      }}
-                      type="button"
-                      className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:text-white dark:border-gray-600 dark:hover:border-gray-700 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                      Cancelar
-                    </button>
-                    <button
                       type="submit"
-                      className="inline-flex justify-center px-3 py-2 ml-3 text-sm font-medium text-white bg-blue-500 border border-transparent shadow-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                      className="inline-flex justify-center px-3 py-2  text-sm font-medium text-white bg-blue-500 border border-transparent shadow-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                       Ingresar
                     </button>
                   </div>

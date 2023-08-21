@@ -1,5 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import axios from "axios";
+import {credentialsMapping} from "./sandbox_credentials_mapping";
 
 const prisma = new PrismaClient();
 
@@ -18,6 +19,15 @@ async function authenticateCiec(req: any, res: any) {
 
   // eslint-disable-next-line no-console
   console.log(data);
+
+  //check if datasources_enviroment is sandbox
+  if (process.env.DATASOURCES_ENVIRONMENT === "sandbox") {
+    //check if rfc is in credentialsMapping
+    if (credentialsMapping[data.rfc]) {
+      //change data.rfc to satwsrfc
+      data.rfc = credentialsMapping[data.rfc].satwsrfc;
+    }
+  }
 
   data.type = "ciec";
   const url = `${process.env.SAT_WS_URL}/credentials`;

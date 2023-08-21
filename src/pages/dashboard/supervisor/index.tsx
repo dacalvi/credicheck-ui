@@ -11,10 +11,10 @@ const Index: React.FC = () => {
   const router = useRouter();
   const [loadingCompaniesCount, setLoadingCompaniesCount] = useState(false);
   const [loadingProcessCount, setLoadingProcessCount] = useState(false);
-  const [loadingUsersCount, setLoadingUsersCount] = useState(false);
+  const [loadingUsersCount, setLoadingClientsCount] = useState(false);
   const [companiesCount, setCompaniesCount] = useState(0);
   const [processesCount, setprocessesCount] = useState(0);
-  const [usersCount, setUsersCount] = useState(0);
+  const [clientsCount, setClientsCount] = useState(0);
 
   const getCompaniesCount = async () => {
     setLoadingCompaniesCount(true);
@@ -36,12 +36,14 @@ const Index: React.FC = () => {
     setLoadingProcessCount(false);
   };
 
-  const getUsersCount = async () => {
-    setLoadingUsersCount(true);
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/count");
-    const {usersCount} = await res.json();
-    setUsersCount(usersCount);
-    setLoadingUsersCount(false);
+  const getClientsCount = async () => {
+    setLoadingClientsCount(true);
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + "/prospects/count"
+    );
+    const {prospectsCount: clientsCount} = await res.json();
+    setClientsCount(clientsCount);
+    setLoadingClientsCount(false);
   };
 
   useEffect(() => {
@@ -55,7 +57,7 @@ const Index: React.FC = () => {
     } else {
       getCompaniesCount();
       getProcessCount();
-      getUsersCount();
+      getClientsCount();
     }
   }, [router, status]);
 
@@ -119,27 +121,20 @@ const Index: React.FC = () => {
             <div className="flex flex-row items-center justify-between">
               <div className="flex flex-col">
                 <div className="text-xs font-light text-gray-500 uppercase">
-                  Usuarios
+                  Clientes
                 </div>
                 {loadingUsersCount ? (
                   <Spinner color="info" aria-label="Info spinner example" />
                 ) : (
                   <div className="text-xl font-bold">
-                    <Link href="/dashboard/usuarios">
-                      <a>{Number(usersCount)}</a>
-                    </Link>
+                    <a>{Number(clientsCount)}</a>
                   </div>
                 )}
               </div>
               <a>
-                <Link href="/dashboard/usuarios/crear">
-                  <a>
-                    <FiUsers
-                      size={24}
-                      className="text-gray-500 stroke-current"
-                    />
-                  </a>
-                </Link>
+                <a>
+                  <FiUsers size={24} className="text-gray-500 stroke-current" />
+                </a>
               </a>
             </div>
           </div>

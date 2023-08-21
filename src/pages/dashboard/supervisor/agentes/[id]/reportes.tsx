@@ -40,6 +40,12 @@ type Process = {
     email: string;
     firstName: string;
     lastName: string;
+    owner: {
+      id: number;
+      email: string;
+      firstName: string;
+      lastName: string;
+    };
   };
 };
 
@@ -311,6 +317,8 @@ const Index: React.FC = () => {
                       <div className="flex">
                         #{process.id} {process.client.firstName}{" "}
                         {process.client.lastName} - {process.name}{" "}
+                        {process.client.owner.firstName}{" "}
+                        {process.client.owner.lastName}
                         <FiTrash
                           onClick={(e) => {
                             e.stopPropagation();

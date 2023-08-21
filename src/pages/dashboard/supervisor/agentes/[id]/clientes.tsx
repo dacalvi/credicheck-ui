@@ -20,6 +20,8 @@ type Prospect = {
   companyName: string;
   owner: {
     id: number;
+    firstName: string;
+    lastName: string;
   };
 };
 
@@ -94,6 +96,7 @@ const Index: React.FC = () => {
       ) : (
         <Table>
           <Table.Head>
+            <Table.HeadCell>Agente</Table.HeadCell>
             <Table.HeadCell>RFC</Table.HeadCell>
             <Table.HeadCell>Empresa</Table.HeadCell>
             <Table.HeadCell>Celular</Table.HeadCell>
@@ -107,6 +110,9 @@ const Index: React.FC = () => {
               <Table.Row
                 className="bg-white dark:border-gray-700 dark:bg-gray-800 align-baseline"
                 key={index}>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  {prospect.owner.firstName} {prospect.owner.lastName}
+                </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {prospect.rfc}
                 </Table.Cell>

@@ -25,7 +25,12 @@ const Index: React.FC = () => {
       return {
         key: prospect.id,
         value:
-          prospect.firstName + " " + prospect.lastName + " - " + prospect.rfc,
+          prospect.firstName +
+          " " +
+          prospect.lastName +
+          prospect.companyName +
+          " - " +
+          prospect.rfc,
       };
     });
     setClients(clients);
@@ -48,8 +53,24 @@ const Index: React.FC = () => {
     },
   });
 
+  const checkIfCredentialsArePresent = async (clientId: string) => {
+    const client = clients.find((client) => client.key === clientId);
+    if (!client) {
+      alert("El cliente todavia no tiene sus credenciales cargadas");
+      return;
+    }
+  };
+
   const onSubmit = async (data: any) => {
     try {
+      //check if data.clientId is empty and prevent submit, show error message
+      if (data.clientId === "") {
+        alert("Selecciona un cliente");
+        return;
+      }
+
+      checkIfCredentialsArePresent(data.clientId);
+
       setLoading(true);
       const response = await fetch(
         process.env.NEXT_PUBLIC_API_URL + "/processes",

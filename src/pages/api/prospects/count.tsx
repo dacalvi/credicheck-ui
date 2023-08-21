@@ -18,6 +18,24 @@ async function getProspectsCount(req: any, res: any) {
   if (!token) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
+
+  if (token.roleId === 2) {
+    //supervisor
+    const companyId = token?.companyId;
+    //get the prospect count where owner belongs to companyId
+    const prospects = await prisma.client.findMany({
+      select: {
+        id: true,
+      },
+      where: {
+        owner: {
+          companyId: Number(companyId),
+        },
+      },
+    });
+    return prospects.length;
+  }
+
   const prospectsCount = await prisma.client.count({
     where: {
       owner: {

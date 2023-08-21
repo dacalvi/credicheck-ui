@@ -1,11 +1,13 @@
+import Line1 from "./line-1";
+
 export type WidgetProps = {
   title?: React.ReactNode;
   description?: React.ReactNode;
   right?: React.ReactNode;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
-const Widget: React.FC<WidgetProps> = ({
+const ConfigurableChart: React.FC<WidgetProps> = ({
   title,
   description,
   right,
@@ -17,14 +19,20 @@ const Widget: React.FC<WidgetProps> = ({
         <div className="flex flex-row items-center justify-between mb-6">
           <div className="flex flex-col">
             <div className="text-sm font-light text-gray-500">{title}</div>
+
             <div className="text-sm font-bold">{description}</div>
           </div>
+
           {right}
         </div>
       )}
-      {children}
+
+      <div className="w-72">
+        <Line1 />
+        {children}
+      </div>
     </div>
   );
 };
 
-export default Widget;
+export default ConfigurableChart;

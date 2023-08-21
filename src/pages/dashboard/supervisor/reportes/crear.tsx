@@ -24,8 +24,8 @@ const Index: React.FC = () => {
     const clients = data.prospects.map((prospect: any) => {
       return {
         key: prospect.id,
-        value:
-          prospect.firstName + " " + prospect.lastName + " - " + prospect.rfc,
+        value: `${prospect.companyName} - ${prospect.rfc}
+        ${prospect.owner.email}`,
       };
     });
     setClients(clients);
@@ -64,7 +64,7 @@ const Index: React.FC = () => {
       // eslint-disable-next-line no-console
       console.log(response);
       setLoading(false);
-      router.push("/dashboard/reportes");
+      router.push("/dashboard/supervisor/reportes");
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);

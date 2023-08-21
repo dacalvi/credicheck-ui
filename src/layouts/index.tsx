@@ -48,12 +48,12 @@ const Layouts: React.FC<LayoutProps> = ({children}) => {
       return <Centered>{children}</Centered>;
     case "/login-1":
     case "/auth/signin":
+    case "/auth/forgot-password":
     case "/contact-us-1":
     case "/create-account":
     case "/email-confirmation":
     case "/logout":
     case "/reset-password":
-    case "/forgot-password":
     case "/lock-screen":
     case "/subscribe":
     case "/error-page":

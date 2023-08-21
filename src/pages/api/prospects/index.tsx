@@ -60,6 +60,37 @@ async function getProspects(req: any, res: any) {
   if (!token) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
+
+  //supervisor
+  if (token?.roleId === 2) {
+    const supervisorProspects = await prisma.client.findMany({
+      where: {
+        owner: {
+          companyId: Number(token?.companyId),
+        },
+      },
+      select: {
+        id: true,
+        rfc: true,
+        email: true,
+        cellPhone: true,
+        firstName: true,
+        lastName: true,
+        uuid: true,
+        satwsid: true,
+        companyName: true,
+        owner: {
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+    });
+    return supervisorProspects;
+  }
   const prospects = await prisma.client.findMany({
     where: {
       owner: {

@@ -15,6 +15,7 @@ import {useEffect} from "react";
 
 export type FormProps = {
   name: string;
+  description: string;
 };
 
 const Index: React.FC = () => {
@@ -30,6 +31,7 @@ const Index: React.FC = () => {
   const methods = useForm<FormProps>({
     defaultValues: {
       name: "",
+      description: "",
     },
   });
 
@@ -47,7 +49,7 @@ const Index: React.FC = () => {
       setLoading(true);
 
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/companies/" + router.query.id,
+        process.env.NEXT_PUBLIC_API_URL + "/charts/" + router.query.id,
         {
           method: "PUT",
           headers: {"Content-Type": "application/json"},
@@ -68,7 +70,7 @@ const Index: React.FC = () => {
         reset();
         //redirect to companies page
         setTimeout(() => {
-          router.push("/dashboard/empresas");
+          router.push("/dashboard/super/graficos");
           setLoading(false);
         }, 2000);
       }
@@ -84,7 +86,7 @@ const Index: React.FC = () => {
     const getUser = async () => {
       try {
         const response = await fetch(
-          process.env.NEXT_PUBLIC_API_URL + "/companies/" + router.query.id,
+          process.env.NEXT_PUBLIC_API_URL + "/charts/" + router.query.id,
           {
             method: "GET",
             headers: {"Content-Type": "application/json"},
@@ -99,7 +101,8 @@ const Index: React.FC = () => {
           console.log(data);
           //set the form values here
           reset({
-            name: data.company.name,
+            name: data.chart.name,
+            description: data.chart.description,
           });
         }
       } catch (error) {
@@ -119,13 +122,13 @@ const Index: React.FC = () => {
           color="bg-green-500 text-white"
           icon={<FiAlertCircle className="w-4 h-4 mr-2 stroke-current" />}
           onClick={() => setShowSuccessMessage(false)}>
-          Usuario Editado Correctamente
+          Grafico Editado Correctamente
         </Alert>
       ) : null}
-      <SectionTitle title="Empresas" subtitle="Editar Empresa" />
+      <SectionTitle title="Graficos" subtitle="Editar Grafico" />
       <Widget>
         {loading ? (
-          <Loading size={35} message="Cargando empresa..." />
+          <Loading size={35} message="Cargando grafico..." />
         ) : (
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -152,6 +155,30 @@ const Index: React.FC = () => {
                 </div>
               </div>
 
+              <div className="space-y-6 w-2/5">
+                <div className="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-12">
+                  <InputWrapper outerClassName="sm:col-span-12">
+                    <Label>Descripcion</Label>
+                    <Input
+                      id="description"
+                      name="description"
+                      type="text"
+                      rules={{
+                        required: "Descripcion es requerido",
+                        minLength: {
+                          value: 4,
+                          message:
+                            "Descripcion debe tener al menos 4 caracteres",
+                        },
+                      }}
+                    />
+                    {errors?.description?.message && (
+                      <ErrorMessage>{errors.description.message}</ErrorMessage>
+                    )}
+                  </InputWrapper>
+                </div>
+              </div>
+
               <div className="flex justify-end space-x-2">
                 <button
                   onClick={() => {
@@ -164,7 +191,7 @@ const Index: React.FC = () => {
                 <button
                   type="submit"
                   className="inline-flex justify-center px-3 py-2 ml-3 text-sm font-medium text-white bg-blue-500 border border-transparent shadow-sm rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                  Actualizar Empresa
+                  Actualizar Grafico
                 </button>
               </div>
             </form>

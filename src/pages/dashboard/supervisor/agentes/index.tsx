@@ -47,6 +47,14 @@ const Index: React.FC = () => {
     router.push(`/dashboard/usuarios/${id}`);
   };
 
+  const viewReports = async (id: number) => {
+    router.push(`/dashboard/supervisor/agentes/${id}/reportes`);
+  };
+
+  const viewClients = async (id: number) => {
+    router.push(`/dashboard/supervisor/agentes/${id}/clientes`);
+  };
+
   const deleteUser = async (id: number) => {
     //prompt user to confirm
     const confirm = window.confirm("¿Estás seguro de eliminar este usuario?");
@@ -96,6 +104,7 @@ const Index: React.FC = () => {
           <Table.Head>
             <Table.HeadCell>Nombre</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
+
             <Table.HeadCell>
               <span className="sr-only">Edit</span>
             </Table.HeadCell>
@@ -112,7 +121,13 @@ const Index: React.FC = () => {
                   {user.email}
                 </Table.Cell>
                 <Table.Cell align="right" className="flex justify-end">
-                  <Button onClick={() => editUser(user.id)}>Editar</Button>
+                  <Button onClick={() => viewClients(user.id)}>Clientes</Button>
+                  <Button className="ml-5" onClick={() => viewReports(user.id)}>
+                    Reportes
+                  </Button>
+                  <Button className="ml-5" onClick={() => editUser(user.id)}>
+                    Editar
+                  </Button>
                   <Button className="ml-5" onClick={() => deleteUser(user.id)}>
                     Borrar
                   </Button>

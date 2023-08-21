@@ -1,6 +1,8 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
   FiActivity,
+  FiBarChart,
+  FiBarChart2,
   FiClock,
   FiCompass,
   FiFileText,
@@ -69,6 +71,26 @@ const initialState: NavigationState[] = [
         ],
         roleId: 1,
       },
+      {
+        url: "/dashboard/super/graficos",
+        icon: <FiBarChart size={20} />,
+        title: "Graficos",
+        items: [
+          {
+            url: "/dashboard/super/graficos",
+            title: "Ver graficos",
+            items: [],
+            roleId: 1,
+          },
+          {
+            url: "/dashboard/super/graficos/crear",
+            title: "Crear nuevo grafico",
+            items: [],
+            roleId: 1,
+          },
+        ],
+        roleId: 1,
+      },
       /* Agente */
       {
         url: "/dashboard/clientes",
@@ -110,25 +132,68 @@ const initialState: NavigationState[] = [
           },
         ],
       },
+      {
+        url: "/dashboard/oficial/graficos",
+        icon: <FiBarChart size={20} />,
+        title: "Graficos",
+        roleId: 3,
+        items: [
+          {
+            url: "/dashboard/oficial/graficos",
+            title: "Listar Graficos",
+            roleId: 3,
+            items: [],
+          },
+        ],
+      },
       /* Supervisor */
       {
         url: "/dashboard/supervisor/agentes",
         icon: <FiUsers size={20} />,
-        title: "Agentes",
+        title: "Oficiales",
         items: [],
         roleId: 2,
       },
+
+      {
+        url: "/dashboard/supervisor/clientes",
+        icon: <FiUsers size={20} />,
+        title: "Clientes",
+        items: [],
+        roleId: 2,
+      },
+
       {
         url: "/dashboard/supervisor/reportes",
         icon: <FiFileText size={20} />,
         title: "Reportes",
-        items: [],
+        items: [
+          {
+            url: "/dashboard/supervisor/reportes/crear",
+            title: "Crear Reporte",
+            roleId: 2,
+            items: [],
+          },
+          {
+            url: "/dashboard/supervisor/reportes",
+            title: "Ver Reportes",
+            roleId: 2,
+            items: [],
+          },
+        ],
         roleId: 2,
       },
       {
         url: "/dashboard/supervisor/indicadores",
         icon: <FiActivity size={20} />,
         title: "Indicadores",
+        items: [],
+        roleId: 2,
+      },
+      {
+        url: "/dashboard/supervisor/graficos",
+        icon: <FiBarChart2 size={20} />,
+        title: "Graficos",
         items: [],
         roleId: 2,
       },

@@ -158,7 +158,9 @@ async function getProcesses(req: any, res: any) {
     const processes = await prisma.process.findMany({
       where: {
         client: {
-          ownerId: Number(token.id),
+          owner: {
+            companyId: user.company.id,
+          },
         },
         deleted: false,
       },
@@ -175,6 +177,14 @@ async function getProcesses(req: any, res: any) {
             email: true,
             firstName: true,
             lastName: true,
+            owner: {
+              select: {
+                id: true,
+                email: true,
+                firstName: true,
+                lastName: true,
+              },
+            },
           },
         },
         steps: {

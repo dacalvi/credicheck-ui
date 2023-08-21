@@ -1,7 +1,7 @@
 import {useAppSelector, useAppDispatch} from "store";
 import {FiSettings, FiMenu} from "react-icons/fi";
 import Dropdown5 from "components/navbar-1/dropdown-5";
-import Search from "components/navbar-1/search";
+// import Search from "components/navbar-1/search";
 import {setConfig} from "slices/config";
 
 const Navbar: React.FC = () => {
@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
           className="mx-4">
           <FiMenu size={20} />
         </button>
-        <Search />
+        {/* <Search /> */}
 
         <span className="ml-auto"></span>
         <button
