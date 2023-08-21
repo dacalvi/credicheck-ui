@@ -19,7 +19,7 @@ const isLessThan24MonthsAgo = (lastUpdatedPeriod: string) => {
   return isLessThan24MonthsAgo;
 };
 
-export const financialLoanHistory = async (
+export const financialClosedLoanHistory = async (
   payload: CommonPayloadType
 ): Promise<AssociatedFunctionResponseType> => {
   try {
