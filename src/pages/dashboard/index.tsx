@@ -1,12 +1,13 @@
-import {useSession} from "next-auth/react";
-import {useEffect} from "react";
-import {useRouter} from "next/router";
+//import {useSession} from "next-auth/react";
+//import {useEffect} from "react";
+//import {useRouter} from "next/router";
 import {Spinner} from "flowbite-react";
 
 const Index: React.FC = () => {
-  const {status, data} = useSession();
-  const router = useRouter();
+  //const {status, data} = useSession();
+  //const router = useRouter();
 
+  /*
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
@@ -22,6 +23,7 @@ const Index: React.FC = () => {
       router.replace("/dashboard/super");
     }
   }, [data, router, status]);
+  */
 
   return (
     <>
