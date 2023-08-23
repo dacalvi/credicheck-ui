@@ -165,13 +165,6 @@ const Index: React.FC = () => {
       router.replace("/auth/signin");
     } else {
       loadProcesses();
-
-      //call the loadProcesses function every 5 seconds
-      const interval = setInterval(() => {
-        loadProcessCall();
-      }, 5000);
-
-      return () => clearInterval(interval);
     }
   }, [loadProcessCall, loadProcesses, router, status]);
 
