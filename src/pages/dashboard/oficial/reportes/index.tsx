@@ -127,7 +127,7 @@ const Index: React.FC = () => {
     await loadProcessCall();
 
     setLoading(false);
-  }, []);
+  }, [loadProcessCall]);
 
   const deleteProcess = async (id: number) => {
     const confirm = window.confirm(

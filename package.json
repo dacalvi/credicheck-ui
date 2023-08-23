@@ -11,7 +11,8 @@
     "prepare": "husky install",
     "pscale-connect": "pscale connect credicheck-dev main --port 3309",
     "pscale-shell": "pscale shell credicheck-dev main",
-    "db-push": "npx prisma db push"
+    "db-push": "npx prisma db push",
+    "postinstall": "prisma generate || true"
   },
   "lint-staged": {
     "src/**/*.css": [
@@ -51,16 +52,17 @@
     "crypto": "^1.0.1",
     "depcheck": "^1.4.3",
     "dpdm": "^3.9.0",
+    "eslint-config-next": "^13.4.19",
     "faker": "^5.5.3",
     "flowbite": "^1.6.5",
     "flowbite-react": "^0.4.4",
     "moment": "^2.29.3",
-    "next": "12.1.6",
+    "next": "^13.4.19",
     "next-auth": "^4.22.0",
     "nprogress": "^0.2.0",
     "prisma": "^4.12.0",
-    "react": "18.1.0",
-    "react-dom": "18.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.31.1",
     "react-hotkeys-hook": "^3.4.6",
     "react-icons": "^4.8.0",
