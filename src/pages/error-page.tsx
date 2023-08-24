@@ -15,7 +15,7 @@ const ErrorPage: React.FC = () => {
         to the homepage or contact us
       </div>
       <div className="flex w-full">
-        <Link href="/">
+        <Link legacyBehavior href="/">
           <a className="w-full px-6 py-3 text-base font-bold text-white uppercase bg-blue-500 rounded-lg hover:bg-blue-600">
             Go back
           </a>

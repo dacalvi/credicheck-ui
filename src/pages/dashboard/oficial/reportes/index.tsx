@@ -230,7 +230,7 @@ const Index: React.FC = () => {
             <div className="text-gray-500 w-full text-center p-5">
               No hay reportes de análisis iniciados todavía.
               <br></br>
-              <Link href="/dashboard/oficial/reportes/crear">
+              <Link legacyBehavior href="/dashboard/oficial/reportes/crear">
                 <a className="text-blue-500 hover:text-blue-700">
                   Crear Nuevo Reporte
                 </a>

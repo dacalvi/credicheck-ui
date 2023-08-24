@@ -49,7 +49,7 @@ const AccountLinks: React.FC = () => {
             </li>
           ) : (
             <li key={i}>
-              <Link href={item.url}>
+              <Link legacyBehavior href={item.url}>
                 <a className="flex flex-row items-center justify-start w-full h-10 px-2 text-gray-900 bg-white dark:bg-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                   {item.icon}
                   <span className="mx-2">{item.name}</span>

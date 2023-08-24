@@ -8,13 +8,13 @@ const Footer: React.FC = () => {
     <div className="flex flex-row items-center justify-between w-full text-xs z-10">
       <div className="text-white">&copy; {name} 2021</div>
       <div className="flex flex-row ml-auto space-x-2">
-        <Link href="/privacy-policy">
+        <Link legacyBehavior href="/privacy-policy">
           <a>Privacy policy</a>
         </Link>
-        <Link href="/terms-of-service">
+        <Link legacyBehavior href="/terms-of-service">
           <a>Terms of service</a>
         </Link>
-        <Link href="/contact-us">
+        <Link legacyBehavior href="/contact-us">
           <a>Contact us</a>
         </Link>
       </div>

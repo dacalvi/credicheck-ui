@@ -34,7 +34,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
       {items.map((item, i) => (
         <li className="flex items-center" key={i}>
-          <Link href={item.url}>
+          <Link legacyBehavior href={item.url}>
             <a className="mr-2">{item.title}</a>
           </Link>
 

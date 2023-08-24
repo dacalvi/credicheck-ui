@@ -102,7 +102,10 @@ const SignIn: React.FC = () => {
                       </InputWrapper>
                     </div>
                     <div>
-                      <Link href="/auth/forgot-password" className="mt-10">
+                      <Link
+                        legacyBehavior
+                        href="/auth/forgot-password"
+                        className="mt-10">
                         <a className="text-sm text-blue-600 hover:underline mt-10">
                           Olvidaste tu contraseña?
                         </a>

@@ -84,7 +84,7 @@ const Index: React.FC = () => {
           <div className="text-gray-500 w-full text-center p-5">
             No hay Clientes todavía.
             <br></br>
-            <Link href="/dashboard/clientes/crear">
+            <Link legacyBehavior href="/dashboard/clientes/crear">
               <a className="text-blue-500 hover:text-blue-700">
                 Crear Nuevo Cliente
               </a>
@@ -130,6 +130,7 @@ const Index: React.FC = () => {
                     {prospect.satwsid === null && (
                       <>
                         <Link
+                          legacyBehavior
                           href={`/credenciales/${prospect.uuid}`}
                           onClick={() => showProcesses(prospect.id)}>
                           <a className="pt-3 flex" target="_blank">
@@ -138,6 +139,7 @@ const Index: React.FC = () => {
                           </a>
                         </Link>
                         <Link
+                          legacyBehavior
                           href={`https://api.whatsapp.com/send?phone=${prospect.cellPhone}&text=Para ingresar sus credenciales ingrese al siguiente link \n\n ${process.env.NEXT_PUBLIC_URL}/credenciales/${prospect.uuid}`}>
                           <a className="pt-3 flex" target="_blank">
                             <FaWhatsapp className="w-5 h-5 mr-1" />

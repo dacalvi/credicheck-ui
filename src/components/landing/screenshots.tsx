@@ -41,11 +41,11 @@ const Screenshots: React.FC = () => {
           {backgrounds.map((item, i) => (
             <div className="w-full p-8 text-center lg:w-1/3 lg:p-2" key={i}>
               <div className="flex flex-col mb-2 lg:mb-4">
-                <Link href={item.url}>
+                <Link legacyBehavior href={item.url}>
                   <a className="text-sm uppercase">{item.title}</a>
                 </Link>
                 <div className="w-full h-64 mt-4 overflow-hidden rounded shadow-lg">
-                  <Link href={item.url}>
+                  <Link legacyBehavior href={item.url}>
                     <a>
                       <img
                         src={item.img}
@@ -68,11 +68,11 @@ const Screenshots: React.FC = () => {
           {items.map((item, i) => (
             <div className="w-full p-8 text-center lg:w-1/3 lg:p-2" key={i}>
               <div className="flex flex-col mb-2 lg:mb-4">
-                <Link href={item.url}>
+                <Link legacyBehavior href={item.url}>
                   <a className="text-sm uppercase">{item.title}</a>
                 </Link>
                 <div className="w-full h-64 mt-4 overflow-hidden rounded shadow-lg">
-                  <Link href={item.url}>
+                  <Link legacyBehavior href={item.url}>
                     <a>
                       <img
                         src={item.img}

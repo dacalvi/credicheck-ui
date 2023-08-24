@@ -74,13 +74,13 @@ const Index: React.FC = () => {
                   <Spinner color="info" aria-label="Info spinner example" />
                 ) : (
                   <div className="text-xl font-bold">
-                    <Link href="/dashboard/empresas">
+                    <Link legacyBehavior href="/dashboard/empresas">
                       <a>{Number(companiesCount)}</a>
                     </Link>
                   </div>
                 )}
               </div>
-              <Link href="/dashboard/empresas/crear">
+              <Link legacyBehavior href="/dashboard/empresas/crear">
                 <a>
                   <FiHome size={24} className="text-gray-500 stroke-current" />
                 </a>
@@ -125,14 +125,14 @@ const Index: React.FC = () => {
                   <Spinner color="info" aria-label="Info spinner example" />
                 ) : (
                   <div className="text-xl font-bold">
-                    <Link href="/dashboard/usuarios">
+                    <Link legacyBehavior href="/dashboard/usuarios">
                       <a>{Number(usersCount)}</a>
                     </Link>
                   </div>
                 )}
               </div>
               <a>
-                <Link href="/dashboard/usuarios/crear">
+                <Link legacyBehavior href="/dashboard/usuarios/crear">
                   <a>
                     <FiUsers
                       size={24}

@@ -12,7 +12,7 @@ const Index: React.FC = () => {
       <div className="flex flex-row w-full mt-3">
         <span className="mr-1">New user?</span>
         <span>
-          <Link href="/create-account">
+          <Link legacyBehavior href="/create-account">
             <a className="text-blue-500">Sign up here</a>
           </Link>
         </span>
@@ -20,7 +20,7 @@ const Index: React.FC = () => {
       <div className="flex flex-row w-full">
         <span className="mr-1">Already have an account?</span>
         <span>
-          <Link href="/login">
+          <Link legacyBehavior href="/login">
             <a className="text-blue-500">Login here</a>
           </Link>
         </span>

@@ -108,13 +108,13 @@ const Index: React.FC = () => {
                   <Spinner color="info" aria-label="Info spinner example" />
                 ) : (
                   <div className="text-xl font-bold">
-                    <Link href="/dashboard/clientes">
+                    <Link legacyBehavior href="/dashboard/clientes">
                       <a>{Number(prospectsCount)}</a>
                     </Link>
                   </div>
                 )}
               </div>
-              <Link href="/dashboard/clientes/crear">
+              <Link legacyBehavior href="/dashboard/clientes/crear">
                 <a>
                   <FiUsers size={24} className="text-gray-500 stroke-current" />
                 </a>
@@ -133,13 +133,13 @@ const Index: React.FC = () => {
                   {loadingProcessesCount ? (
                     <Spinner color="info" aria-label="Info spinner example" />
                   ) : (
-                    <Link href="/dashboard/reportes">
+                    <Link legacyBehavior href="/dashboard/reportes">
                       <a>{Number(processesCount)}</a>
                     </Link>
                   )}
                 </div>
               </div>
-              <Link href="/dashboard/reportes/crear">
+              <Link legacyBehavior href="/dashboard/reportes/crear">
                 <a>
                   <FiActivity
                     size={24}

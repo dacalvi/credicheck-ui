@@ -10,7 +10,7 @@ const Index: React.FC = () => {
       <ForgotPassword />
       <div className="w-full mt-2">
         <span>
-          <Link href="/login">
+          <Link legacyBehavior href="/login">
             <a className="text-blue-500">Volver al login</a>
           </Link>
         </span>
