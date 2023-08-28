@@ -51,11 +51,11 @@ const Index: React.FC = () => {
   }, [router, status]);
 
   const editProspect = async (id: number) => {
-    router.push(`/dashboard/clientes/${id}`);
+    router.push(`/dashboard/oficial/clientes/${id}`);
   };
 
   const showProcesses = async (id: number) => {
-    router.push(`/dashboard/clientes/${id}/reportes`);
+    router.push(`/dashboard/oficial/clientes/${id}/reportes`);
   };
 
   return (
@@ -67,7 +67,7 @@ const Index: React.FC = () => {
         <div>
           <button
             className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-            onClick={() => router.push("/dashboard/clientes/crear")}>
+            onClick={() => router.push("/dashboard/oficial/clientes/crear")}>
             Crear Cliente
           </button>
         </div>
@@ -84,7 +84,7 @@ const Index: React.FC = () => {
           <div className="text-gray-500 w-full text-center p-5">
             No hay Clientes todavía.
             <br></br>
-            <Link legacyBehavior href="/dashboard/clientes/crear">
+            <Link legacyBehavior href="/dashboard/oficial/clientes/crear">
               <a className="text-blue-500 hover:text-blue-700">
                 Crear Nuevo Cliente
               </a>
@@ -98,6 +98,7 @@ const Index: React.FC = () => {
             <Table.HeadCell>Empresa</Table.HeadCell>
             <Table.HeadCell>Celular</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
+            <Table.HeadCell>Extraccion</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Editar</span>
             </Table.HeadCell>
@@ -119,6 +120,14 @@ const Index: React.FC = () => {
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {prospect.email}
+                </Table.Cell>
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                  <Spinner
+                    color="info"
+                    aria-label="Extraccion en curso"
+                    className="mr-3"
+                  />
+                  Extraccion en Curso
                 </Table.Cell>
                 <Table.Cell align="right">
                   <div className="flex flex-col justify-end">

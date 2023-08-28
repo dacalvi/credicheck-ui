@@ -4,6 +4,7 @@ import {WrapMiddleware} from "./customMiddlewares/WrapMiddleware";
 import {ApiKeyMiddleware} from "./customMiddlewares/ApiKeyMiddleware";
 import {TaxStatusNode} from "./tax-status";
 import {TaxPayersNode} from "./taxpayers";
+import {ExtractionsNode} from "./extractions";
 
 export class SatwsSdk extends Service {
   public static instance: SatwsSdk | null = null;
@@ -33,5 +34,9 @@ export class SatwsSdk extends Service {
 
   public get taxPayers(): TaxPayersNode {
     return new TaxPayersNode(this.client);
+  }
+
+  public get extractions(): ExtractionsNode {
+    return new ExtractionsNode(this.client);
   }
 }

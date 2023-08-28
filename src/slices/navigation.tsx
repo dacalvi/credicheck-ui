@@ -93,19 +93,19 @@ const initialState: NavigationState[] = [
       },
       /* Agente */
       {
-        url: "/dashboard/clientes",
+        url: "/dashboard/oficial/clientes",
         icon: <FiUsers size={20} />,
         title: "Clientes",
         roleId: 3,
         items: [
           {
-            url: "/dashboard/clientes",
+            url: "/dashboard/oficial/clientes",
             title: "Ver Clientes",
             roleId: 3,
             items: [],
           },
           {
-            url: "/dashboard/clientes/crear",
+            url: "/dashboard/oficial/clientes/crear",
             title: "Crear Cliente",
             roleId: 3,
             items: [],

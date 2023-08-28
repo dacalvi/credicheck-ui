@@ -99,6 +99,7 @@ model Client {
   municipality String?   @default("")
   nationality  String?   @default("")
   country      String?   @default("")
+  extractions Extraction[]
   @@index([ownerId])
 }
 
@@ -194,3 +195,84 @@ model Chart_user {
 
   @@index([chartId])
 }
+
+model Extraction {
+  id Int @id @default(autoincrement())
+  uuid String? @unique
+  localId String? @unique @default("")
+  taxPayerId String 
+  taxPayerName String? @default("") 
+  taxPayerPersonType String? @default("") 
+  taxPayerRegistrationDate DateTime?
+  extractor String
+  optionsTypes String? @default("") 
+  optionsPeriodFrom DateTime?
+  optionsPeriodTo DateTime?
+  optionsJson String? @db.Text 
+  status String? @default("") 
+  startedAt DateTime?
+  finishedAt DateTime?
+  rateLimitedAt DateTime?
+  errorCode String? @default("") 
+  createdDataPoints Int?
+  updatedDataPoints Int?
+  createdAt DateTime?
+  updatedAt DateTime?
+  client      Client  @relation(fields: [clientId], references: [id])
+  clientId    Int
+
+  @@index([clientId])
+}
+
+model Invoice {
+  id Int @id @default(autoincrement())
+  uuid String @default("") @unique
+  version String
+  type String
+  usage String
+  paymentType String
+  paymentMethod Int
+  placeOfIssue BigInt
+  currency String
+  exchangeRate Float
+  status String
+  pac String
+  issuedAt DateTime
+  certifiedAt DateTime
+  cancellationStatus String
+  cancellationProcessStatus String
+  canceledAt DateTime
+  xml Int
+  pdf Int
+  discount Int
+  tax String
+  subtotal Float
+  total Float
+  paidAmount Float
+  dueAmount String
+  fullyPaidAt String
+  lastPaymentDate DateTime
+  issuerRfc String
+  issuerName String
+  receiverRfc String
+  receiverName String
+  isIssuer Int
+  isReceiver Int
+  internalIdentifier BigInt
+  reference String
+  creditedAmount String
+  subtotalCreditedAmount String
+  appliedTaxes String
+  totalTransferredTaxes String
+  transferredLocalTaxes String
+  transferredValueAddedTax String
+  transferredSinTax String
+  totalRetainedTaxes String
+  retainedLocalTaxes String
+  retainedValueAddedTax String
+  retainedIncomeTax String
+  retainedSinTax String
+}
+
+  
+  
