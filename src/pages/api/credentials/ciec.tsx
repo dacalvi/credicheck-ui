@@ -37,8 +37,8 @@ async function authenticateCiec(req: any, res: any) {
 
     if (response.status === 202) {
       //update the client satwsid field with the ciec id
-      const u = `${process.env.SAT_WS_URL}/taxpayers/${data.rfc}/tax-status`;
-      const r = await axios.get(u, {headers});
+      //const u = `${process.env.SAT_WS_URL}/taxpayers/${data.rfc}/tax-status`;
+      //const r = await axios.get(u, {headers});
 
       //check if data.rfc is 12 characters long
       if (data.rfc.length === 12) {

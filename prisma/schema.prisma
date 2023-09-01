@@ -67,6 +67,7 @@ model Company_characteristic {
 
 model Company_indicator {
   id          Int       @id @default(autoincrement())
+  order       Int      @default(1)
   company     Company   @relation(fields: [companyId], references: [id])
   companyId   Int
   indicator   Indicator @relation(fields: [indicatorId], references: [id])

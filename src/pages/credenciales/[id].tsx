@@ -126,6 +126,13 @@ const Credenciales: React.FC = () => {
   const [isRejected, setIsRejected] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log("isPending", isPending);
+    // eslint-disable-next-line no-console
+    console.log("isActive", isActive);
+  }, [isPending, isActive]);
+
   const loadClient = async () => {
     setLoading(true);
 
