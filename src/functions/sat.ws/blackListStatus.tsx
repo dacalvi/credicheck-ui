@@ -34,14 +34,13 @@ export const blackListStatus = async (
     ) {
       result.result = "REJECT";
       result.score = 0;
-      result.result_explanation = `El RFC ${payload.rfc} se encuentra en la lista negra del SAT
-      Cantidad de facturas emitidas: ${blackListStatus.data.issued[0].invoices}
-      Cantidad de facturas recibidas: ${blackListStatus.data.received[0].invoices}
+      result.result_explanation = `emitidas: ${blackListStatus.data.issued[0].invoices}
+      recibidas: ${blackListStatus.data.received[0].invoices}
       `;
     } else {
       result.result = "SKIP";
       result.score = 100;
-      result.result_explanation = `El RFC ${payload.rfc} no se encuentra en la lista negra del SAT`;
+      result.result_explanation = `No se encuentra`;
     }
 
     return result;

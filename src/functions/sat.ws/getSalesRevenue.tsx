@@ -35,7 +35,7 @@ export const getSalesRevenue = async (
       uuid: payload.uuid,
       result: "",
       score: 0,
-      result_explanation: `Ventas acumuladas: $${acc_salesRevenue.toFixed(2)}`,
+      result_explanation: `$${acc_salesRevenue.toFixed(2)}`,
     };
 
     if (acc_salesRevenue >= 3000000) {

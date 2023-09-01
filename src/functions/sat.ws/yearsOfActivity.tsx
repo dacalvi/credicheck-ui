@@ -30,7 +30,7 @@ export const yearsOfActivity = async (
       uuid: payload.uuid,
       result: Result.REJECT,
       score: 0,
-      result_explanation: `Resultado: Años de actividad: ${yearsOfActivity}`,
+      result_explanation: `${yearsOfActivity}`,
     };
 
     if (yearsOfActivity >= 5) {

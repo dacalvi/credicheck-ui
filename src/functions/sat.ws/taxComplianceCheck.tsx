@@ -40,15 +40,15 @@ export const taxComplianceCheck = async (
       if (complianceResult === "positive") {
         result.result = "SKIP";
         result.score = 100;
-        result.result_explanation = `El contribuyente ${payload.rfc} se encuentra al corriente en sus obligaciones fiscales (${complianceResult})`;
+        result.result_explanation = "Positivo";
       } else if (complianceResult === "no_obligations") {
         result.result = "MANUAL";
         result.score = 0;
-        result.result_explanation = `El contribuyente ${payload.rfc} no tiene obligaciones fiscales (${complianceResult})`;
+        result.result_explanation = "Sin obligaciones";
       } else if (complianceResult === "negative") {
         result.result = "REJECT";
         result.score = 0;
-        result.result_explanation = `El contribuyente ${payload.rfc} no se encuentra al corriente en sus obligaciones fiscales (${complianceResult})`;
+        result.result_explanation = "Negativo";
       }
     } else {
       return null;

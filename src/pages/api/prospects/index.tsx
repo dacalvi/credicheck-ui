@@ -114,6 +114,7 @@ async function getProspects(req: any, res: any) {
           email: true,
         },
       },
+      credentials_status: true,
     },
   });
   return prospects;

@@ -21,6 +21,7 @@ type Prospect = {
   owner: {
     id: number;
   };
+  credentials_status: string;
 };
 
 const Index: React.FC = () => {
@@ -98,7 +99,6 @@ const Index: React.FC = () => {
             <Table.HeadCell>Empresa</Table.HeadCell>
             <Table.HeadCell>Celular</Table.HeadCell>
             <Table.HeadCell>Email</Table.HeadCell>
-            <Table.HeadCell>Extraccion</Table.HeadCell>
             <Table.HeadCell>
               <span className="sr-only">Editar</span>
             </Table.HeadCell>
@@ -109,7 +109,18 @@ const Index: React.FC = () => {
                 className="bg-white dark:border-gray-700 dark:bg-gray-800 align-baseline"
                 key={index}>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  {prospect.rfc}
+                  <span
+                    className={
+                      prospect.credentials_status === "pending"
+                        ? "text-amber-200"
+                        : prospect.credentials_status === "rejected"
+                        ? "text-rose-600"
+                        : prospect.credentials_status === "active"
+                        ? "text-lime-300"
+                        : "text-gray-900"
+                    }>
+                    {prospect.rfc}
+                  </span>
                 </Table.Cell>
 
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
@@ -121,14 +132,7 @@ const Index: React.FC = () => {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   {prospect.email}
                 </Table.Cell>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  <Spinner
-                    color="info"
-                    aria-label="Extraccion en curso"
-                    className="mr-3"
-                  />
-                  Extraccion en Curso
-                </Table.Cell>
+
                 <Table.Cell align="right">
                   <div className="flex flex-col justify-end">
                     <Button

@@ -87,6 +87,7 @@ model Client {
   processes   Process[]
   rfc         String
   uuid        String    @unique
+  credentials_status String @default("pending")
   satwsid     String?   @unique
   companyName String?   @default("")
   address     String?   @default("")

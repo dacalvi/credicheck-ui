@@ -382,82 +382,53 @@ const Index: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="w-3/4">
-                      <div className="flex flex-col">
+                    <div className="w-3/4 ">
+                      <div className="flex flex-row flex-wrap">
                         {process.steps.map((step, index) => (
-                          <div className="flex flex-row" key={index}>
-                            <div className="w-1/2">
+                          <div className="flex flex-row flex-wrap" key={index}>
+                            <div className="">
                               {step.state === "PENDING" ? (
-                                <div className="flex flex-row">
-                                  <FiClock
-                                    color="gray"
-                                    size={22}
-                                    className="mt-1 mb-1 ml-1"
-                                  />{" "}
-                                  <div className="text-gray pt-1 pl-2">
-                                    {step.name}
+                                <div>
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[75px]">
+                                      {step.name}
+                                    </div>
+                                    <div className="rounded-md w-48 h-16">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : step.result === "SKIP" ? (
                                 <div>
-                                  <div className="flex flex-row">
-                                    <FiCheck
-                                      color="green"
-                                      size={22}
-                                      className="mt-1 mb-1 ml-1"
-                                    />{" "}
-                                    <div className="text-gray pt-1 pl-2">
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[75px]">
                                       {step.name}
                                     </div>
-                                  </div>
-                                  <div className="ml-10 mb-5">
-                                    <small>
-                                      <pre>{step.resultExplanation}</pre>
-                                    </small>
+                                    <div className="rounded-md w-48 h-16 bg-lime-300 text-black p-3">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : step.result === "MANUAL" ? (
                                 <div>
-                                  <div className="flex flex-row">
-                                    <FiMinus
-                                      color="yellow"
-                                      size={22}
-                                      className="mt-1 mb-1 ml-1"
-                                    />{" "}
-                                    <div className="text-gray pt-1 pl-2">
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[75px]">
                                       {step.name}
                                     </div>
-                                  </div>
-                                  <div className="flex ml-10 mb-5">
-                                    <small>
-                                      <pre>{step.resultExplanation}</pre>
-                                    </small>
-                                    <button className="ml-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
-                                      Aprobar
-                                    </button>
-                                    <button className="ml-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-blue">
-                                      Rechazar
-                                    </button>
+                                    <div className="rounded-md w-48 h-16 bg-lime-300">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : step.result === "REJECT" ? (
                                 <div>
-                                  <div className="flex flex-row">
-                                    <FiMinus
-                                      color="red"
-                                      size={22}
-                                      className="mt-1 mb-1 ml-1"
-                                    />{" "}
-                                    <div className="text-gray pt-1 pl-2">
-                                      <div className="flex flex-row">
-                                        {step.name}
-                                      </div>
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[75px]">
+                                      {step.name}
                                     </div>
-                                  </div>
-                                  <div className="ml-10 mb-5">
-                                    <small>
-                                      <pre>{step.resultExplanation}</pre>
-                                    </small>
+                                    <div className="rounded-md w-48 h-16 bg-red-400 text-black p-3">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : null}

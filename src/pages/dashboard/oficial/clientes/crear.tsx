@@ -13,6 +13,7 @@ const Index: React.FC = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [isPersonaMoral, setIsPersonaMoral] = useState(true);
+  const [rfc_valid, setRfcValid] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -20,7 +21,7 @@ const Index: React.FC = () => {
     }
   }, [router, status]);
 
-  const {control, handleSubmit} = useForm({
+  const {control, handleSubmit, getValues} = useForm({
     defaultValues: {
       email: "",
       cellPhone: "",
@@ -37,10 +38,17 @@ const Index: React.FC = () => {
       extraction_tax_compliance: true,
       extraction_tax_status: true,
       extraction_tax_retention: true,
+      validate_rfc: false,
     },
   });
 
   const onSubmit = async (data: any) => {
+    //prompt if rfc is not valid
+    if (rfc_valid === false) {
+      alert("RFC no valido");
+      return;
+    }
+
     try {
       setLoading(true);
       const fetchResponse = (await fetch(
@@ -77,6 +85,25 @@ const Index: React.FC = () => {
     }
   };
 
+  const validarRFC = async (rfc: string) => {
+    try {
+      const fetchResponse = (await fetch(
+        process.env.NEXT_PUBLIC_API_URL + "/prospects/validate_rfc/" + rfc,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )) as any;
+      const response = await fetchResponse.json();
+      return response.success;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <SectionTitle title="Clientes" subtitle="Nuevo Cliente" />
@@ -102,9 +129,14 @@ const Index: React.FC = () => {
                   <>
                     <TextInput
                       onChange={onChange} // send value to hook form
-                      onBlur={() => {
+                      readOnly={false}
+                      onBlur={async () => {
                         if (value.length === 12) {
                           setIsPersonaMoral(true);
+                          if (getValues("validate_rfc") === true) {
+                            const r = await validarRFC(value);
+                            setRfcValid(r);
+                          }
                         } else if (value.length === 13) {
                           setIsPersonaMoral(false);
                         } else {
@@ -114,8 +146,37 @@ const Index: React.FC = () => {
                       value={value} // return updated value
                       ref={ref} // set ref for focus management
                       maxLength={12}
+                      color={
+                        rfc_valid === undefined
+                          ? "gray"
+                          : rfc_valid
+                          ? "success"
+                          : "failure"
+                      }
                     />
                   </>
+                )}
+              />
+
+              <Controller
+                name="validate_rfc"
+                control={control}
+                render={({field: {onChange, value}}) => (
+                  <div className="flex items-center space-x-2 mt-3">
+                    <div className="flex items-center h-6">
+                      <input
+                        type="checkbox"
+                        checked={!!value}
+                        onChange={onChange}
+                        className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded dark:bg-gray-800 dark:border-gray-700 form-checkbox focus:ring-blue-500"
+                      />
+                    </div>
+                    <div className="text-sm space-y-1">
+                      <div className="shrink-0 block font-medium text-gray-700 whitespace-nowrap dark:text-white">
+                        Validar RFC
+                      </div>
+                    </div>
+                  </div>
                 )}
               />
             </div>

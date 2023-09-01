@@ -88,25 +88,25 @@ export const percentOfGrowYoY = async (
     if (percentOfGrowEntirePart >= 30) {
       result.result = "SKIP";
       result.score = 100;
-      result.result_explanation = `El crecimiento de las ventas del mes actual con respecto al mismo mes del año anterior es de ${percentOfGrowEntirePart}%, por lo que se considera que el contribuyente es de bajo riesgo.`;
+      result.result_explanation = `${percentOfGrowEntirePart}%`;
     }
 
     if (percentOfGrowEntirePart > 15 && percentOfGrowEntirePart < 30) {
       result.result = "SKIP";
       result.score = 50;
-      result.result_explanation = `El crecimiento de las ventas del mes actual con respecto al mismo mes del año anterior es de ${percentOfGrowEntirePart}%, por lo que se considera que el contribuyente es de mediano riesgo.`;
+      result.result_explanation = `${percentOfGrowEntirePart}%`;
     }
 
     if (percentOfGrowEntirePart >= 0 && percentOfGrowEntirePart <= 15) {
       result.result = "SKIP";
       result.score = 0;
-      result.result_explanation = `El crecimiento de las ventas del mes actual con respecto al mismo mes del año anterior es de ${percentOfGrowEntirePart}%, por lo que se considera que el contribuyente es de alto riesgo.`;
+      result.result_explanation = `${percentOfGrowEntirePart}%`;
     }
 
     if (percentOfGrowEntirePart < 0) {
       result.result = "REJECT";
       result.score = 0;
-      result.result_explanation = `El crecimiento de las ventas del mes actual con respecto al mismo mes del año anterior es de ${percentOfGrowEntirePart}%, por lo que se considera que el contribuyente es de alto riesgo.`;
+      result.result_explanation = `${percentOfGrowEntirePart}%`;
     }
 
     return result;
