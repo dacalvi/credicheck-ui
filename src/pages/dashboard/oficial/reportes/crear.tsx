@@ -14,6 +14,7 @@ const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [clients, setClients] = useState<any[]>([]);
   const [clientsLoading, setClientsLoading] = useState(false);
+  const [clientValid, setClientValid] = useState(false);
 
   const loadClients = async () => {
     setClientsLoading(true);
@@ -31,6 +32,7 @@ const Index: React.FC = () => {
           prospect.companyName +
           " - " +
           prospect.rfc,
+        credentials_status: prospect.credentials_status,
       };
     });
     setClients(clients);
@@ -54,11 +56,16 @@ const Index: React.FC = () => {
   });
 
   const checkIfCredentialsArePresent = async (clientId: string) => {
-    const client = clients.find((client) => client.key === clientId);
+    const client = clients.find((client) => client.key === Number(clientId));
     if (!client) {
       alert("El cliente todavia no tiene sus credenciales cargadas");
-      return;
+      return false;
     }
+    if (client.credentials_status === "active") {
+      setClientValid(true);
+      return true;
+    }
+    return;
   };
 
   const onSubmit = async (data: any) => {
@@ -69,7 +76,9 @@ const Index: React.FC = () => {
         return;
       }
 
-      checkIfCredentialsArePresent(data.clientId);
+      if (await !checkIfCredentialsArePresent(data.clientId)) {
+        return;
+      }
 
       setLoading(true);
       const response = await fetch(
@@ -119,6 +128,9 @@ const Index: React.FC = () => {
                       placeholder="Selecciona un cliente"
                       {...field}
                       options={clients}
+                      onChange={(e) =>
+                        checkIfCredentialsArePresent(e.target.value)
+                      }
                     />
                   )}
                 />
@@ -163,7 +175,7 @@ const Index: React.FC = () => {
               </div>
 
               <div className="mt-4">
-                <Button disabled={loading} type="submit">
+                <Button disabled={loading || !clientValid} type="submit">
                   {loading && <Spinner aria-label="Spinner button example" />}
                   <span className={loading ? "pl-3" : ""}>
                     {loading ? "Creando nuevo reporte...." : "Crear Reporte"}
