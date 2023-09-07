@@ -17,6 +17,12 @@ enum State {
   CANCELED
 }
 
+enum RequestCacheStatus {
+  CHECKING
+  CACHE
+  SERVER
+}
+
 enum Action {
   SKIP
   REJECT
@@ -34,6 +40,8 @@ model User {
   company   Company  @relation(fields: [companyId], references: [id])
   companyId Int      @default(1)
   clients   Client[]
+
+  notifications Notifications[]
 
   @@index([roleId])
   @@index([companyId])
@@ -102,6 +110,8 @@ model Client {
   nationality  String?   @default("")
   country      String?   @default("")
   extractions Extraction[]
+  cacheExpirationSatWsId DateTime? @default(now())
+  cacheExpirationMoffin DateTime? @default(now())
   @@index([ownerId])
 }
 
@@ -276,5 +286,46 @@ model Invoice {
   retainedSinTax String
 }
 
-  
-  
+model QueryCache {
+  id Int @id @default(autoincrement())
+  url String @unique
+  method String 
+  headers String @db.Text
+  content String @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  requestLog RequestLog @relation(fields: [requestLogId], references: [id])
+  requestLogId Int @unique
+  uuid String? @unique @default(uuid())
+  @@index([requestLogId])
+}
+
+model RequestLog {
+  id Int @id @default(autoincrement())
+  uuid String? @unique @default(uuid())
+  url String
+  method String
+  headers String @db.Text
+  body String @db.Text
+  stausCode Int? @default(0)
+  servedFromCache RequestCacheStatus? @default(CHECKING)
+  servedFromCacheUuid String? @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  queryCache QueryCache?
+
+}
+
+model Notifications {
+  id Int @id @default(autoincrement())
+  type String
+  title String
+  body String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+
+

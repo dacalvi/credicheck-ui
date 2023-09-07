@@ -47,7 +47,7 @@ const Index: React.FC = () => {
     }
   }, [router, status]);
 
-  const {control, handleSubmit} = useForm({
+  const {control, handleSubmit, register} = useForm({
     defaultValues: {
       name: "",
       description: "",
@@ -58,14 +58,16 @@ const Index: React.FC = () => {
   const checkIfCredentialsArePresent = async (clientId: string) => {
     const client = clients.find((client) => client.key === Number(clientId));
     if (!client) {
-      alert("El cliente todavia no tiene sus credenciales cargadas");
       return false;
     }
     if (client.credentials_status === "active") {
       setClientValid(true);
       return true;
+    } else {
+      setClientValid(false);
+      alert("El cliente todavia no tiene sus credenciales cargadas");
+      return false;
     }
-    return;
   };
 
   const onSubmit = async (data: any) => {
@@ -126,11 +128,13 @@ const Index: React.FC = () => {
                   render={({field}) => (
                     <Select
                       placeholder="Selecciona un cliente"
-                      {...field}
                       options={clients}
-                      onChange={(e) =>
-                        checkIfCredentialsArePresent(e.target.value)
-                      }
+                      {...register("clientId", {
+                        onChange: (e) => {
+                          checkIfCredentialsArePresent(e.target.value);
+                        },
+                      })}
+                      {...field}
                     />
                   )}
                 />

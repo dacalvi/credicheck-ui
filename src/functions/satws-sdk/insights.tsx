@@ -37,6 +37,7 @@ export class InsightsNode extends Service {
     console.log("query", `/insights/${rfc}/sales-revenue?${query}`);
     return this.client.process({
       url: `/insights/${rfc}/sales-revenue?${query}`,
+      method: "GET",
     });
   }
 
@@ -57,6 +58,7 @@ export class InsightsNode extends Service {
     console.log("query", `/insights/${rfc}/balance-sheet?${query}`);
     return this.client.process({
       url: `/insights/${rfc}/balance-sheet?${query}`,
+      method: "GET",
     });
   }
 
@@ -77,6 +79,7 @@ export class InsightsNode extends Service {
     console.log("query", `/insights/${rfc}/invoicing-blacklist?${query}`);
     return this.client.process({
       url: `/insights/${rfc}/invoicing-blacklist?${query}`,
+      method: "GET",
     });
   }
 
@@ -101,6 +104,7 @@ export class InsightsNode extends Service {
     console.log("query", `/insights/${rfc}/trial-balance?${query}`);
     return this.client.process({
       url: `/insights/${rfc}/trial-balance?${query}`,
+      method: "GET",
     });
   }
 
@@ -121,6 +125,7 @@ export class InsightsNode extends Service {
     console.log("query", `/insights/${rfc}/customer-concentration?${query}`);
     return this.client.process({
       url: `/insights/${rfc}/customer-concentration?${query}`,
+      method: "GET",
     });
   }
 }

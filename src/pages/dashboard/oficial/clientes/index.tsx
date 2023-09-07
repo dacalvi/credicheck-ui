@@ -51,8 +51,8 @@ const Index: React.FC = () => {
     }
   }, [router, status]);
 
-  const editProspect = async (id: number) => {
-    router.push(`/dashboard/oficial/clientes/${id}`);
+  const viewClient = async (uuid: string) => {
+    router.push(`/dashboard/oficial/clientes/edit/${uuid}`);
   };
 
   const showProcesses = async (id: number) => {
@@ -136,9 +136,9 @@ const Index: React.FC = () => {
                 <Table.Cell align="right">
                   <div className="flex flex-col justify-end">
                     <Button
-                      onClick={() => editProspect(prospect.id)}
+                      onClick={() => viewClient(prospect.uuid)}
                       className="">
-                      Editar
+                      Ver
                     </Button>
                     {prospect.satwsid === null && (
                       <>

@@ -5,6 +5,7 @@ import {
   FiBarChart2,
   FiClock,
   FiCompass,
+  FiDatabase,
   FiFileText,
   FiUsers,
 } from "react-icons/fi";
@@ -65,6 +66,32 @@ const initialState: NavigationState[] = [
           {
             url: "/dashboard/super/empresas",
             title: "Ver empresas",
+            items: [],
+            roleId: 1,
+          },
+        ],
+        roleId: 1,
+      },
+      {
+        url: "/dashboard/super/cache",
+        icon: <FiDatabase size={20} />,
+        title: "Cache",
+        items: [
+          {
+            url: "/dashboard/super/cache/entries",
+            title: "Ver cache",
+            items: [],
+            roleId: 1,
+          },
+          {
+            url: "/dashboard/super/cache/requests",
+            title: "Ver requests",
+            items: [],
+            roleId: 1,
+          },
+          {
+            url: "/dashboard/super/cache/configuracion",
+            title: "Configuracion",
             items: [],
             roleId: 1,
           },
