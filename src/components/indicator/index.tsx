@@ -24,6 +24,7 @@ const Indicator: React.FC<IndicatorProps> = ({
     } else {
       setChecked(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleChecked = () => {

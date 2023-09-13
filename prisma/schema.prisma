@@ -210,7 +210,7 @@ model Chart_user {
 
 model Extraction {
   id Int @id @default(autoincrement())
-  uuid String? @unique
+  uuid String?
   localId String? @unique @default("")
   taxPayerId String 
   taxPayerName String? @default("") 

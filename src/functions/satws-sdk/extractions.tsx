@@ -1,22 +1,21 @@
 import {Service} from "@crazyfactory/tinka";
 import {ExtractionResponseType} from "./types/ExtractionResponseType";
 import {ExtractorListType} from "./types/extractorType";
-import {ExtractorOptionsType} from "./types/extractionOptions";
 
 export class ExtractionsNode extends Service {
   public createExtraction(
     rfc: string,
     extractor: ExtractorListType[] | string,
-    options: ExtractorOptionsType
+    options: any
   ): Promise<ExtractionResponseType> {
     return this.client.process({
       url: `/extractions`,
       method: "POST",
-      body: JSON.stringify({
+      body: {
         taxpayer: `/taxpayers/${rfc}`,
         extractor: extractor,
         options: options,
-      }),
+      },
     });
   }
 }

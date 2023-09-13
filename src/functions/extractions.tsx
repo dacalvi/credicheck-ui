@@ -19,11 +19,34 @@ export const createExtraction = async (uuid: string | null) => {
   try {
     const response = await axios.get(fetchUrl, {headers});
     // eslint-disable-next-line no-console
-    console.log(response.data);
+    console.log("CREATED EXTRACTION", response.data);
     return response.data;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);
     return null;
   }
+};
+
+export const createExtractionOnSatWs = async (
+  taxPayerId: string,
+  extractor: string,
+  opt: any
+) => {
+  const options = {
+    method: "POST",
+    url: process.env.SAT_WS_URL + `/extractions`,
+    headers: {
+      "X-API-KEY": process.env.SAT_WS_API_KEY,
+      "Content-Type": "application/json",
+    },
+    data: {
+      taxpayer: `/taxpayers/${taxPayerId}`,
+      extractor: extractor,
+      options: opt,
+    },
+  };
+  const response = await axios.request(options);
+
+  return response.data;
 };

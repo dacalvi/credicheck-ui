@@ -1,7 +1,7 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {PrismaClient} from "@prisma/client";
-import {SatwsSdk} from "functions/satws-sdk";
 import {ExtractionResponseType} from "functions/satws-sdk/types/ExtractionResponseType";
+import {createExtractionOnSatWs} from "functions/extractions";
 
 const prisma = new PrismaClient();
 
@@ -28,19 +28,87 @@ export default async function handler(
       .json({message: "Extraction Not found", success: false});
   }
 
-  const sdk = SatwsSdk.getInstance(
-    `${process.env.SAT_WS_URL}`,
-    `${process.env.SAT_WS_API_KEY}`
-  );
+  if (extractionRecord.extractor === "invoice") {
+    const options = {
+      types: ["I", "E", "P", "N", "T"],
+      period: {
+        from: new Date("2019-01-01"),
+        to: new Date(),
+      },
+      issued: true,
+      received: true,
+      xml: true,
+      pdf: true,
+      complement: -1,
+    };
+    const extractionStatus: ExtractionResponseType =
+      await createExtractionOnSatWs(
+        extractionRecord.taxPayerId,
+        extractionRecord.extractor,
+        options
+      );
+    await saveExtractionStatus(uuid as string, extractionStatus);
+    return res.status(200).json({uuid, success: true});
+  }
 
-  const extractionStatus: ExtractionResponseType =
-    await sdk.extractions.createExtraction(
-      extractionRecord.taxPayerId,
-      extractionRecord.extractor,
-      {}
-    );
-  await saveExtractionStatus(uuid as string, extractionStatus);
-  return res.status(200).json({uuid, success: true});
+  if (
+    extractionRecord.extractor === "monthly_tax_return" ||
+    extractionRecord.extractor === "annual_tax_return" ||
+    extractionRecord.extractor === "electronic_accounting" ||
+    extractionRecord.extractor === "rif_tax_return"
+  ) {
+    const options = {
+      period: {
+        from: new Date("2019-01-01"),
+        to: new Date(),
+      },
+    };
+    const extractionStatus: ExtractionResponseType =
+      await createExtractionOnSatWs(
+        extractionRecord.taxPayerId,
+        extractionRecord.extractor,
+        options
+      );
+    await saveExtractionStatus(uuid as string, extractionStatus);
+    return res.status(200).json({uuid, success: true});
+  }
+
+  if (
+    extractionRecord.extractor === "tax_status" ||
+    extractionRecord.extractor === "tax_compliance"
+  ) {
+    const extractionStatus: ExtractionResponseType =
+      await createExtractionOnSatWs(
+        extractionRecord.taxPayerId,
+        extractionRecord.extractor,
+        {}
+      );
+    await saveExtractionStatus(uuid as string, extractionStatus);
+    return res.status(200).json({uuid, success: true});
+  }
+
+  if (extractionRecord.extractor === "tax_retention") {
+    const options = {
+      period: {
+        from: new Date("2019-01-01"),
+        to: new Date(),
+      },
+      issued: true,
+      received: true,
+      xml: true,
+      pdf: true,
+      complement: -1,
+    };
+    const extractionStatus: ExtractionResponseType =
+      await createExtractionOnSatWs(
+        extractionRecord.taxPayerId,
+        extractionRecord.extractor,
+        options
+      );
+    await saveExtractionStatus(uuid as string, extractionStatus);
+    return res.status(200).json({uuid, success: true});
+  }
+
   // fail: res.status(400).send();
 }
 

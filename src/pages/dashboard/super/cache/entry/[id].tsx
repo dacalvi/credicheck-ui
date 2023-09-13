@@ -31,12 +31,12 @@ const Index: React.FC = () => {
       process.env.NEXT_PUBLIC_API_URL + "/cache/entry/" + router.query.id
     );
     const data = await response.json();
-    if (data.cacheEntry.content === "") {
+    if (data.cacheEntry?.content === "") {
       setCacheEntry(undefined);
     } else {
-      setUrl(data.cacheEntry.url);
-      setMethod(data.cacheEntry.method);
-      setCacheEntry(JSON.parse(data.cacheEntry.content.toString()));
+      setUrl(data.cacheEntry?.url);
+      setMethod(data.cacheEntry?.method);
+      setCacheEntry(JSON.parse(data.cacheEntry?.content.toString()));
     }
     setLoading(false);
   };
@@ -47,6 +47,7 @@ const Index: React.FC = () => {
     } else {
       loadCacheEntry();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, status]);
 
   return (

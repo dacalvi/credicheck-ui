@@ -17,6 +17,7 @@ async function getProspect(uuid: string) {
       firstName: true,
       lastName: true,
       companyName: true,
+      credentials_status: true,
       owner: {
         select: {
           id: true,

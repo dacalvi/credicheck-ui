@@ -9,7 +9,7 @@ import {
   FiFileText,
   FiUsers,
 } from "react-icons/fi";
-import {HiOfficeBuilding} from "react-icons/hi";
+import {PiBankFill, PiWebhooksLogoBold} from "react-icons/pi";
 
 export type NavigationState = {
   title: string;
@@ -60,7 +60,7 @@ const initialState: NavigationState[] = [
       },
       {
         url: "/dashboard/empresas",
-        icon: <HiOfficeBuilding size={20} />,
+        icon: <PiBankFill size={20} />,
         title: "Empresas",
         items: [
           {
@@ -112,6 +112,20 @@ const initialState: NavigationState[] = [
           {
             url: "/dashboard/super/graficos/crear",
             title: "Crear nuevo grafico",
+            items: [],
+            roleId: 1,
+          },
+        ],
+        roleId: 1,
+      },
+      {
+        url: "/dashboard/super/webhooks",
+        icon: <PiWebhooksLogoBold size={20} />,
+        title: "Webhooks",
+        items: [
+          {
+            url: "/dashboard/super/webhooks",
+            title: "Listar Webhooks",
             items: [],
             roleId: 1,
           },

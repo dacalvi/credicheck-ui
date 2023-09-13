@@ -87,6 +87,8 @@ async function authenticateCiec(req: any, res: any) {
         // eslint-disable-next-line no-console
         console.log(profileResponse.data);
       */
+        // eslint-disable-next-line no-console
+
         await prisma.client.update({
           where: {
             uuid: req.body.uuid,

@@ -5,6 +5,7 @@ import {ApiKeyMiddleware} from "./customMiddlewares/ApiKeyMiddleware";
 import {TaxStatusNode} from "./tax-status";
 import {TaxPayersNode} from "./taxpayers";
 import {ExtractionsNode} from "./extractions";
+import {WebhooksNode} from "./webhooks";
 
 export class SatwsSdk extends Service {
   public static instance: SatwsSdk | null = null;
@@ -19,7 +20,7 @@ export class SatwsSdk extends Service {
   public static createSdk(baseUrl: string, apiKey: string): SatwsSdk {
     const client = new Client({baseUrl});
     client.addMiddleware(new WrapMiddleware());
-    client.addMiddleware(new ContentTypeMiddleware());
+    client.addMiddleware(new ContentTypeMiddleware("application/json"));
     client.addMiddleware(new ApiKeyMiddleware(apiKey));
     return new SatwsSdk(client);
   }
@@ -38,5 +39,9 @@ export class SatwsSdk extends Service {
 
   public get extractions(): ExtractionsNode {
     return new ExtractionsNode(this.client);
+  }
+
+  public get webhooks(): WebhooksNode {
+    return new WebhooksNode(this.client);
   }
 }

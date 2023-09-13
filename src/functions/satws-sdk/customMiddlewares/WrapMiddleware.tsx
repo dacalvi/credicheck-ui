@@ -4,6 +4,11 @@ import {generateUUID} from "functions/uuid";
 const prisma = new PrismaClient();
 
 const saveLog = async (options: any, status?: any) => {
+  //check if options.body is JSON and convert it to string
+  if (options.body && typeof options.body === "object") {
+    options.body = JSON.stringify(options.body);
+  }
+
   const requestLog = await prisma.requestLog.create({
     data: {
       url: (process.env.SAT_WS_URL + options.url) as string,

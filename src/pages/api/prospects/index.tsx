@@ -1,5 +1,5 @@
-import {Client, PrismaClient} from "@prisma/client";
-import {createExtraction} from "functions/extractions";
+import {PrismaClient} from "@prisma/client";
+
 import {generateUUID} from "functions/uuid";
 import {getToken} from "next-auth/jwt";
 
@@ -140,8 +140,6 @@ async function createProspect(req: any, res: any) {
       },
     });
 
-    createExtractions(newProspect, req);
-
     return res.status(200).json({
       message: "Prospect created",
       success: true,
@@ -150,35 +148,4 @@ async function createProspect(req: any, res: any) {
   } else {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
-}
-
-async function createExtractions(newProspect: Client, req: any) {
-  const extractionFields = [
-    "invoice",
-    "annual_tax_return",
-    "monthly_tax_return",
-    "electronic_accounting",
-    "rif_tax_return",
-    "tax_compliance",
-    "tax_status",
-    "tax_retention",
-  ];
-
-  extractionFields.forEach(async (field) => {
-    if (req.body["extraction_" + field] === true) {
-      const newExtraction = await prisma.extraction.create({
-        data: {
-          taxPayerId: req.body.rfc,
-          localId: generateUUID(),
-          client: {
-            connect: {
-              id: newProspect.id,
-            },
-          },
-          extractor: field,
-        },
-      });
-      createExtraction(newExtraction.localId);
-    }
-  });
 }

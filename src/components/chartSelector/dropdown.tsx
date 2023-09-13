@@ -1,5 +1,5 @@
 import AccountLinks from "components/navbar-1/account-links";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import clsx from "clsx";
 import {Menu, Transition} from "@headlessui/react";
 import {Fragment} from "react";
