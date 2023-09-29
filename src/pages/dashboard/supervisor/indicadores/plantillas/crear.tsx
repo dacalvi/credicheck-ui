@@ -75,7 +75,7 @@ const ResizableSliderSegmentEditor: React.FC<
 
   useEffect(() => {
     onChange(index, status, score);
-  }, [status, score]);
+  }, [status, score, onChange, index]);
 
   return (
     <div>
@@ -201,7 +201,7 @@ const YearsOfActivityParameters: React.FC<YearsOfActivityParametersProps> = ({
 
   useEffect(() => {
     onChange(segments, segmentsStatus, scores);
-  }, [segments, segmentsStatus, scores]);
+  }, [segments, segmentsStatus, scores, onChange]);
 
   const addSegment = () => {
     //add a segment to the segments, the added segment should be the last segment plus 1
@@ -248,6 +248,11 @@ const YearsOfActivityParameters: React.FC<YearsOfActivityParametersProps> = ({
               onChange={(index: any, status: any, score: any) => {
                 const newSegmentsStatus = [...segmentsStatus];
                 newSegmentsStatus[index] = status;
+
+                const newScores = [...scores];
+                newScores[index] = score;
+
+                setScores(newScores);
                 setSegmentsStatus(newSegmentsStatus);
               }}
               segments={segments}
@@ -264,6 +269,10 @@ const YearsOfActivityParameters: React.FC<YearsOfActivityParametersProps> = ({
             const newSegmentsStatus = [...segmentsStatus];
             newSegmentsStatus[index] = status;
             setSegmentsStatus(newSegmentsStatus);
+
+            const newScores = [...scores];
+            newScores[index] = score;
+            setScores(newScores);
           }}
           segments={segments}
         />
@@ -465,7 +474,7 @@ const Index: React.FC = () => {
                         <Accordion.Content>
                           {(() => {
                             switch (indicator.id) {
-                              case 4:
+                              case 1:
                                 return (
                                   /* TODO: Traer desde base de datos o configuracion valores por defecto */
                                   <YearsOfActivityParameters

@@ -13,7 +13,7 @@ export default async function handler(req: any, res: any) {
     const indicators = await getIndicators(req, res);
     return res.status(200).json({indicators, success: true});
   } else if (req.method === "POST") {
-    return await updateIndicators(req, res);
+    return await updateIndicators(req);
   } else {
     return res
       .status(405)
@@ -21,9 +21,11 @@ export default async function handler(req: any, res: any) {
   }
 }
 
-async function updateIndicators(req: any, res: any) {
+async function updateIndicators(req: any) {
   const data = req.body;
-
+  // eslint-disable-next-line no-console
+  console.log(data);
+  /*
   const token = await getToken({req});
   if (!token) {
     return res.status(401).json({message: "Unauthorized", success: false});
@@ -86,6 +88,7 @@ async function updateIndicators(req: any, res: any) {
   }
 
   return res.status(200).json({message: "Indicators Updated", success: true});
+  */
 }
 
 async function getIndicators(req: any, res: any) {
@@ -116,18 +119,8 @@ async function getIndicators(req: any, res: any) {
   });
 
   if (user?.role.name === "supervisor") {
-    //get the indicators for the companyId using the company_indicator relation table
-    const myIndicators = await prisma.indicatorTemplate_indicator.findMany({
-      select: {
-        indicatorId: true,
-      },
-      where: {
-        companyId: Number(user.company.id),
-      },
-    });
-
     //get all the indicators
-    const indicators = await prisma.indicator.findMany({
+    const indicators = await prisma.example_Indicator.findMany({
       select: {
         id: true,
         name: true,
@@ -141,22 +134,7 @@ async function getIndicators(req: any, res: any) {
       },
     });
 
-    const resultArray = [];
-    //merge the indicators with the company indicators into resultArray
-    for (const indicator of indicators) {
-      const found = myIndicators.find(
-        (myIndicator) => myIndicator.indicatorId === indicator.id
-      );
-      if (found) {
-        const newitem = {...indicator, checked: true};
-        resultArray.push(newitem);
-      } else {
-        const newitem = {...indicator, checked: false};
-        resultArray.push(newitem);
-      }
-    }
-
-    return {indicators: resultArray};
+    return {indicators: indicators};
   } else {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
