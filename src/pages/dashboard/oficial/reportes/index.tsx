@@ -10,8 +10,6 @@ import {FiClock, FiCheck, FiMinus, FiTrash} from "react-icons/fi";
 import {getColor} from "functions/colors";
 
 import {Tooltip, PieChart, Pie, Cell, ResponsiveContainer} from "recharts";
-import Line1 from "components/charts/line-1";
-import Area1 from "components/charts/area-1";
 
 type Step = {
   id: number;
@@ -180,31 +178,7 @@ const Index: React.FC = () => {
 
         <div></div>
       </div>
-      <div className="flex mb-20">
-        <div className="mr-10">
-          <Widget
-            description={<span>Monto facturado por mes vs. Empleados</span>}>
-            <div className="w-72">
-              <Line1 />
-            </div>
-          </Widget>
-        </div>
-        <div className="mr-10">
-          <Widget description={<span>Empleados Vs. Creditos Financieros</span>}>
-            <div className="w-72">
-              <Line1 />
-            </div>
-          </Widget>
-        </div>
-        <div className="mr-10">
-          <Widget
-            description={<span>Creditos Financieros Vs. Monto Facturado</span>}>
-            <div className="w-72">
-              <Area1 />
-            </div>
-          </Widget>
-        </div>
-      </div>
+
       <div className="flex justify-between mb-8">
         <div>
           <SectionTitle title="Reportes" subtitle="Listar Reportes" />
@@ -290,38 +264,6 @@ const Index: React.FC = () => {
                   </span>
                 </Accordion.Title>
                 <Accordion.Content>
-                  <div className="flex mb-20">
-                    <div className="mr-10">
-                      <Widget
-                        description={
-                          <span>Monto facturado por mes vs. Empleados</span>
-                        }>
-                        <div className="w-72">
-                          <Line1 />
-                        </div>
-                      </Widget>
-                    </div>
-                    <div className="mr-10">
-                      <Widget
-                        description={
-                          <span>Empleados Vs. Creditos Financieros</span>
-                        }>
-                        <div className="w-72">
-                          <Line1 />
-                        </div>
-                      </Widget>
-                    </div>
-                    <div className="mr-10">
-                      <Widget
-                        description={
-                          <span>Creditos Financieros Vs. Monto Facturado</span>
-                        }>
-                        <div className="w-72">
-                          <Line1 />
-                        </div>
-                      </Widget>
-                    </div>
-                  </div>
                   <div className="flex flex-row w-full">
                     <div className="w-28">
                       <div style={{width: 80}}>
@@ -401,10 +343,10 @@ const Index: React.FC = () => {
                               ) : step.result === "SKIP" ? (
                                 <div>
                                   <div className="mx-2 mb-10">
-                                    <div className="max-w-[200px] min-h-[75px]">
+                                    <div className="max-w-[200px] min-h-[30px]">
                                       {step.name}
                                     </div>
-                                    <div className="rounded-md w-48 h-16 bg-lime-300 text-black p-3">
+                                    <div className="rounded-md w-48 h-16 bg-green-300 text-black p-3">
                                       {step.resultExplanation}
                                     </div>
                                   </div>

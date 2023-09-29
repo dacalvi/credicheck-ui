@@ -31,18 +31,14 @@ async function createProcess(req: any, res: any) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
-  //get the indicators for the companyId using the company_indicator relation table
-  const indicators = await prisma.company_indicator.findMany({
+  //get the indicators based on the template selected by the user
+  const indicators = await prisma.indicator.findMany({
     select: {
-      indicator: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+      id: true,
+      name: true,
     },
     where: {
-      companyId: Number(token.companyId),
+      templateId: Number(data.indicatorTemplate),
     },
   });
 
@@ -56,10 +52,10 @@ async function createProcess(req: any, res: any) {
 
   const steps = indicators.map((indicator, index) => {
     return {
-      name: indicator.indicator.name,
-      description: "Reporte para " + indicator.indicator.name,
+      name: indicator.name,
+      description: "Reporte para " + indicator.name,
       processId: newProcess.id,
-      indicatorId: indicator.indicator.id,
+      indicatorId: indicator.id,
       order: index,
       uuid: generateUUID(),
     };

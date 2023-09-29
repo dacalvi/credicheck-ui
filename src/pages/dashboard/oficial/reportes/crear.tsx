@@ -15,6 +15,7 @@ const Index: React.FC = () => {
   const [clients, setClients] = useState<any[]>([]);
   const [clientsLoading, setClientsLoading] = useState(false);
   const [clientValid, setClientValid] = useState(false);
+  const [indicatorTemplates, setIndicatorTemplates] = useState<any[]>([]);
 
   const loadClients = async () => {
     setClientsLoading(true);
@@ -39,11 +40,28 @@ const Index: React.FC = () => {
     setClientsLoading(false);
   };
 
+  const loadIndicatorTemplates = async () => {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_API_URL + "/indicator_templates"
+    );
+    const data = await response.json();
+    const indicatorTemplates = data.indicatorTemplates.map(
+      (indicatorTemplate: any) => {
+        return {
+          key: indicatorTemplate.id,
+          value: indicatorTemplate.name,
+        };
+      }
+    );
+    setIndicatorTemplates(indicatorTemplates);
+  };
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/auth/signin");
     } else {
       loadClients();
+      loadIndicatorTemplates();
     }
   }, [router, status]);
 
@@ -52,6 +70,7 @@ const Index: React.FC = () => {
       name: "",
       description: "",
       clientId: "",
+      indicatorTemplate: "",
     },
   });
 
@@ -60,7 +79,7 @@ const Index: React.FC = () => {
     if (!client) {
       return false;
     }
-    if (client.credentials_status === "active") {
+    if (client.credentials_status === "valid") {
       setClientValid(true);
       return true;
     } else {
@@ -130,6 +149,31 @@ const Index: React.FC = () => {
                       placeholder="Selecciona un cliente"
                       options={clients}
                       {...register("clientId", {
+                        onChange: (e) => {
+                          checkIfCredentialsArePresent(e.target.value);
+                        },
+                      })}
+                      {...field}
+                    />
+                  )}
+                />
+              </div>
+
+              <div>
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="indicatorTemplate"
+                    value="Plantilla de Reporte"
+                  />
+                </div>
+                <Controller
+                  name="indicatorTemplate"
+                  control={control}
+                  render={({field}) => (
+                    <Select
+                      placeholder="Selecciona una plantilla"
+                      options={indicatorTemplates}
+                      {...register("indicatorTemplate", {
                         onChange: (e) => {
                           checkIfCredentialsArePresent(e.target.value);
                         },

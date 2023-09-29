@@ -117,7 +117,7 @@ async function getIndicators(req: any, res: any) {
 
   if (user?.role.name === "supervisor") {
     //get the indicators for the companyId using the company_indicator relation table
-    const myIndicators = await prisma.company_indicator.findMany({
+    const myIndicators = await prisma.indicatorTemplate_indicator.findMany({
       select: {
         indicatorId: true,
       },

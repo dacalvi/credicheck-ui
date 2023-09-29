@@ -129,6 +129,7 @@ async function createProspect(req: any, res: any) {
         cellPhone: req.body.cellPhone,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
+        createReportId: Number(req.body.indicatorTemplate),
         rfc: req.body.rfc,
         uuid: generateUUID(),
         companyName: req.body.companyName,

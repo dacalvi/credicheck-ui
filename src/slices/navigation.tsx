@@ -134,20 +134,20 @@ const initialState: NavigationState[] = [
       },
       /* Agente */
       {
-        url: "/dashboard/oficial/clientes",
+        url: "/dashboard/oficial/pymes",
         icon: <FiUsers size={20} />,
-        title: "Clientes",
+        title: "Pymes",
         roleId: 3,
         items: [
           {
-            url: "/dashboard/oficial/clientes",
-            title: "Ver Clientes",
+            url: "/dashboard/oficial/pymes",
+            title: "Ver Pymes",
             roleId: 3,
             items: [],
           },
           {
-            url: "/dashboard/oficial/clientes/crear",
-            title: "Crear Cliente",
+            url: "/dashboard/oficial/pymes/crear",
+            title: "Crear Pyme",
             roleId: 3,
             items: [],
           },
@@ -228,7 +228,20 @@ const initialState: NavigationState[] = [
         url: "/dashboard/supervisor/indicadores",
         icon: <FiActivity size={20} />,
         title: "Indicadores",
-        items: [],
+        items: [
+          {
+            url: "/dashboard/supervisor/indicadores",
+            title: "Ver Indicadores",
+            roleId: 2,
+            items: [],
+          },
+          {
+            url: "/dashboard/supervisor/indicadores/plantillas",
+            title: "Plantillas",
+            roleId: 2,
+            items: [],
+          },
+        ],
         roleId: 2,
       },
       {

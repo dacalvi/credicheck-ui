@@ -95,7 +95,7 @@ async function authenticateCiec(req: any, res: any) {
           },
           data: {
             satwsid: response.data.id,
-            credentials_status: "active",
+            credentials_status: response.data.status,
           },
         });
       }

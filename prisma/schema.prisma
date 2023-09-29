@@ -54,11 +54,11 @@ model Role {
 }
 
 model Company {
-  id                      Int                      @id @default(autoincrement())
-  name                    String                   @unique
+  id                      Int                           @id @default(autoincrement())
+  name                    String                        @unique
   users                   User[]
   company_characteristics Company_characteristic[]
-  company_indicators      Company_indicator[]
+  templates     IndicatorTemplate[]
   Chart_company           Chart_company[]
 }
 
@@ -73,45 +73,35 @@ model Company_characteristic {
   @@index([companyId])
 }
 
-model Company_indicator {
-  id          Int       @id @default(autoincrement())
-  order       Int      @default(1)
-  company     Company   @relation(fields: [companyId], references: [id])
-  companyId   Int
-  indicator   Indicator @relation(fields: [indicatorId], references: [id])
-  indicatorId Int
-
-  @@index([companyId])
-  @@index([indicatorId])
-}
-
 model Client {
-  id          Int       @id @default(autoincrement())
-  firstName   String?   @default("")
-  lastName    String?   @default("")
-  cellPhone   String
-  email       String
-  owner       User      @relation(fields: [ownerId], references: [id])
-  ownerId     Int
-  processes   Process[]
-  rfc         String
-  uuid        String    @unique
-  credentials_status String @default("pending")
-  satwsid     String?   @unique
-  companyName String?   @default("")
-  address     String?   @default("")
-  city        String?   @default("")
-  state       String?   @default("")
-  zipCode     String?   @default("")
-  exteriorNumber String? @default("")
-  interiorNumber String? @default("")
-  neighborhood String?   @default("")
-  municipality String?   @default("")
-  nationality  String?   @default("")
-  country      String?   @default("")
-  extractions Extraction[]
-  cacheExpirationSatWsId DateTime? @default(now())
-  cacheExpirationMoffin DateTime? @default(now())
+  id                     Int          @id @default(autoincrement())
+  firstName              String?      @default("")
+  lastName               String?      @default("")
+  cellPhone              String
+  email                  String
+  owner                  User         @relation(fields: [ownerId], references: [id])
+  ownerId                Int
+  processes              Process[]
+  rfc                    String
+  uuid                   String       @unique
+  credentials_status     String       @default("pending")
+  createReportId           Int      @default(0)
+  satwsid                String?      @unique
+  companyName            String?      @default("")
+  address                String?      @default("")
+  city                   String?      @default("")
+  state                  String?      @default("")
+  zipCode                String?      @default("")
+  exteriorNumber         String?      @default("")
+  interiorNumber         String?      @default("")
+  neighborhood           String?      @default("")
+  municipality           String?      @default("")
+  nationality            String?      @default("")
+  country                String?      @default("")
+  extractions            Extraction[]
+  cacheExpirationSatWsId DateTime?    @default(now())
+  cacheExpirationMoffin  DateTime?    @default(now())
+
   @@index([ownerId])
 }
 
@@ -123,15 +113,16 @@ model Source {
 }
 
 model Indicator {
-  id                  Int                 @id @default(autoincrement())
-  name                String              @unique
+  id                  Int                           @id @default(autoincrement())
+  name                String                        @unique
   order               Int
-  source              Source              @relation(fields: [sourceId], references: [id])
+  source              Source                        @relation(fields: [sourceId], references: [id])
   sourceId            Int
   associated_function String
   characteristics     Characteristic[]
   steps               Step[]
-  company_indicators  Company_indicator[]
+  template           IndicatorTemplate             @relation(fields: [templateId], references: [id])
+  templateId         Int                         @default(1)
 
   @@index([sourceId])
 }
@@ -209,123 +200,128 @@ model Chart_user {
 }
 
 model Extraction {
-  id Int @id @default(autoincrement())
-  uuid String?
-  localId String? @unique @default("")
-  taxPayerId String 
-  taxPayerName String? @default("") 
-  taxPayerPersonType String? @default("") 
+  id                       Int       @id @default(autoincrement())
+  uuid                     String?  @unique
+  localId                  String?   @unique @default("")
+  taxPayerId               String
+  taxPayerName             String?   @default("")
+  taxPayerPersonType       String?   @default("")
   taxPayerRegistrationDate DateTime?
-  extractor String
-  optionsTypes String? @default("") 
-  optionsPeriodFrom DateTime?
-  optionsPeriodTo DateTime?
-  optionsJson String? @db.Text 
-  status String? @default("") 
-  startedAt DateTime?
-  finishedAt DateTime?
-  rateLimitedAt DateTime?
-  errorCode String? @default("") 
-  createdDataPoints Int?
-  updatedDataPoints Int?
-  createdAt DateTime?
-  updatedAt DateTime?
-  client      Client  @relation(fields: [clientId], references: [id])
-  clientId    Int
+  extractor                String
+  optionsTypes             String?   @default("")
+  optionsPeriodFrom        DateTime?
+  optionsPeriodTo          DateTime?
+  optionsJson              String?   @db.Text
+  status                   String?   @default("")
+  startedAt                DateTime?
+  finishedAt               DateTime?
+  rateLimitedAt            DateTime?
+  errorCode                String?   @default("")
+  createdDataPoints        Int?
+  updatedDataPoints        Int?
+  createdAt                DateTime?
+  updatedAt                DateTime?
+  client                   Client    @relation(fields: [clientId], references: [id])
+  clientId                 Int
 
   @@index([clientId])
 }
 
 model Invoice {
-  id Int @id @default(autoincrement())
-  uuid String @default("") @unique
-  version String
-  type String
-  usage String
-  paymentType String
-  paymentMethod Int
-  placeOfIssue BigInt
-  currency String
-  exchangeRate Float
-  status String
-  pac String
-  issuedAt DateTime
-  certifiedAt DateTime
-  cancellationStatus String
+  id                        Int      @id @default(autoincrement())
+  uuid                      String   @unique @default("")
+  version                   String
+  type                      String
+  usage                     String
+  paymentType               String
+  paymentMethod             Int
+  placeOfIssue              BigInt
+  currency                  String
+  exchangeRate              Float
+  status                    String
+  pac                       String
+  issuedAt                  DateTime
+  certifiedAt               DateTime
+  cancellationStatus        String
   cancellationProcessStatus String
-  canceledAt DateTime
-  xml Int
-  pdf Int
-  discount Int
-  tax String
-  subtotal Float
-  total Float
-  paidAmount Float
-  dueAmount String
-  fullyPaidAt String
-  lastPaymentDate DateTime
-  issuerRfc String
-  issuerName String
-  receiverRfc String
-  receiverName String
-  isIssuer Int
-  isReceiver Int
-  internalIdentifier BigInt
-  reference String
-  creditedAmount String
-  subtotalCreditedAmount String
-  appliedTaxes String
-  totalTransferredTaxes String
-  transferredLocalTaxes String
-  transferredValueAddedTax String
-  transferredSinTax String
-  totalRetainedTaxes String
-  retainedLocalTaxes String
-  retainedValueAddedTax String
-  retainedIncomeTax String
-  retainedSinTax String
+  canceledAt                DateTime
+  xml                       Int
+  pdf                       Int
+  discount                  Int
+  tax                       String
+  subtotal                  Float
+  total                     Float
+  paidAmount                Float
+  dueAmount                 String
+  fullyPaidAt               String
+  lastPaymentDate           DateTime
+  issuerRfc                 String
+  issuerName                String
+  receiverRfc               String
+  receiverName              String
+  isIssuer                  Int
+  isReceiver                Int
+  internalIdentifier        BigInt
+  reference                 String
+  creditedAmount            String
+  subtotalCreditedAmount    String
+  appliedTaxes              String
+  totalTransferredTaxes     String
+  transferredLocalTaxes     String
+  transferredValueAddedTax  String
+  transferredSinTax         String
+  totalRetainedTaxes        String
+  retainedLocalTaxes        String
+  retainedValueAddedTax     String
+  retainedIncomeTax         String
+  retainedSinTax            String
 }
 
 model QueryCache {
-  id Int @id @default(autoincrement())
-  url String @unique
-  method String 
-  headers String @db.Text
-  content String @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  requestLog RequestLog @relation(fields: [requestLogId], references: [id])
-  requestLogId Int @unique
-  uuid String? @unique @default(uuid())
+  id           Int        @id @default(autoincrement())
+  url          String     @unique
+  method       String
+  headers      String     @db.Text
+  content      String     @db.Text
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now())
+  requestLog   RequestLog @relation(fields: [requestLogId], references: [id])
+  requestLogId Int        @unique
+  uuid         String?    @unique @default(uuid())
+
   @@index([requestLogId])
 }
 
 model RequestLog {
-  id Int @id @default(autoincrement())
-  uuid String? @unique @default(uuid())
-  url String
-  method String
-  headers String @db.Text
-  body String @db.Text
-  stausCode Int? @default(0)
-  servedFromCache RequestCacheStatus? @default(CHECKING)
-  servedFromCacheUuid String? @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  queryCache QueryCache?
-
+  id                  Int                 @id @default(autoincrement())
+  uuid                String?             @unique @default(uuid())
+  url                 String
+  method              String
+  headers             String              @db.Text
+  body                String              @db.Text
+  stausCode           Int?                @default(0)
+  servedFromCache     RequestCacheStatus? @default(CHECKING)
+  servedFromCacheUuid String?             @default("")
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @default(now())
+  queryCache          QueryCache?
 }
 
 model Notifications {
-  id Int @id @default(autoincrement())
-  type String
-  title String
-  body String
+  id        Int      @id @default(autoincrement())
+  type      String
+  title     String
+  body      String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  userId Int
-  user User @relation(fields: [userId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }
 
-
-
+model IndicatorTemplate {
+  id                 Int                           @id @default(autoincrement())
+  name               String
+  indicators          Indicator[]
+  company            Company                        @relation(fields: [companyId], references: [id])
+  companyId          Int
+}
