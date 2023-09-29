@@ -1,6 +1,5 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {PrismaClient} from "@prisma/client";
-import {get} from "react-hook-form";
 //import {ExtractionResponseType} from "functions/satws-sdk/types/ExtractionResponseType";
 //import {createExtractionOnSatWs} from "functions/extractions";
 

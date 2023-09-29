@@ -37,10 +37,6 @@ export const IndicatorMultiRangeParameters: React.FC<ResizableSliderProps> = ({
   const [value, setValue] = useState(rangesValues);
 
   useEffect(() => {
-    console.log("rangeStates", rangeStates);
-  }, [rangeStates]);
-
-  useEffect(() => {
     setValue(rangesValues);
   }, [rangesValues]);
 

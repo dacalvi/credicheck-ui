@@ -25,29 +25,33 @@ export const yearsOfActivity = async (
         new Date(taxStatus["hydra:member"][0].startedOperationsAt).getFullYear()
       : 0;
 
-    const result = {
-      processId: payload.processId,
-      uuid: payload.uuid,
-      result: Result.REJECT,
-      score: 0,
-      result_explanation: `${yearsOfActivity}`,
+    const config = {
+      segments: [5],
+      segmentResults: [Result.REJECT, Result.SKIP],
+      resultScores: [0, 100],
     };
 
-    if (yearsOfActivity >= 5) {
-      result.result = Result.SKIP;
-      result.score = 100;
-    } else if (yearsOfActivity >= 2 && yearsOfActivity < 5) {
-      result.result = Result.SKIP;
-      result.score = 50;
-    } else if (yearsOfActivity >= 1 && yearsOfActivity < 2) {
-      result.result = Result.SKIP;
-      result.score = 25;
-    } else if (yearsOfActivity < 1) {
-      result.result = Result.MANUAL;
-      result.score = 0;
-    }
+    const index = config.segments.findIndex(
+      (element) => yearsOfActivity >= element
+    );
 
-    return result;
+    if (index !== -1) {
+      return {
+        processId: payload.processId,
+        uuid: payload.uuid,
+        result: config.segmentResults[index + 1],
+        score: 100,
+        result_explanation: `${yearsOfActivity}`,
+      };
+    } else {
+      return {
+        processId: payload.processId,
+        uuid: payload.uuid,
+        result: Result.REJECT,
+        score: 0,
+        result_explanation: `${yearsOfActivity}`,
+      };
+    }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);

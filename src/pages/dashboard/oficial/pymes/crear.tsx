@@ -321,8 +321,8 @@ const Index: React.FC = () => {
                         placeholder="Selecciona un cliente"
                         options={indicatorTemplates}
                         {...register("indicatorTemplate", {
-                          onChange: (e) => {
-                            console.log(e.target.value);
+                          onChange: () => {
+                            //console.log(e.target.value);
                           },
                         })}
                         {...field}
