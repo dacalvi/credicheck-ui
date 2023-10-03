@@ -58,8 +58,6 @@ export const yearsOfActivity = async (
 
     //TODO: need to make sure of this if is > or >=
 
-    console.log(yearsOfActivity, config.segments);
-
     const index = config.segments.findIndex(
       (element) => yearsOfActivity > element
     );

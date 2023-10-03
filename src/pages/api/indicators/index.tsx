@@ -55,7 +55,7 @@ async function updateIndicators(req: any, res: any) {
   const companyId = Number(user?.company.id);
 
   //update the template
-  const template = await prisma.indicatorTemplate.update({
+  await prisma.indicatorTemplate.update({
     where: {
       id: Number(data.id),
     },
