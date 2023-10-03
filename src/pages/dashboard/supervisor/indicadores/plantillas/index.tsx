@@ -22,8 +22,6 @@ const Index: React.FC = () => {
       process.env.NEXT_PUBLIC_API_URL + "/templates"
     );
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
     setTemplates(data.templates);
     setLoading(false);
   };
@@ -37,7 +35,7 @@ const Index: React.FC = () => {
   }, [router, status]);
 
   const editTemplate = async (id: number) => {
-    router.push(`/dashboard/supervisor/indicadores/editar/${id}`);
+    router.push(`/dashboard/supervisor/indicadores/plantillas/edit/${id}`);
   };
 
   return (

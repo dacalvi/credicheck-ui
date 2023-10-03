@@ -25,6 +25,7 @@ export const yearsOfActivity = async (
         new Date(taxStatus["hydra:member"][0].startedOperationsAt).getFullYear()
       : 0;
 
+    /* TODO: Get this value from the database */
     const config = {
       segments: [5],
       segmentResults: [Result.REJECT, Result.SKIP],

@@ -6,315 +6,35 @@ import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {Controller, FormProvider, useForm} from "react-hook-form";
 import Indicator from "components/indicator";
-import {IndicatorMultiRangeParameters} from "components/slider";
 import {ErrorMessage} from "components/forms/error-message";
-import {FiTrash2} from "react-icons/fi";
-import {Result} from "constants/values";
+import {YearsOfActivityParameters} from "components/indicators/YearsOfActivityParameters";
+
 type CheckedIndicator = {
   id: number;
   name: string;
   order: number;
-
   source: {
-    id: number;
     name: string;
   };
+  sourceId: number;
   checked: boolean;
+  associated_function: string;
+  defaultConfig?: any;
 };
 
 type IndicatorParameters = {
   id: number;
   name: string;
+  order: number;
+  source: any;
+  sourceId: number;
+  associated_function: string;
+  defaultConfig: any;
+  config?: any;
 };
 
 export type FormProps = {
   name: string;
-};
-
-interface YearsOfActivityParametersProps {
-  onChange: (
-    segments: number[],
-    segmentsStatus: Result[],
-    scores: number[]
-  ) => any;
-  rangesValues: number[];
-  rangesStatus: Result[];
-  rangesScores?: number[];
-  defaultStatus?: Result;
-  defaultScore?: number;
-}
-
-interface ResizableSliderSegmentEditorProps {
-  index: number;
-  onDelete?: any;
-  onChange?: any;
-  initialStatus?: Result;
-  initialScore?: number;
-  segments: number[];
-  canDelete?: boolean;
-}
-
-const ResizableSliderSegmentEditor: React.FC<
-  ResizableSliderSegmentEditorProps
-> = ({
-  index,
-  onDelete,
-  onChange,
-  initialStatus,
-  initialScore,
-  segments,
-  canDelete = true,
-}) => {
-  //crete a state called status with type Result
-  const [status, setStatus] = useState<Result>(initialStatus || Result.REJECT);
-  const [score, setScore] = useState<number>(initialScore || 0);
-
-  const handleDelete = () => {
-    onDelete(index);
-  };
-
-  useEffect(() => {
-    onChange(index, status, score);
-  }, [status, score, onChange, index]);
-
-  return (
-    <div>
-      <div className="flex flex-row">
-        {status === Result.REJECT && (
-          <div className="h-24 w-1 mr-5 mt-3 bg-[#f00]"></div>
-        )}
-        {status === Result.MANUAL && (
-          <div className="h-24 w-1 mr-5 mt-3 bg-[#fbff43]"></div>
-        )}
-        {status === Result.SKIP && (
-          <div className="h-24 w-1 mr-5 mt-3 bg-[#0f0]"></div>
-        )}
-        <div className="flex flex-col">
-          <div className="flex flex-row mt-2">
-            <div className="flex flex-col mr-5">
-              <Label htmlFor="test" value="Resultado" />
-              <Button.Group id="3">
-                <Button
-                  size="xs"
-                  color="red"
-                  onClick={() => {
-                    setStatus(Result.REJECT);
-                  }}>
-                  Rechazo
-                </Button>
-                <Button
-                  size="xs"
-                  color="yellow"
-                  onClick={() => setStatus(Result.MANUAL)}>
-                  Manual
-                </Button>
-                <Button
-                  size="xs"
-                  color="green"
-                  onClick={() => setStatus(Result.SKIP)}>
-                  Aprobar
-                </Button>
-              </Button.Group>
-            </div>
-
-            <div className="flex flex-col mr-5">
-              <Label htmlFor="test" value="Score" />
-              <TextInput
-                name="test"
-                type="text"
-                sizing="sm"
-                value={score}
-                onChange={(e) => {
-                  setScore(Number(e.target.value));
-                  onChange();
-                }}
-              />
-            </div>
-            {canDelete && (
-              <div>
-                <FiTrash2
-                  size={20}
-                  className="mt-6 cursor-pointer"
-                  onClick={() => {
-                    handleDelete();
-                  }}
-                />
-              </div>
-            )}
-          </div>
-          <div className="mt-1 text-xs">
-            {index < 1
-              ? `Si la cantidad de años de actividad es menor a ${
-                  segments[0]
-                } el resultado va a ser ${
-                  status === Result.REJECT
-                    ? "Rechazo"
-                    : status === Result.MANUAL
-                    ? "Manual"
-                    : "Aprobado"
-                } con un score de ${score}`
-              : ""}
-
-            {index > 0 && index < segments.length
-              ? `Si la cantidad de años de actividad es mayor a ${
-                  segments[index - 1]
-                } y menor a ${segments[index]}, el resultado sera de ${
-                  status === Result.REJECT
-                    ? "Rechazo"
-                    : status === Result.MANUAL
-                    ? "Manual"
-                    : "Aprobado"
-                } con un score de ${score}`
-              : ""}
-
-            {index === segments.length
-              ? `Si la cantidad de años de actividad es mayor a ${
-                  segments[index - 1]
-                }, el resultado sera de ${
-                  status === Result.REJECT
-                    ? "Rechazo"
-                    : status === Result.MANUAL
-                    ? "Manual"
-                    : "Aprobado"
-                } con un score de ${score}`
-              : ""}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const YearsOfActivityParameters: React.FC<YearsOfActivityParametersProps> = ({
-  rangesValues,
-  rangesStatus,
-  onChange,
-}) => {
-  /*TODO: Sacar este useeffect */
-  useEffect(() => {
-    //console.log("rangesStatus", rangesStatus);
-  }, [rangesStatus]);
-
-  const [segments, setSegments] = useState<number[]>(rangesValues);
-  const [segmentsStatus, setSegmentsStatus] = useState<Result[]>(rangesStatus);
-  const [scores, setScores] = useState<number[]>([]);
-
-  useEffect(() => {
-    onChange(segments, segmentsStatus, scores);
-  }, [segments, segmentsStatus, scores, onChange]);
-
-  const addSegment = () => {
-    //add a segment to the segments, the added segment should be the last segment plus 1
-    const lastSegment = segments[segments.length - 1];
-    setSegments([...segments, lastSegment + 1]);
-    setSegmentsStatus([...segmentsStatus, Result.REJECT]);
-  };
-
-  const deleteSegment = (index: number) => {
-    if (segments.length > 1) {
-      //remove the element from the segments array at the index position
-      setSegments(segments.filter((_, i) => i !== index));
-      setSegmentsStatus(segmentsStatus.filter((_, i) => i !== index));
-    } else {
-      alert("No se puede eliminar el ultimo segmento");
-    }
-  };
-
-  return (
-    <div>
-      <IndicatorMultiRangeParameters
-        min={0}
-        max={40}
-        rangesValues={segments}
-        rangeStates={segmentsStatus}
-        onChange={(newsegments) => {
-          if (typeof newsegments === "number") {
-            newsegments = [newsegments];
-          }
-          setSegments(newsegments);
-          onChange(newsegments, segmentsStatus, scores);
-        }}
-      />
-
-      <div className="mt-5">
-        {
-          // eslint-disable-next-line react/no-array-index-key
-          segments.map((segment, index) => (
-            <ResizableSliderSegmentEditor
-              key={index}
-              index={index}
-              onDelete={deleteSegment}
-              canDelete={segments.length > 1}
-              onChange={(index: any, status: any, score: any) => {
-                const newSegmentsStatus = [...segmentsStatus];
-                newSegmentsStatus[index] = status;
-
-                const newScores = [...scores];
-                newScores[index] = score;
-
-                setScores(newScores);
-                setSegmentsStatus(newSegmentsStatus);
-              }}
-              segments={segments}
-            />
-          ))
-        }
-
-        <ResizableSliderSegmentEditor
-          key={segments.length}
-          index={segments.length}
-          onDelete={deleteSegment}
-          canDelete={segments.length > 1}
-          onChange={(index: any, status: any, score: any) => {
-            const newSegmentsStatus = [...segmentsStatus];
-            newSegmentsStatus[index] = status;
-            setSegmentsStatus(newSegmentsStatus);
-
-            const newScores = [...scores];
-            newScores[index] = score;
-            setScores(newScores);
-          }}
-          segments={segments}
-        />
-      </div>
-
-      <div className="mt-5">
-        <Label
-          htmlFor="test"
-          value="Opcion por defecto si no encaja en ningun segmento"
-        />
-
-        <div className="flex flex-row">
-          <div className="h-20 w-1 mr-5 mt-3 mb-3 bg-[#ddd]"></div>
-          <div className="flex flex-row mt-2">
-            <div className="flex flex-col mr-5">
-              <Label htmlFor="test" value="Resultado" />
-              <Button.Group id="1">
-                <Button size="xs" color="red">
-                  Rechazo
-                </Button>
-                <Button size="xs" color="yellow">
-                  Manual
-                </Button>
-                <Button size="xs" color="green">
-                  Aprobar
-                </Button>
-              </Button.Group>
-            </div>
-
-            <div className="flex flex-col mr-5">
-              <Label htmlFor="test" value="Score" />
-              <TextInput name="test" type="text" sizing="sm" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Button size="xs" onClick={addSegment}>
-        Agregar un segmento
-      </Button>
-    </div>
-  );
 };
 
 const Index: React.FC = () => {
@@ -357,34 +77,31 @@ const Index: React.FC = () => {
   };
 
   const onSubmit = async (data: any) => {
+    const payload = {
+      name: data.name,
+      indicators: checkedIndicators,
+    };
     setSaveLoading(true);
-    // eslint-disable-next-line no-console
-    console.log(data, checkedIndicators);
-    /* 
     try {
-      setLoading(true);
       const fetchResponse = (await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/templates",
+        process.env.NEXT_PUBLIC_API_URL + "/indicators",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         }
       )) as any;
-
       const response = await fetchResponse.json();
-
       // eslint-disable-next-line no-console
       console.log(response);
-      setLoading(false);
-      router.push("/dashboard/clientes");
+      router.push("/dashboard/supervisor/indicadores/plantillas");
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
+      setSaveLoading(false);
     }
-    */
   };
 
   return (
@@ -447,6 +164,15 @@ const Index: React.FC = () => {
                                 {
                                   id: indicator.id,
                                   name: indicator.name,
+                                  order: indicator.order,
+                                  sourceId: indicator.sourceId,
+                                  source: {
+                                    name: indicator.source.name,
+                                  },
+                                  associated_function:
+                                    indicator.associated_function,
+                                  defaultConfig: indicator.defaultConfig,
+                                  config: indicator.defaultConfig,
                                 },
                               ]);
                             } else {
@@ -468,7 +194,7 @@ const Index: React.FC = () => {
               <Widget title="Parametros" description="">
                 {checkedIndicators.length > 0 ? (
                   <Accordion collapseAll={true}>
-                    {checkedIndicators.map((indicator) => (
+                    {checkedIndicators.map((indicator, index) => (
                       <Accordion.Panel key={indicator.id}>
                         <Accordion.Title>{indicator.name}</Accordion.Title>
                         <Accordion.Content>
@@ -478,16 +204,16 @@ const Index: React.FC = () => {
                                 return (
                                   /* TODO: Traer desde base de datos o configuracion valores por defecto */
                                   <YearsOfActivityParameters
-                                    rangesValues={[10, 20, 30]}
-                                    rangesStatus={[
-                                      Result.REJECT,
-                                      Result.MANUAL,
-                                      Result.SKIP,
-                                      Result.REJECT,
-                                    ]}
-                                    onChange={(value) => {
-                                      // eslint-disable-next-line no-console
-                                      console.log(value);
+                                    defaultConfig={indicator.defaultConfig}
+                                    onChange={(data: any) => {
+                                      //update config value in checkedIndicators array using data
+                                      const newCheckedIndicators = [
+                                        ...checkedIndicators,
+                                      ];
+                                      newCheckedIndicators[index].config = data;
+                                      setCheckedIndicators(
+                                        newCheckedIndicators
+                                      );
                                     }}
                                   />
                                 );

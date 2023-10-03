@@ -110,12 +110,11 @@ model Source {
   name       String      @unique
   order      Int
   indicators Indicator[]
-  exampleIndicators Example_Indicator[]
 }
 
 model Indicator {
   id                  Int                           @id @default(autoincrement())
-  name                String                        @unique
+  name                String                        
   order               Int
   source              Source                        @relation(fields: [sourceId], references: [id])
   sourceId            Int
@@ -124,18 +123,7 @@ model Indicator {
   steps               Step[]
   template           IndicatorTemplate             @relation(fields: [templateId], references: [id])
   templateId         Int                         @default(1)
-
-  @@index([sourceId])
-}
-
-model Example_Indicator {
-  id                  Int                           @id @default(autoincrement())
-  name                String                        @unique
-  order               Int
-  source              Source                        @relation(fields: [sourceId], references: [id])
-  sourceId            Int
-  associated_function String
-
+  config              String?                       @db.Text
   @@index([sourceId])
 }
 

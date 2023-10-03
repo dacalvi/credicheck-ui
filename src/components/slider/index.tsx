@@ -46,7 +46,7 @@ export const IndicatorMultiRangeParameters: React.FC<ResizableSliderProps> = ({
         defaultValue={rangesValues}
         renderTrack={(props: any, state: any) => {
           return (
-            <Track {...props} index={state.index} rangeStates={rangeStates} />
+            <Track index={state.index} rangeStates={rangeStates} {...props} />
           );
         }}
         renderThumb={Thumb}
