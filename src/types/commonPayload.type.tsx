@@ -6,4 +6,5 @@ export type CommonPayloadType = {
   processId: number;
   uuid: string;
   rfc: string;
+  indicatorId: number;
 };

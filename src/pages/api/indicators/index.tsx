@@ -69,28 +69,20 @@ async function updateIndicators(req: any, res: any) {
     },
   });
 
-  //update the indicators
-  const indicators = data.indicators.map((indicator: any) => {
-    return {
-      id: indicator.id,
-      name: indicator.name,
-      order: indicator.order,
-      sourceId: indicator.sourceId,
-      associated_function: indicator.associated_function,
-      templateId: template.id,
-      config: JSON.stringify(indicator.config),
-    };
-  });
-
-  await prisma.indicator.deleteMany({
-    where: {
-      templateId: template.id,
-    },
-  });
-
-  await prisma.indicator.createMany({
-    data: indicators,
-  });
+  //update config and name in indicators from data
+  await Promise.all(
+    data.indicators.map(async (indicator: any) => {
+      await prisma.indicator.update({
+        where: {
+          id: Number(indicator.id),
+        },
+        data: {
+          name: indicator.name,
+          config: JSON.stringify(indicator.config),
+        },
+      });
+    })
+  );
 
   return res
     .status(200)

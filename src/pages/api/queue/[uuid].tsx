@@ -70,6 +70,7 @@ async function call_associated_function(step: StepType) {
     processId: step.process.id,
     uuid: step.uuid,
     rfc: step.process.client.rfc,
+    indicatorId: step.indicator.id,
   };
 
   /*
