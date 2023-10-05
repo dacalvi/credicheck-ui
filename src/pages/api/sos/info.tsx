@@ -1,5 +1,6 @@
 export default async function handler(req: any, res: any) {
   if (req.method === "GET") {
+    // eslint-disable-next-line no-console
     console.log(process.env.VERCEL_URL);
 
     return res.status(200).json({message: "Hello, world", success: true});
