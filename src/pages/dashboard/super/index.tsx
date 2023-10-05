@@ -18,9 +18,7 @@ const Index: React.FC = () => {
 
   const getCompaniesCount = async () => {
     setLoadingCompaniesCount(true);
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/companies/count"
-    );
+    const res = await fetch(process.env.VERCEL_URL + "/api/companies/count");
     const {companiesCount} = await res.json();
     setCompaniesCount(companiesCount);
     setLoadingCompaniesCount(false);
@@ -28,9 +26,7 @@ const Index: React.FC = () => {
 
   const getProcessCount = async () => {
     setLoadingProcessCount(true);
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/processes/count"
-    );
+    const res = await fetch(process.env.VERCEL_URL + "/api/processes/count");
     const {processesCount} = await res.json();
     setprocessesCount(processesCount);
     setLoadingProcessCount(false);
@@ -38,7 +34,7 @@ const Index: React.FC = () => {
 
   const getUsersCount = async () => {
     setLoadingUsersCount(true);
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users/count");
+    const res = await fetch(process.env.VERCEL_URL + "/api/users/count");
     const {usersCount} = await res.json();
     setUsersCount(usersCount);
     setLoadingUsersCount(false);

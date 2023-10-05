@@ -58,7 +58,7 @@ const Index: React.FC = () => {
       setLoading(true);
 
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/users/create-agent",
+        process.env.VERCEL_URL + "/api/users/create-agent",
         {
           method: "POST",
           headers: {"Content-Type": "application/json"},

@@ -19,9 +19,7 @@ const Index: React.FC = () => {
 
   const loadClients = async () => {
     setClientsLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/prospects"
-    );
+    const response = await fetch(process.env.VERCEL_URL + "/api/prospects");
     const data = await response.json();
     const clients = data.prospects.map((prospect: any) => {
       return {
@@ -42,7 +40,7 @@ const Index: React.FC = () => {
 
   const loadIndicatorTemplates = async () => {
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicator_templates"
+      process.env.VERCEL_URL + "/api/indicator_templates"
     );
     const data = await response.json();
     const indicatorTemplates = data.indicatorTemplates.map(
@@ -102,16 +100,13 @@ const Index: React.FC = () => {
       }
 
       setLoading(true);
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/processes",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(process.env.VERCEL_URL + "/api/processes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       // eslint-disable-next-line no-console
       console.log(response);
       setLoading(false);

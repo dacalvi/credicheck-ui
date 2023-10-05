@@ -49,7 +49,7 @@ const Index: React.FC = () => {
       setLoading(true);
 
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/charts/" + router.query.id,
+        process.env.VERCEL_URL + "/api/charts/" + router.query.id,
         {
           method: "PUT",
           headers: {"Content-Type": "application/json"},
@@ -86,7 +86,7 @@ const Index: React.FC = () => {
     const getUser = async () => {
       try {
         const response = await fetch(
-          process.env.NEXT_PUBLIC_API_URL + "/charts/" + router.query.id,
+          process.env.VERCEL_URL + "/api/charts/" + router.query.id,
           {
             method: "GET",
             headers: {"Content-Type": "application/json"},

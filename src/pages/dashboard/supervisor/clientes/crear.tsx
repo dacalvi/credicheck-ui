@@ -35,7 +35,7 @@ const Index: React.FC = () => {
     try {
       setLoading(true);
       const fetchResponse = (await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/prospects",
+        process.env.VERCEL_URL + "/api/prospects",
         {
           method: "POST",
           headers: {
@@ -54,8 +54,8 @@ const Index: React.FC = () => {
         "Ingreso de Credenciales SAT",
         `Hola, 
           necesitamos que ingreses tus credenciales de SAT en el siguiente link 
-          <a href='${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}' 
-            target='_blank'>${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}</a>`
+          <a href='${process.env.VERCEL_URL}/credenciales/${response.newProspect.uuid}' 
+            target='_blank'>${process.env.VERCEL_URL}/credenciales/${response.newProspect.uuid}</a>`
       );
 
       // eslint-disable-next-line no-console

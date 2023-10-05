@@ -43,7 +43,7 @@ const Index: React.FC = () => {
   const loadIndicatorTemplates = async () => {
     setLoadingIndicatorTemplates(true);
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicator_templates"
+      process.env.VERCEL_URL + "/api/indicator_templates"
     );
     const data = await response.json();
 
@@ -76,7 +76,7 @@ const Index: React.FC = () => {
     try {
       setLoading(true);
       const fetchResponse = (await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/prospects",
+        process.env.VERCEL_URL + "/api/prospects",
         {
           method: "POST",
           headers: {
@@ -95,8 +95,8 @@ const Index: React.FC = () => {
         "Ingreso de Credenciales SAT",
         `Hola, 
           necesitamos que ingreses tus credenciales de SAT en el siguiente link 
-          <a href='${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}' 
-            target='_blank'>${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}</a>`
+          <a href='${process.env.VERCEL_URL}/credenciales/${response.newProspect.uuid}' 
+            target='_blank'>${process.env.VERCEL_URL}/credenciales/${response.newProspect.uuid}</a>`
       );
 
       // eslint-disable-next-line no-console
@@ -112,7 +112,7 @@ const Index: React.FC = () => {
   const validarRFC = async (rfc: string) => {
     try {
       const fetchResponse = (await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/prospects/validate_rfc/" + rfc,
+        process.env.VERCEL_URL + "/api/prospects/validate_rfc/" + rfc,
         {
           method: "GET",
           headers: {

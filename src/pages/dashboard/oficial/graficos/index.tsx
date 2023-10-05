@@ -23,7 +23,7 @@ const Index: React.FC = () => {
 
   const loadCharts = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/charts/");
+    const response = await fetch(process.env.VERCEL_URL + "/api/charts/");
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);
@@ -34,7 +34,7 @@ const Index: React.FC = () => {
   const updateCharts = async () => {
     setSaving(true);
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/charts/supervisor",
+      process.env.VERCEL_URL + "/api/charts/supervisor",
       {
         method: "PUT",
         headers: {

@@ -27,7 +27,7 @@ const Index: React.FC = () => {
 
   const loadUsers = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/agents");
+    const response = await fetch(process.env.VERCEL_URL + "/api/agents");
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);
@@ -62,7 +62,7 @@ const Index: React.FC = () => {
       setLoading(true);
       //delete the user
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/agents/" + id,
+        process.env.VERCEL_URL + "/api/agents/" + id,
         {
           method: "DELETE",
         }

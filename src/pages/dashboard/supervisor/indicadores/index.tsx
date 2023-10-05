@@ -27,9 +27,7 @@ const Index: React.FC = () => {
 
   const loadIndicators = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicators"
-    );
+    const response = await fetch(process.env.VERCEL_URL + "/api/indicators");
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);
@@ -39,16 +37,13 @@ const Index: React.FC = () => {
 
   const updateIndicators = async () => {
     setSaving(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicators",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({indicators: indicators}),
-      }
-    );
+    const response = await fetch(process.env.VERCEL_URL + "/api/indicators", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({indicators: indicators}),
+    });
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);

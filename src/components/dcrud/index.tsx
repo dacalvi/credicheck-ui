@@ -86,7 +86,7 @@ const DCrud: React.FC<DcrudProps> = ({options}) => {
       // eslint-disable-next-line no-console
       console.log("asking for " + params.startRow + " to " + params.endRow);
 
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/${table}`;
+      const url = `${process.env.VERCEL_URL}/api/${table}`;
       const headers = {
         "Content-Type": "application/json",
       };

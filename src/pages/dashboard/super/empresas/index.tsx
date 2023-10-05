@@ -18,9 +18,7 @@ const Index: React.FC = () => {
 
   const loadCompanies = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/companies"
-    );
+    const response = await fetch(process.env.VERCEL_URL + "/api/companies");
     const data = await response.json();
     setCompanies(data.companies);
     setLoading(false);
@@ -33,7 +31,7 @@ const Index: React.FC = () => {
       setLoading(true);
       //delete the user
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/companies/" + id,
+        process.env.VERCEL_URL + "/api/companies/" + id,
         {
           method: "DELETE",
         }

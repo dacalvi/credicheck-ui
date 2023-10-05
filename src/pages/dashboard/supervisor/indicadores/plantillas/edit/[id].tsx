@@ -107,7 +107,7 @@ const Index: React.FC = () => {
     setSaveLoading(true);
     try {
       const fetchResponse = (await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/indicators",
+        process.env.VERCEL_URL + "/api/indicators",
         {
           method: "PUT",
           headers: {

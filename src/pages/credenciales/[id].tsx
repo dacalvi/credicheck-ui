@@ -43,7 +43,7 @@ const Ciec: React.FC<{rfc: string; isLoading: any}> = ({rfc, isLoading}) => {
     data.uuid = router.query.id as string;
 
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/credentials/ciec",
+      process.env.VERCEL_URL + "/api/credentials/ciec",
       {
         method: "POST",
         headers: {
@@ -138,8 +138,8 @@ const Credenciales: React.FC = () => {
 
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL +
-          `/crud/clients?where={"uuid": "${router.query.id}"}`,
+        process.env.VERCEL_URL +
+          `/api/crud/clients?where={"uuid": "${router.query.id}"}`,
         {
           method: "GET",
           headers: {"Content-Type": "application/json"},

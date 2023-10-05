@@ -29,7 +29,7 @@ const Index: React.FC = () => {
 
   const loadWebhooklist = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/webhooks");
+    const response = await fetch(process.env.VERCEL_URL + "/api/webhooks");
     const data = await response.json();
     setWebhookList(data.webhooks);
     setLoading(false);
@@ -80,7 +80,7 @@ const Index: React.FC = () => {
     console.log(payload);
 
     const fetchResponse = (await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/webhooks/" + id,
+      process.env.VERCEL_URL + "/api/webhooks/" + id,
       {
         method: "PUT",
         headers: {
@@ -100,7 +100,7 @@ const Index: React.FC = () => {
     setLoading(true);
 
     const fetchResponse = (await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/webhooks/" + id,
+      process.env.VERCEL_URL + "/api/webhooks/" + id,
       {
         method: "DELETE",
         headers: {
@@ -119,7 +119,7 @@ const Index: React.FC = () => {
     setLoading(true);
 
     const fetchResponse = (await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/webhooks/",
+      process.env.VERCEL_URL + "/api/webhooks/",
       {
         method: "POST",
         headers: {

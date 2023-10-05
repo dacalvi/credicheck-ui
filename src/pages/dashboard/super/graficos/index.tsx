@@ -19,7 +19,7 @@ const Index: React.FC = () => {
 
   const loadCharts = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/charts");
+    const response = await fetch(process.env.VERCEL_URL + "/api/charts");
     const data = await response.json();
     setCharts(data.charts);
     setLoading(false);
@@ -32,7 +32,7 @@ const Index: React.FC = () => {
       setLoading(true);
       //delete the user
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/charts/" + id,
+        process.env.VERCEL_URL + "/api/charts/" + id,
         {
           method: "DELETE",
         }

@@ -68,9 +68,7 @@ const Index: React.FC = () => {
 
   const loadIndicators = async () => {
     setLoadingIndicators(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicators"
-    );
+    const response = await fetch(process.env.VERCEL_URL + "/api/indicators");
     const data = await response.json();
     setIndicators(data.indicators?.indicators);
     setLoadingIndicators(false);
@@ -84,7 +82,7 @@ const Index: React.FC = () => {
     setSaveLoading(true);
     try {
       const fetchResponse = (await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/indicators",
+        process.env.VERCEL_URL + "/api/indicators",
         {
           method: "POST",
           headers: {

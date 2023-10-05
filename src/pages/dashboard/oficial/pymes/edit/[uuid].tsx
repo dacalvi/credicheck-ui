@@ -46,7 +46,7 @@ const Index: React.FC = () => {
   const loadClient = async () => {
     setLoading(true);
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/prospects/uuid/" + router.query.uuid
+      process.env.VERCEL_URL + "/api/prospects/uuid/" + router.query.uuid
     );
     const data = await response.json();
     setClient(data.user);
@@ -56,7 +56,7 @@ const Index: React.FC = () => {
   const loadExtractions = async () => {
     setLoadingExtractions(true);
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/extractions/user/" + router.query.uuid
+      process.env.VERCEL_URL + "/api/extractions/user/" + router.query.uuid
     );
     const data = await response.json();
     setExtractions(data.extractions);
@@ -66,7 +66,7 @@ const Index: React.FC = () => {
   const refreshExtractions = async () => {
     setLoadingExtractions(true);
     const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/extractions/list/" + router.query.uuid
+      process.env.VERCEL_URL + "/api/extractions/list/" + router.query.uuid
     );
     const data = await response.json();
     setExtractions(data.extractions);

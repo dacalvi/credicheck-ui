@@ -34,9 +34,7 @@ const Index: React.FC = () => {
 
   const loadProspects = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/prospects"
-    );
+    const response = await fetch(process.env.VERCEL_URL + "/api/prospects");
     const data = await response.json();
     // eslint-disable-next-line no-console
     console.log(data);
@@ -146,7 +144,7 @@ const Index: React.FC = () => {
                         </Link>
                         <Link
                           legacyBehavior
-                          href={`https://api.whatsapp.com/send?phone=${prospect.cellPhone}&text=Para ingresar sus credenciales ingrese al siguiente link \n\n ${process.env.NEXT_PUBLIC_URL}/credenciales/${prospect.uuid}`}>
+                          href={`https://api.whatsapp.com/send?phone=${prospect.cellPhone}&text=Para ingresar sus credenciales ingrese al siguiente link \n\n ${process.env.VERCEL_URL}/credenciales/${prospect.uuid}`}>
                           <a className="pt-3 flex" target="_blank">
                             <FaWhatsapp className="w-5 h-5 mr-1" />
                             Enviar Whatsapp de Credenciales
