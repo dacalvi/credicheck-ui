@@ -1,4 +1,3 @@
-import {get_url} from "functions/helpers";
 import NextAuth, {NextAuthOptions} from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 export const authOptions: NextAuthOptions = {
@@ -20,7 +19,7 @@ export const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-        const response = await fetch(`${get_url()}/api/login`, {
+        const response = await fetch(`${process.env.VERCEL_URL}/api/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
