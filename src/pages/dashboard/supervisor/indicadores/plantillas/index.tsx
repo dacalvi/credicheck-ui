@@ -18,9 +18,7 @@ const Index: React.FC = () => {
 
   const loadTemplates = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/templates"
-    );
+    const response = await fetch("/api/templates");
     const data = await response.json();
     setTemplates(data.templates);
     setLoading(false);

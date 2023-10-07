@@ -19,10 +19,17 @@ const Index: React.FC = () => {
 
   const loadClients = async () => {
     setClientsLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/prospects"
-    );
+    const response = await fetch("/api/prospects");
     const data = await response.json();
+
+    if (data.prospects.length === 0) {
+      alert(
+        "No hay pymes registradas, por favor registra una pyme antes de crear un reporte"
+      );
+      router.push("/dashboard/oficial/pymes/crear");
+      return;
+    }
+
     const clients = data.prospects.map((prospect: any) => {
       return {
         key: prospect.id,
@@ -41,9 +48,7 @@ const Index: React.FC = () => {
   };
 
   const loadIndicatorTemplates = async () => {
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicator_templates"
-    );
+    const response = await fetch("/api/indicator_templates");
     const data = await response.json();
     const indicatorTemplates = data.indicatorTemplates.map(
       (indicatorTemplate: any) => {
@@ -102,18 +107,13 @@ const Index: React.FC = () => {
       }
 
       setLoading(true);
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/processes",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      );
-      // eslint-disable-next-line no-console
-      console.log(response);
+      await fetch("/api/processes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
       setLoading(false);
       router.push("/dashboard/oficial/reportes");
     } catch (error) {

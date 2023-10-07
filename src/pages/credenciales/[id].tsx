@@ -42,16 +42,13 @@ const Ciec: React.FC<{rfc: string; isLoading: any}> = ({rfc, isLoading}) => {
     isLoading(true);
     data.uuid = router.query.id as string;
 
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/credentials/ciec",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    const response = await fetch("/api/credentials/ciec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
     const body = await response.json();
     if (body.id !== null) {
@@ -59,9 +56,6 @@ const Ciec: React.FC<{rfc: string; isLoading: any}> = ({rfc, isLoading}) => {
     }
 
     isLoading(false);
-
-    // eslint-disable-next-line no-console
-    console.log(response);
   };
   return (
     <FormProvider {...methods}>
@@ -138,8 +132,7 @@ const Credenciales: React.FC = () => {
 
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL +
-          `/crud/clients?where={"uuid": "${router.query.id}"}`,
+        `/api/crud/clients?where={"uuid": "${router.query.id}"}`,
         {
           method: "GET",
           headers: {"Content-Type": "application/json"},
@@ -177,8 +170,6 @@ const Credenciales: React.FC = () => {
       }
       return true;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log("there was an error submitting", error);
       return false;
     }
   };

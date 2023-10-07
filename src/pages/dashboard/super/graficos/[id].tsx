@@ -48,25 +48,16 @@ const Index: React.FC = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/charts/" + router.query.id,
-        {
-          method: "PUT",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("/api/charts/" + router.query.id, {
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data),
+      });
       if (response.status !== 200) {
         setLoading(false);
-        // eslint-disable-next-line no-console
-        console.log("something went wrong");
-        //set an error banner here
       } else {
         setLoading(true);
         setShowSuccessMessage(true);
-        // eslint-disable-next-line no-console
-        console.log("form submitted successfully !!!");
-
         reset();
         //redirect to companies page
         setTimeout(() => {
@@ -85,20 +76,12 @@ const Index: React.FC = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_API_URL + "/charts/" + router.query.id,
-          {
-            method: "GET",
-            headers: {"Content-Type": "application/json"},
-          }
-        );
-        if (response.status !== 200) {
-          // eslint-disable-next-line no-console
-          console.log("something went wrong");
-        } else {
+        const response = await fetch("/api/charts/" + router.query.id, {
+          method: "GET",
+          headers: {"Content-Type": "application/json"},
+        });
+        if (response.status === 200) {
           const data = await response.json();
-          // eslint-disable-next-line no-console
-          console.log(data);
           //set the form values here
           reset({
             name: data.chart.name,

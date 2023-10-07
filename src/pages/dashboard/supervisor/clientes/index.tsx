@@ -6,6 +6,7 @@ import {Button, Spinner, Table} from "flowbite-react";
 import Link from "next/link";
 import {FiLink} from "react-icons/fi";
 import {FaWhatsapp} from "react-icons/fa";
+import {get_url} from "functions/helpers";
 
 type Prospect = {
   id: number;
@@ -34,12 +35,8 @@ const Index: React.FC = () => {
 
   const loadProspects = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/prospects"
-    );
+    const response = await fetch("/api/prospects");
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
     setProspects(data.prospects);
     setLoading(false);
   };
@@ -146,7 +143,11 @@ const Index: React.FC = () => {
                         </Link>
                         <Link
                           legacyBehavior
-                          href={`https://api.whatsapp.com/send?phone=${prospect.cellPhone}&text=Para ingresar sus credenciales ingrese al siguiente link \n\n ${process.env.NEXT_PUBLIC_URL}/credenciales/${prospect.uuid}`}>
+                          href={`https://api.whatsapp.com/send?phone=${
+                            prospect.cellPhone
+                          }&text=Para ingresar sus credenciales ingrese al siguiente link \n\n ${get_url()}/credenciales/${
+                            prospect.uuid
+                          }`}>
                           <a className="pt-3 flex" target="_blank">
                             <FaWhatsapp className="w-5 h-5 mr-1" />
                             Enviar Whatsapp de Credenciales

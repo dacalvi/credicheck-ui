@@ -18,8 +18,6 @@ export const getWebhooks = async (
     const response = await axios.request(options);
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };
@@ -46,12 +44,8 @@ export const updateWebhook = async (
       },
     };
     const response = await axios.request(options);
-    // eslint-disable-next-line no-console
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };
@@ -74,8 +68,6 @@ export const deleteWebhook = async (
       ? {message: "success", success: true}
       : {message: "error", success: false};
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };
@@ -93,19 +85,15 @@ export const addWebhook = async (payload: WebhookPayloadType) => {
         url:
           process.env.ENVIRONMENT === "development"
             ? process.env.TUNNEL_URL + "/api/webhooks/sat.ws"
-            : process.env.NEXT_PUBLIC_API_URL + "/webhooks/sat.ws",
+            : process.env.VERCEL_URL + "/api/webhooks/sat.ws",
         events: payload.events,
         enabled: true,
       },
     };
 
     const response = await axios.request(options);
-    // eslint-disable-next-line no-console
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };

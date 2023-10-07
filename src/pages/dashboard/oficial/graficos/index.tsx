@@ -23,29 +23,22 @@ const Index: React.FC = () => {
 
   const loadCharts = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/charts/");
+    const response = await fetch("/api/charts/");
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
     setCharts(data.charts);
     setLoading(false);
   };
 
   const updateCharts = async () => {
     setSaving(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/charts/supervisor",
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({charts: charts}),
-      }
-    );
-    const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
+    const response = await fetch("/api/charts/supervisor", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({charts: charts}),
+    });
+    await response.json();
     setSaving(false);
   };
 

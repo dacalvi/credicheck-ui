@@ -1,6 +1,7 @@
 import SectionTitle from "components/section-title";
 import Widget from "components/widget";
 import {Button, Label, Spinner, TextInput} from "flowbite-react";
+import {get_url} from "functions/helpers";
 import {sendMail} from "functions/mail";
 import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
@@ -34,16 +35,13 @@ const Index: React.FC = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      const fetchResponse = (await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/prospects",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      )) as any;
+      const fetchResponse = (await fetch("/api/prospects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })) as any;
 
       const response = await fetchResponse.json();
 
@@ -54,12 +52,12 @@ const Index: React.FC = () => {
         "Ingreso de Credenciales SAT",
         `Hola, 
           necesitamos que ingreses tus credenciales de SAT en el siguiente link 
-          <a href='${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}' 
-            target='_blank'>${process.env.NEXT_PUBLIC_URL}/credenciales/${response.newProspect.uuid}</a>`
+          <a href='${get_url()}/credenciales/${response.newProspect.uuid}' 
+            target='_blank'>${get_url()}/credenciales/${
+          response.newProspect.uuid
+        }</a>`
       );
 
-      // eslint-disable-next-line no-console
-      console.log(response);
       setLoading(false);
       router.push("/dashboard/clientes");
     } catch (error) {

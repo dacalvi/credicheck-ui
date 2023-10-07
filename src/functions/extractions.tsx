@@ -7,7 +7,7 @@ export const createExtraction = async (uuid: string | null) => {
   const targetUrl =
     process.env.ENVIRONMENT === "development"
       ? process.env.TUNNEL_URL + "/api/extractions/" + uuid
-      : process.env.NEXT_PUBLIC_API_URL + "/extractions/" + uuid;
+      : process.env.VERCEL_URL + "/api/extractions/" + uuid;
 
   const fetchUrl = `https://api.serverlessq.com?id=${process.env.SERVERLESSQ_QUEUE_ID}&target=${targetUrl}`;
 
@@ -18,12 +18,8 @@ export const createExtraction = async (uuid: string | null) => {
 
   try {
     const response = await axios.get(fetchUrl, {headers});
-    // eslint-disable-next-line no-console
-    console.log("CREATED EXTRACTION", response.data);
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };

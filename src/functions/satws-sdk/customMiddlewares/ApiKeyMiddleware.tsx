@@ -20,7 +20,6 @@ export class ApiKeyMiddleware
     options.headers = {
       "X-API-KEY": this.apiKey,
     };
-    // eslint-disable-next-line no-console
     return next(options).then((response) => response);
   }
 }

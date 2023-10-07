@@ -19,7 +19,7 @@ const Index: React.FC = () => {
 
   const loadCharts = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/charts");
+    const response = await fetch("/api/charts");
     const data = await response.json();
     setCharts(data.charts);
     setLoading(false);
@@ -31,16 +31,10 @@ const Index: React.FC = () => {
     if (confirm) {
       setLoading(true);
       //delete the user
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/charts/" + id,
-        {
-          method: "DELETE",
-        }
-      );
-      const data = await response.json();
-      // eslint-disable-next-line no-console
-      console.log(data);
-      //reload the users
+      const response = await fetch("/api/charts/" + id, {
+        method: "DELETE",
+      });
+      await response.json();
       loadCharts();
     }
   };

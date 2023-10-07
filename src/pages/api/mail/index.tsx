@@ -44,13 +44,10 @@ async function sendMail(req: any, res: any) {
   };
 
   try {
-    const response = await axios.post(fetchUrl, payload, {headers});
-    // eslint-disable-next-line no-console
-    console.log(response.data);
+    await axios.post(fetchUrl, payload, {headers});
+    // TODO: Evaluate response and response accordingly
     return res.status(200).json({message: "Success", success: true});
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return res.status(500).json({message: "Error", success: false});
   }
 }

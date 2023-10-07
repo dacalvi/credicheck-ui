@@ -41,7 +41,6 @@ const Layouts: React.FC<LayoutProps> = ({children}) => {
 
   const router = useRouter();
   const {pathname} = router;
-  // eslint-disable-next-line no-console
   switch (pathname) {
     case "/404":
     case "/500":

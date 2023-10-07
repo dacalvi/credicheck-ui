@@ -35,7 +35,7 @@ const Index: React.FC = () => {
   });
 
   const loadCompanies = async () => {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/companies");
+    const res = await fetch("/api/companies");
     const {companies} = await res.json();
 
     const companiesArray = companies.map((company: any) => {
@@ -77,22 +77,17 @@ const Index: React.FC = () => {
     try {
       setLoading(true);
       data.roleId = roleId;
-      const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/users", {
+      const response = await fetch("/api/users", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       });
       if (response.status !== 200) {
         setLoading(false);
-        // eslint-disable-next-line no-console
-        console.log("something went wrong");
-        //set an error banner here
       } else {
         setLoading(false);
         setShowSuccessMessage(true);
         reset();
-        // eslint-disable-next-line no-console
-        console.log("form submitted successfully !!!");
         //set a success banner here
       }
       //check response, if success is false, dont take them to success page
@@ -109,22 +104,13 @@ const Index: React.FC = () => {
     const getUser = async () => {
       try {
         setLoadingUser(true);
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_API_URL + "/users/" + router.query.id,
-          {
-            method: "GET",
-            headers: {"Content-Type": "application/json"},
-          }
-        );
+        const response = await fetch("/api/users/" + router.query.id, {
+          method: "GET",
+          headers: {"Content-Type": "application/json"},
+        });
         setLoadingUser(false);
-        if (response.status !== 200) {
-          // eslint-disable-next-line no-console
-          console.log("something went wrong");
-        } else {
+        if (response.status === 200) {
           const data = await response.json();
-          // eslint-disable-next-line no-console
-          console.log(data);
-          //set the form values here
           reset({
             email: data.user.email,
             password: data.user.password,

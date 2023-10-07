@@ -1,6 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function fileCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: FILE CREATED");
+  //TODO: implement WEBHOOK: FILE CREATED
 }

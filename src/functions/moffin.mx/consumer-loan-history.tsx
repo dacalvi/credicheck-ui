@@ -26,8 +26,6 @@ export const consumerLoanHistory = async (
 
     return result;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };

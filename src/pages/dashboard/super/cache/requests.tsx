@@ -27,7 +27,7 @@ const Index: React.FC = () => {
 
   const loadRequestLogs = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/requests");
+    const response = await fetch("/api/requests");
     const data = await response.json();
     setRequestLogs(data.requests);
     setLoading(false);

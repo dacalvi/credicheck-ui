@@ -57,19 +57,13 @@ const Index: React.FC = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/users/create-agent",
-        {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch("/api/users/create-agent", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data),
+      });
       if (response.status !== 200) {
         setLoading(false);
-        // eslint-disable-next-line no-console
-        console.log("something went wrong");
-        //set an error banner here
         setShowErrorMessage(true);
         setShowSuccessMessage(false);
 
@@ -82,8 +76,6 @@ const Index: React.FC = () => {
         //redirect to users page
         router.push("/dashboard/supervisor/agentes");
 
-        // eslint-disable-next-line no-console
-        console.log("form submitted successfully !!!");
         //set a success banner here
       }
       //check response, if success is false, dont take them to success page

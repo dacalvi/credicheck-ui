@@ -27,9 +27,7 @@ const Index: React.FC = () => {
 
   const loadCacheEntry = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/cache/entry/" + router.query.id
-    );
+    const response = await fetch("/api/cache/entry/" + router.query.id);
     const data = await response.json();
     if (data.cacheEntry?.content === "") {
       setCacheEntry(undefined);

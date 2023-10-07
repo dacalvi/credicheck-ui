@@ -56,8 +56,6 @@ async function deleteCompany(id: number, req: any, res: any) {
 }
 
 async function updateCompany(id: number, data: any) {
-  // eslint-disable-next-line no-console
-  console.log(data);
   const company = await prisma.company.update({
     where: {
       id: Number(id),

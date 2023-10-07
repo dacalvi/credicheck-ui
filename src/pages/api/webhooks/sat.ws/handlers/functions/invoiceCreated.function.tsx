@@ -1,8 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 
 export async function invoiceCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: INVOICE CREATED");
   const prisma = new PrismaClient();
   await prisma.invoice.create({
     data: {

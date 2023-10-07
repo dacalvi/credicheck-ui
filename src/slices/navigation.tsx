@@ -45,31 +45,17 @@ const initialState: NavigationState[] = [
       },
       /* Super Admin */
       {
-        url: "/dashboard/configuracion",
+        url: "/dashboard/super/usuarios",
         icon: <FiUsers size={20} />,
         title: "Usuarios",
-        items: [
-          {
-            url: "/dashboard/super/usuarios",
-            title: "Ver Usuarios",
-            items: [],
-            roleId: 1,
-          },
-        ],
         roleId: 1,
+        items: [],
       },
       {
-        url: "/dashboard/empresas",
+        url: "/dashboard/super/empresas",
         icon: <PiBankFill size={20} />,
         title: "Empresas",
-        items: [
-          {
-            url: "/dashboard/super/empresas",
-            title: "Ver empresas",
-            items: [],
-            roleId: 1,
-          },
-        ],
+        items: [],
         roleId: 1,
       },
       {
@@ -78,14 +64,8 @@ const initialState: NavigationState[] = [
         title: "Cache",
         items: [
           {
-            url: "/dashboard/super/cache/entries",
-            title: "Ver cache",
-            items: [],
-            roleId: 1,
-          },
-          {
             url: "/dashboard/super/cache/requests",
-            title: "Ver requests",
+            title: "Ver cache",
             items: [],
             roleId: 1,
           },
@@ -99,37 +79,10 @@ const initialState: NavigationState[] = [
         roleId: 1,
       },
       {
-        url: "/dashboard/super/graficos",
-        icon: <FiBarChart size={20} />,
-        title: "Graficos",
-        items: [
-          {
-            url: "/dashboard/super/graficos",
-            title: "Ver graficos",
-            items: [],
-            roleId: 1,
-          },
-          {
-            url: "/dashboard/super/graficos/crear",
-            title: "Crear nuevo grafico",
-            items: [],
-            roleId: 1,
-          },
-        ],
-        roleId: 1,
-      },
-      {
         url: "/dashboard/super/webhooks",
         icon: <PiWebhooksLogoBold size={20} />,
         title: "Webhooks",
-        items: [
-          {
-            url: "/dashboard/super/webhooks",
-            title: "Listar Webhooks",
-            items: [],
-            roleId: 1,
-          },
-        ],
+        items: [],
         roleId: 1,
       },
       /* Agente */
@@ -191,7 +144,7 @@ const initialState: NavigationState[] = [
       {
         url: "/dashboard/supervisor/agentes",
         icon: <FiUsers size={20} />,
-        title: "Oficiales",
+        title: "Oficiales de Cuenta",
         items: [],
         roleId: 2,
       },
@@ -199,7 +152,7 @@ const initialState: NavigationState[] = [
       {
         url: "/dashboard/supervisor/clientes",
         icon: <FiUsers size={20} />,
-        title: "Clientes",
+        title: "Pymes",
         items: [],
         roleId: 2,
       },

@@ -7,7 +7,7 @@ import {Spinner} from "flowbite-react";
 import Link from "next/link";
 
 const Index: React.FC = () => {
-  const {status, data} = useSession();
+  const {status} = useSession();
   const router = useRouter();
   const [loadingCompaniesCount, setLoadingCompaniesCount] = useState(false);
   const [loadingProcessCount, setLoadingProcessCount] = useState(false);
@@ -18,9 +18,7 @@ const Index: React.FC = () => {
 
   const getCompaniesCount = async () => {
     setLoadingCompaniesCount(true);
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/companies/count"
-    );
+    const res = await fetch("/api/companies/count");
     const {companiesCount} = await res.json();
     setCompaniesCount(companiesCount);
     setLoadingCompaniesCount(false);
@@ -28,9 +26,7 @@ const Index: React.FC = () => {
 
   const getProcessCount = async () => {
     setLoadingProcessCount(true);
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/processes/count"
-    );
+    const res = await fetch("/api/processes/count");
     const {processesCount} = await res.json();
     setprocessesCount(processesCount);
     setLoadingProcessCount(false);
@@ -38,18 +34,11 @@ const Index: React.FC = () => {
 
   const getClientsCount = async () => {
     setLoadingClientsCount(true);
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/prospects/count"
-    );
+    const res = await fetch("/api/prospects/count");
     const {prospectsCount: clientsCount} = await res.json();
     setClientsCount(clientsCount);
     setLoadingClientsCount(false);
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-  }, [data]);
 
   useEffect(() => {
     if (status === "unauthenticated") {

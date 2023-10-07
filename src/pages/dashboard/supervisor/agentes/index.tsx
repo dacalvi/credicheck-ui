@@ -27,10 +27,8 @@ const Index: React.FC = () => {
 
   const loadUsers = async () => {
     setLoading(true);
-    const response = await fetch(process.env.NEXT_PUBLIC_API_URL + "/agents");
+    const response = await fetch("/api/agents");
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
     setUsers(data.users);
     setLoading(false);
   };
@@ -61,15 +59,11 @@ const Index: React.FC = () => {
     if (confirm) {
       setLoading(true);
       //delete the user
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL + "/agents/" + id,
-        {
-          method: "DELETE",
-        }
-      );
-      const data = await response.json();
-      // eslint-disable-next-line no-console
-      console.log(data);
+      const response = await fetch("/api/agents/" + id, {
+        method: "DELETE",
+      });
+      await response.json();
+
       //reload the users
       setLoading(false);
       loadUsers();

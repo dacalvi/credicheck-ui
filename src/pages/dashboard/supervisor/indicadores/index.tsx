@@ -27,31 +27,22 @@ const Index: React.FC = () => {
 
   const loadIndicators = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicators"
-    );
+    const response = await fetch("/api/indicators");
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
     setIndicators(data.indicators?.indicators);
     setLoading(false);
   };
 
   const updateIndicators = async () => {
     setSaving(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + "/indicators",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({indicators: indicators}),
-      }
-    );
-    const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
+    const response = await fetch("/api/indicators", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({indicators: indicators}),
+    });
+    await response.json();
     setSaving(false);
   };
 
