@@ -20,17 +20,20 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
         // eslint-disable-next-line no-console
-        console.log(`${process.env.VERCEL_URL}/api/login`);
-        const response = await fetch(`${process.env.VERCEL_URL}/api/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        });
+        console.log(`https://${process.env.VERCEL_URL}/api/login`);
+        const response = await fetch(
+          `https://${process.env.VERCEL_URL}/api/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          }
+        );
 
         const data = await response.json();
         if (data.success) {
