@@ -26,8 +26,6 @@ export class WebhooksNode extends Service {
     if (itemsPerPage) {
       query += `itemsPerPage=${itemsPerPage}&`;
     }
-    // eslint-disable-next-line no-console
-    console.log("query", `/webhook-endpoints?${query}`);
     return this.client.process({
       url: `/webhook-endpoints?${query}`,
     });
@@ -44,11 +42,6 @@ export class WebhooksNode extends Service {
       enabled: enabled,
     };
 
-    // eslint-disable-next-line no-console
-    console.log("payload", payload);
-
-    // eslint-disable-next-line no-console
-    console.log("query", `/webhook-endpoints/${id}`);
     return this.client.process({
       url: `/webhook-endpoints/${id}`,
       method: "PUT",
@@ -60,8 +53,6 @@ export class WebhooksNode extends Service {
   }
 
   public deleteWebHook(id: string): Promise<WebhooksResponseType> {
-    // eslint-disable-next-line no-console
-    console.log("query", `/webhook-endpoints/${id}`);
     return this.client.process({
       url: `/webhook-endpoints/${id}`,
       method: "DELETE",

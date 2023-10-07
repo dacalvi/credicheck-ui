@@ -33,10 +33,8 @@ const Index: React.FC = () => {
 
   const loadUsers = async () => {
     setLoading(true);
-    const response = await fetch(process.env.VERCEL_URL + "/api/users");
+    const response = await fetch("/api/users");
     const data = await response.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
     setUsers(data.users);
     setLoading(false);
   };

@@ -106,19 +106,14 @@ const Index: React.FC = () => {
 
     setSaveLoading(true);
     try {
-      const fetchResponse = (await fetch(
-        process.env.VERCEL_URL + "/api/indicators",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      )) as any;
-      const response = await fetchResponse.json();
-      // eslint-disable-next-line no-console
-      console.log(response);
+      const fetchResponse = (await fetch("/api/indicators", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })) as any;
+      await fetchResponse.json();
       router.push("/dashboard/supervisor/indicadores/plantillas");
     } catch (error) {
       // eslint-disable-next-line no-console

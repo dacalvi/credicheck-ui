@@ -38,25 +38,19 @@ async function credentialUpdated(payload: any) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function credentialCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: CREDENTIAL CREATED");
+  //TODO: Implement WEBHOOK: CREDENTIAL CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function linkUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: LINK UPDATED");
+  // TODO: Implement WEBHOOK: LINK UPDATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function extractionCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: EXTRACTION CREATED");
+  //TODO: Implement WEBHOOK: EXTRACTION CREATED
 }
 
 async function extractionUpdated(payload: any) {
@@ -72,23 +66,17 @@ async function extractionUpdated(payload: any) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function taxreturnCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX RETURN CREATED");
+  //TODO: implement WEBHOOK: TAX RETURN CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function fileCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: FILE CREATED");
+  //TODO: implement WEBHOOK: FILE CREATED
 }
 
 async function invoiceCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: INVOICE CREATED");
   const prisma = new PrismaClient();
   await prisma.invoice.create({
     data: {
@@ -142,102 +130,74 @@ async function invoiceCreated(payload: any) {
   });
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function invoicePaymentCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: INVOICE PAYMENT CREATED");
+  //TODO: implement WEBHOOK: INVOICE PAYMENT CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function exportCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: EXPORT CREATED");
+  //TODO: implement WEBHOOK: EXPORT CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function exportUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: EXPORT UPDATED");
+  //TODO: implement WEBHOOK: EXPORT UPDATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function taxStatusCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX STATUS CREATED");
+  //TODO: implement WEBHOOK: TAX STATUS CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function taxStatusUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX STATUS UPDATED");
+  //TODO: implement WEBHOOK: TAX STATUS UPDATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function taxComplianceCheckCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX COMPLIANCE CHECK CREATED");
+  //TODO: implement WEBHOOK: TAX COMPLIANCE CHECK CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function taxComplianceCheckUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX COMPLIANCE CHECK UPDATED");
+  //TODO: implement WEBHOOK: TAX COMPLIANCE CHECK UPDATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function taxRetentionCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX RETENTION CREATED");
+  //TODO: implement WEBHOOK: TAX RETENTION CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function taxRetentionUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX RETENTION UPDATED");
+  //TODO: implement WEBHOOK: TAX RETENTION UPDATED
 }
 
+//eslint-disable-next-line @typescript-eslint/no-unused-vars
 function electronicAccountingRecordCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: ELECTRONIC ACCOUNTING RECORD CREATED");
+  //TODO: implement WEBHOOK: ELECTRONIC ACCOUNTING RECORD CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function electronicAccountingRecordUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: ELECTRONIC ACCOUNTING RECORD UPDATED");
+  //TODO: implement WEBHOOK: ELECTRONIC ACCOUNTING RECORD UPDATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function invoiceLineItemCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: INVOICE LINE ITEM CREATED");
+  //TODO: implement WEBHOOK: INVOICE LINE ITEM CREATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function invoiceUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: INVOICE UPDATED");
+  //TODO: implement WEBHOOK: INVOICE UPDATED
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function invoicePaymentUpdated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: INVOICE PAYMENT UPDATED");
+  //TODO: implement WEBHOOK: INVOICE PAYMENT UPDATED
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

@@ -7,7 +7,7 @@ import {Spinner} from "flowbite-react";
 import Link from "next/link";
 
 const Index: React.FC = () => {
-  const {status, data} = useSession();
+  const {status} = useSession();
   const router = useRouter();
   const [loadingCompaniesCount, setLoadingCompaniesCount] = useState(false);
   const [loadingProcessCount, setLoadingProcessCount] = useState(false);
@@ -18,7 +18,7 @@ const Index: React.FC = () => {
 
   const getCompaniesCount = async () => {
     setLoadingCompaniesCount(true);
-    const res = await fetch(process.env.VERCEL_URL + "/api/companies/count");
+    const res = await fetch("/api/companies/count");
     const {companiesCount} = await res.json();
     setCompaniesCount(companiesCount);
     setLoadingCompaniesCount(false);
@@ -26,7 +26,7 @@ const Index: React.FC = () => {
 
   const getProcessCount = async () => {
     setLoadingProcessCount(true);
-    const res = await fetch(process.env.VERCEL_URL + "/api/processes/count");
+    const res = await fetch("/api/processes/count");
     const {processesCount} = await res.json();
     setprocessesCount(processesCount);
     setLoadingProcessCount(false);
@@ -34,16 +34,11 @@ const Index: React.FC = () => {
 
   const getUsersCount = async () => {
     setLoadingUsersCount(true);
-    const res = await fetch(process.env.VERCEL_URL + "/api/users/count");
+    const res = await fetch("/api/users/count");
     const {usersCount} = await res.json();
     setUsersCount(usersCount);
     setLoadingUsersCount(false);
   };
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(data);
-  }, [data]);
 
   useEffect(() => {
     if (status === "unauthenticated") {

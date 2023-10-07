@@ -27,7 +27,7 @@ const Index: React.FC = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      const response = await fetch(process.env.VERCEL_URL + "/api/charts", {
+      const response = await fetch("/api/charts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

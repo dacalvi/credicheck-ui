@@ -22,9 +22,6 @@ export const yearsOfActivity = async (
       payload.sat_ws_api_key
     );
 
-    // eslint-disable-next-line no-console
-    console.log(payload);
-
     const taxStatus: TaxStatusResponseType = await sdk.taxStatus.getTaxStatus(
       payload.rfc
     );
@@ -80,8 +77,6 @@ export const yearsOfActivity = async (
       };
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };

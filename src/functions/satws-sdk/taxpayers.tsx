@@ -68,8 +68,6 @@ export class TaxPayersNode extends Service {
       query += `&itemsPerPage=${itemsPerPage}`;
     }
 
-    // eslint-disable-next-line no-console
-    console.log("query", `/taxpayers/${rfc}/tax-compliance-checks?${query}`);
     return this.client.process({
       url: `/taxpayers/${rfc}/tax-compliance-checks?${query}`,
     });

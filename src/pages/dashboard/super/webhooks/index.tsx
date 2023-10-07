@@ -29,7 +29,7 @@ const Index: React.FC = () => {
 
   const loadWebhooklist = async () => {
     setLoading(true);
-    const response = await fetch(process.env.VERCEL_URL + "/api/webhooks");
+    const response = await fetch("/api/webhooks");
     const data = await response.json();
     setWebhookList(data.webhooks);
     setLoading(false);
@@ -76,22 +76,14 @@ const Index: React.FC = () => {
       enabled: enabled,
     };
 
-    // eslint-disable-next-line no-console
-    console.log(payload);
-
-    const fetchResponse = (await fetch(
-      process.env.VERCEL_URL + "/api/webhooks/" + id,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      }
-    )) as any;
-    const data = await fetchResponse.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
+    const fetchResponse = (await fetch("/api/webhooks/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })) as any;
+    await fetchResponse.json();
     setLoading(false);
     loadWebhooklist();
   };
@@ -99,18 +91,13 @@ const Index: React.FC = () => {
   const deleteWebhook = async (id: string) => {
     setLoading(true);
 
-    const fetchResponse = (await fetch(
-      process.env.VERCEL_URL + "/api/webhooks/" + id,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )) as any;
-    const data = await fetchResponse.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
+    const fetchResponse = (await fetch("/api/webhooks/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })) as any;
+    await fetchResponse.json();
     setLoading(false);
     loadWebhooklist();
   };
@@ -118,21 +105,16 @@ const Index: React.FC = () => {
   const addWebhook = async (event: string) => {
     setLoading(true);
 
-    const fetchResponse = (await fetch(
-      process.env.VERCEL_URL + "/api/webhooks/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          event: event,
-        }),
-      }
-    )) as any;
-    const data = await fetchResponse.json();
-    // eslint-disable-next-line no-console
-    console.log(data);
+    const fetchResponse = (await fetch("/api/webhooks/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        event: event,
+      }),
+    })) as any;
+    await fetchResponse.json();
     setLoading(false);
     loadWebhooklist();
   };

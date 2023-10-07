@@ -15,12 +15,8 @@ export const addToQueue = async (uuid: string) => {
 
   try {
     const response = await axios.get(fetchUrl, {headers});
-    // eslint-disable-next-line no-console
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };

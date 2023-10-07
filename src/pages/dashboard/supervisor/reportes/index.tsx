@@ -106,7 +106,7 @@ const Index: React.FC = () => {
   }
 
   const loadProcessCall = useCallback(async () => {
-    const response = await fetch(process.env.VERCEL_URL + "/api/processes");
+    const response = await fetch("/api/processes");
     const data = await response.json();
 
     //enrich the data.processes with the scoreSum and set it to the score property of the process
@@ -135,29 +135,17 @@ const Index: React.FC = () => {
     );
     if (confirm) {
       //delete the process
-      const response = await fetch(
-        process.env.VERCEL_URL + "/api/processes/" + id,
-        {
-          method: "DELETE",
-        }
-      );
-      const data = await response.json();
-
-      // eslint-disable-next-line no-console
-      console.log(data);
+      const response = await fetch("/api/processes/" + id, {
+        method: "DELETE",
+      });
+      await response.json();
 
       //reload the processes
       await loadProcessCall();
     }
 
-    // eslint-disable-next-line no-console
-    console.log("delete process with id: " + id);
-
     //reload the processes
     await loadProcessCall();
-
-    // eslint-disable-next-line no-console
-    console.log("reload processes");
   };
 
   useEffect(() => {

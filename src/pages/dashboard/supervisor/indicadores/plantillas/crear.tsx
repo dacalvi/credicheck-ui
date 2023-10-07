@@ -68,7 +68,7 @@ const Index: React.FC = () => {
 
   const loadIndicators = async () => {
     setLoadingIndicators(true);
-    const response = await fetch(process.env.VERCEL_URL + "/api/indicators");
+    const response = await fetch("/api/indicators");
     const data = await response.json();
     setIndicators(data.indicators?.indicators);
     setLoadingIndicators(false);
@@ -81,19 +81,14 @@ const Index: React.FC = () => {
     };
     setSaveLoading(true);
     try {
-      const fetchResponse = (await fetch(
-        process.env.VERCEL_URL + "/api/indicators",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      )) as any;
-      const response = await fetchResponse.json();
-      // eslint-disable-next-line no-console
-      console.log(response);
+      const fetchResponse = (await fetch("/api/indicators", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })) as any;
+      await fetchResponse.json();
       router.push("/dashboard/supervisor/indicadores/plantillas");
     } catch (error) {
       // eslint-disable-next-line no-console

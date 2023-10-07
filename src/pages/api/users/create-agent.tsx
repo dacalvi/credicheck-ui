@@ -39,7 +39,6 @@ export default async function handler(req: any, res: any) {
 }
 
 async function generatePassword(password: string) {
-  // eslint-disable-next-line no-console
   const hash = await bcrypt.hash(password, "$2b$10$gaZiwMSD2p06JeCDpcukC.");
   return hash;
 }

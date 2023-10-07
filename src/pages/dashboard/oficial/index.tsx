@@ -56,7 +56,7 @@ const Index: React.FC = () => {
 
   const loadProcesses = async () => {
     setLoadingProcesses(true);
-    const res = await fetch(process.env.VERCEL_URL + "/api/processes");
+    const res = await fetch("/api/processes");
     const {processes} = await res.json();
     setProcesses(processes);
     setLoadingProcesses(false);
@@ -64,7 +64,7 @@ const Index: React.FC = () => {
 
   const getProspectsCount = async () => {
     setLoadingProspectsCount(true);
-    const res = await fetch(process.env.VERCEL_URL + "/api/prospects/count");
+    const res = await fetch("/api/prospects/count");
     const {prospectsCount} = await res.json();
     setProspectsCount(prospectsCount);
     setLoadingProspectsCount(false);
@@ -72,7 +72,7 @@ const Index: React.FC = () => {
 
   const getProcessesCount = async () => {
     setLoadingProcessesCount(true);
-    const res = await fetch(process.env.VERCEL_URL + "/api/processes/count");
+    const res = await fetch("/api/processes/count");
     const {processesCount} = await res.json();
     setProcessesCount(processesCount);
     setLoadingProcessesCount(false);

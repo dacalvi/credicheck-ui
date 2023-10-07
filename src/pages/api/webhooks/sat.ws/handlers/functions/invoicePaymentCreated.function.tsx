@@ -1,6 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function invoicePaymentCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: INVOICE PAYMENT CREATED");
+  //TODO: implement WEBHOOK: INVOICE PAYMENT CREATED
 }

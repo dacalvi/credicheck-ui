@@ -12,9 +12,6 @@ export const blackListStatus = async (
       payload.sat_ws_api_key
     );
 
-    // eslint-disable-next-line no-console
-    console.log(payload);
-
     const blackListStatus: InvoicingBlacklistStatusResponseType =
       await sdk.insights.getInvoicingBlacklistStatus(payload.rfc);
 
@@ -44,8 +41,6 @@ export const blackListStatus = async (
 
     return result;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };

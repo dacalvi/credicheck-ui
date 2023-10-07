@@ -26,8 +26,6 @@ export const clientPortfolio = async (
 
     return result;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
     return null;
   }
 };

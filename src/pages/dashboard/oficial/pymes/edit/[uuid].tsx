@@ -45,9 +45,7 @@ const Index: React.FC = () => {
 
   const loadClient = async () => {
     setLoading(true);
-    const response = await fetch(
-      process.env.VERCEL_URL + "/api/prospects/uuid/" + router.query.uuid
-    );
+    const response = await fetch("/api/prospects/uuid/" + router.query.uuid);
     const data = await response.json();
     setClient(data.user);
     setLoading(false);
@@ -55,9 +53,7 @@ const Index: React.FC = () => {
 
   const loadExtractions = async () => {
     setLoadingExtractions(true);
-    const response = await fetch(
-      process.env.VERCEL_URL + "/api/extractions/user/" + router.query.uuid
-    );
+    const response = await fetch("/api/extractions/user/" + router.query.uuid);
     const data = await response.json();
     setExtractions(data.extractions);
     setLoadingExtractions(false);
@@ -65,9 +61,7 @@ const Index: React.FC = () => {
 
   const refreshExtractions = async () => {
     setLoadingExtractions(true);
-    const response = await fetch(
-      process.env.VERCEL_URL + "/api/extractions/list/" + router.query.uuid
-    );
+    const response = await fetch("/api/extractions/list/" + router.query.uuid);
     const data = await response.json();
     setExtractions(data.extractions);
     setLoadingExtractions(false);

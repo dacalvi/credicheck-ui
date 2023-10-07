@@ -18,7 +18,7 @@ const Index: React.FC = () => {
 
   const loadCompanies = async () => {
     setLoading(true);
-    const response = await fetch(process.env.VERCEL_URL + "/api/companies");
+    const response = await fetch("/api/companies");
     const data = await response.json();
     setCompanies(data.companies);
     setLoading(false);
@@ -30,15 +30,10 @@ const Index: React.FC = () => {
     if (confirm) {
       setLoading(true);
       //delete the user
-      const response = await fetch(
-        process.env.VERCEL_URL + "/api/companies/" + id,
-        {
-          method: "DELETE",
-        }
-      );
-      const data = await response.json();
-      // eslint-disable-next-line no-console
-      console.log(data);
+      const response = await fetch("/api/companies/" + id, {
+        method: "DELETE",
+      });
+      await response.json();
       //reload the users
       loadCompanies();
     }

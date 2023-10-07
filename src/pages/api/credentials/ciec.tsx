@@ -72,8 +72,6 @@ async function authenticateCiec(req: any, res: any) {
           accountType: "PF",
           country: "MX",
         };
-        // eslint-disable-next-line no-console
-        console.log("profile", profile);
         const headers2 = {
           Authorization: "Token " + process.env.MOFFIN_TOKEN,
           "Content-Type": "application/json",
@@ -82,12 +80,8 @@ async function authenticateCiec(req: any, res: any) {
           `${process.env.MOFFIN_WS_URL}/profiles`,
           profile, //profile
           {headers: headers2}
-        );
-
-        // eslint-disable-next-line no-console
-        console.log(profileResponse.data);
+        );        
       */
-        // eslint-disable-next-line no-console
 
         await prisma.client.update({
           where: {
@@ -108,8 +102,6 @@ async function authenticateCiec(req: any, res: any) {
         .json({message: "Success", success: true, response: response.data});
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
-    //console.log(error);
     await prisma.client.update({
       where: {
         uuid: req.body.uuid,

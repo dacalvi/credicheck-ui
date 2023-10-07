@@ -7,6 +7,7 @@ import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
+import {get_url} from "../../../../functions/helpers/index";
 
 const Index: React.FC = () => {
   const {status} = useSession();
@@ -42,9 +43,7 @@ const Index: React.FC = () => {
 
   const loadIndicatorTemplates = async () => {
     setLoadingIndicatorTemplates(true);
-    const response = await fetch(
-      process.env.VERCEL_URL + "/api/indicator_templates"
-    );
+    const response = await fetch("/api/indicator_templates");
     const data = await response.json();
 
     const indicatorTemplates = data.indicatorTemplates.map(
@@ -75,16 +74,13 @@ const Index: React.FC = () => {
 
     try {
       setLoading(true);
-      const fetchResponse = (await fetch(
-        process.env.VERCEL_URL + "/api/prospects",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }
-      )) as any;
+      const fetchResponse = (await fetch("/api/prospects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })) as any;
 
       const response = await fetchResponse.json();
 
@@ -95,12 +91,12 @@ const Index: React.FC = () => {
         "Ingreso de Credenciales SAT",
         `Hola, 
           necesitamos que ingreses tus credenciales de SAT en el siguiente link 
-          <a href='${process.env.VERCEL_URL}/credenciales/${response.newProspect.uuid}' 
-            target='_blank'>${process.env.VERCEL_URL}/credenciales/${response.newProspect.uuid}</a>`
+          <a href='${get_url()}/credenciales/${response.newProspect.uuid}' 
+            target='_blank'>${get_url()}/credenciales/${
+          response.newProspect.uuid
+        }</a>`
       );
 
-      // eslint-disable-next-line no-console
-      console.log(response);
       setLoading(false);
       router.push("/dashboard/oficial/pymes");
     } catch (error) {
@@ -111,15 +107,12 @@ const Index: React.FC = () => {
 
   const validarRFC = async (rfc: string) => {
     try {
-      const fetchResponse = (await fetch(
-        process.env.VERCEL_URL + "/api/prospects/validate_rfc/" + rfc,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )) as any;
+      const fetchResponse = (await fetch("/api/prospects/validate_rfc/" + rfc, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })) as any;
       const response = await fetchResponse.json();
       return response.success;
     } catch (error) {

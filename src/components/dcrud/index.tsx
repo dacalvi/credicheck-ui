@@ -1,4 +1,4 @@
-import React, {useCallback, useRef} from "react";
+import React, {useRef} from "react";
 import {AgGridReact} from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -52,12 +52,6 @@ const DCrud: React.FC<DcrudProps> = ({options}) => {
   ];
   */
 
-  //create a function to get the gridApi
-  const onGridReady = useCallback((params: any) => {
-    // eslint-disable-next-line no-console
-    console.log(params);
-  }, []);
-
   const getFieldNamesArray = async (responseData: any) => {
     const fieldNames = Object.keys(responseData[0]);
     const columnDefs = fieldNames.map((fieldName) => {
@@ -83,19 +77,13 @@ const DCrud: React.FC<DcrudProps> = ({options}) => {
 
   const infiniteDatasource: IDatasource = {
     getRows: async (params) => {
-      // eslint-disable-next-line no-console
-      console.log("asking for " + params.startRow + " to " + params.endRow);
-
-      const url = `${process.env.VERCEL_URL}/api/${table}`;
+      const url = `/api/${table}`;
       const headers = {
         "Content-Type": "application/json",
       };
 
       try {
         const response = await axios.get(url, {headers});
-        // eslint-disable-next-line no-console
-        console.log(response.data);
-
         if (columnDefs.length === 0) {
           const columnDefs = await getFieldNamesArray(response.data);
           setColumnDefs(columnDefs);
@@ -103,8 +91,6 @@ const DCrud: React.FC<DcrudProps> = ({options}) => {
 
         params.successCallback(response.data, response.data.length);
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         return null;
       }
       /*
@@ -128,7 +114,6 @@ const DCrud: React.FC<DcrudProps> = ({options}) => {
         ref={gridRef}
         columnDefs={columnDefs}
         rowSelection="multiple"
-        onGridReady={onGridReady}
         rowModelType="infinite"
         datasource={infiniteDatasource}
         defaultColDef={{

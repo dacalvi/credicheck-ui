@@ -48,7 +48,7 @@ const Index: React.FC = () => {
   }, [router, status]);
 
   const loadCompanies = async () => {
-    const res = await fetch(process.env.VERCEL_URL + "/api/companies");
+    const res = await fetch("/api/companies");
     const {companies} = await res.json();
 
     const companiesArray = companies.map((company: any) => {
@@ -85,16 +85,13 @@ const Index: React.FC = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(process.env.VERCEL_URL + "/api/users", {
+      const response = await fetch("/api/users", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       });
       if (response.status !== 200) {
         setLoading(false);
-        // eslint-disable-next-line no-console
-        console.log("something went wrong");
-        //set an error banner here
         setShowErrorMessage(true);
         setShowSuccessMessage(false);
 
@@ -106,12 +103,7 @@ const Index: React.FC = () => {
 
         //redirect to users page
         router.push("/dashboard/super/usuarios");
-
-        // eslint-disable-next-line no-console
-        console.log("form submitted successfully !!!");
-        //set a success banner here
       }
-      //check response, if success is false, dont take them to success page
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log("there was an error submitting", error);

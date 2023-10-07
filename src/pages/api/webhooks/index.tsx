@@ -36,8 +36,6 @@ export default async function handler(req: any, res: any) {
 
     const result = await addWebhook(payload);
 
-    // eslint-disable-next-line no-console
-    console.log(payload, result);
     return res.status(200).json({webhooks: result, success: true});
   } else {
     return res

@@ -1,6 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function taxreturnCreated(payload: any) {
-  // eslint-disable-next-line no-console
-  console.log(payload);
-  // eslint-disable-next-line no-console
-  console.log("WEBHOOK: TAX RETURN CREATED");
+  //TODO: implement WEBHOOK: TAX RETURN CREATED
 }

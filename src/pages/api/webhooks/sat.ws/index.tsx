@@ -7,8 +7,6 @@ export default async function handler(req: any, res: any) {
   try {
     await webhookHandler(type, data);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
     return res
       .status(500)
       .json({message: "Internal Server Error", success: false});

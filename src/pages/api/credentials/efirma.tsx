@@ -9,8 +9,5 @@ export default async function handler(req: any, res: any) {
 }
 
 async function authenticateEfirma(req: any, res: any) {
-  const data = req.body;
-  // eslint-disable-next-line no-console
-  console.log(data);
   return res.status(200).json({message: "Success", success: true});
 }

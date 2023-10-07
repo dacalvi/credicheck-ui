@@ -56,8 +56,6 @@ async function deleteChart(id: number, req: any, res: any) {
 }
 
 async function updateChart(id: number, data: any) {
-  // eslint-disable-next-line no-console
-  console.log(data);
   const company = await prisma.chart.update({
     where: {
       id: Number(id),

@@ -109,7 +109,7 @@ const Index: React.FC = () => {
   }
 
   const loadProcessCall = useCallback(async () => {
-    const response = await fetch(process.env.VERCEL_URL + "/api/processes");
+    const response = await fetch("/api/processes");
     const data = await response.json();
 
     //enrich the data.processes with the scoreSum and set it to the score property of the process

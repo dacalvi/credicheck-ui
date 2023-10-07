@@ -17,7 +17,7 @@ const Index: React.FC = () => {
 
   const loadClients = async () => {
     setClientsLoading(true);
-    const response = await fetch(process.env.VERCEL_URL + "/api/prospects");
+    const response = await fetch("/api/prospects");
     const data = await response.json();
     const clients = data.prospects.map((prospect: any) => {
       return {
@@ -49,15 +49,14 @@ const Index: React.FC = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      const response = await fetch(process.env.VERCEL_URL + "/api/processes", {
+      await fetch("/api/processes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-      // eslint-disable-next-line no-console
-      console.log(response);
+
       setLoading(false);
       router.push("/dashboard/supervisor/reportes");
     } catch (error) {

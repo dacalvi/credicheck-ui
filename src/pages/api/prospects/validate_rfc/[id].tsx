@@ -16,8 +16,6 @@ export default async function handler(req: any, res: any) {
 
       try {
         const response = await axios.get(url, {headers});
-        // eslint-disable-next-line no-console
-        console.log(response.data);
 
         if (response.data.valid === true) {
           return res
@@ -29,8 +27,6 @@ export default async function handler(req: any, res: any) {
             .json({message: "Error", success: false, response: response.data});
         }
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
         return null;
       }
     } else {

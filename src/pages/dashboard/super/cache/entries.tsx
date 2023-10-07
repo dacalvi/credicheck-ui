@@ -23,7 +23,7 @@ const Index: React.FC = () => {
 
   const loadCacheEntries = async () => {
     setLoading(true);
-    const response = await fetch(process.env.VERCEL_URL + "/api/cache");
+    const response = await fetch("/api/cache");
     const data = await response.json();
     setCacheEntries(data.cacheEntries);
     setLoading(false);

@@ -27,7 +27,7 @@ const Index: React.FC = () => {
 
   const loadRequestLogs = async () => {
     setLoading(true);
-    const response = await fetch(process.env.VERCEL_URL + "/api/requests");
+    const response = await fetch("/api/requests");
     const data = await response.json();
     setRequestLogs(data.requests);
     setLoading(false);
