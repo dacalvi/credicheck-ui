@@ -20,9 +20,11 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
         // eslint-disable-next-line no-console
-        console.log(`https://${process.env.VERCEL_URL}/api/login`);
+        console.log(
+          `${process.env.NEXT_PUBLIC_PROTOCOL}://${process.env.VERCEL_URL}/api/login`
+        );
         const response = await fetch(
-          `https://${process.env.VERCEL_URL}/api/login`,
+          `${process.env.NEXT_PUBLIC_PROTOCOL}://${process.env.VERCEL_URL}/api/login`,
           {
             method: "POST",
             headers: {
