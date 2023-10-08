@@ -95,27 +95,10 @@ async function getProcesses(req: any, res: any) {
 
   const token = await getTokenInfo(req);
 
-  //get the user company
-  const user = await prisma.user.findUnique({
-    where: {
-      id: Number(token.id),
-    },
-    select: {
-      role: {
-        select: {
-          name: true,
-        },
-      },
-      company: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const isSupervisor = await isRole(req, [RoleList.SUPERVISOR]);
+  const isAgente = await isRole(req, [RoleList.AGENTE]);
 
-  if (user?.role.name === "supervisor") {
+  if (isSupervisor) {
     //get the processes for the current company
     const processes = await prisma.process.findMany({
       select: {
@@ -156,7 +139,7 @@ async function getProcesses(req: any, res: any) {
         client: {
           owner: {
             company: {
-              id: user.company.id,
+              id: Number(token.companyId),
             },
           },
         },
@@ -164,7 +147,7 @@ async function getProcesses(req: any, res: any) {
       },
     });
     return processes;
-  } else if (user?.role.name === "agente") {
+  } else if (isAgente) {
     //process by agent
     const processes = await prisma.process.findMany({
       where: {
