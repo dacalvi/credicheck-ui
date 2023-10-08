@@ -1,5 +1,7 @@
 import {PrismaClient} from "@prisma/client";
-import {getToken} from "next-auth/jwt";
+import {RoleList} from "constants/roles";
+import {getTokenInfo} from "functions/helpers/getTokenInfo";
+import {isRole} from "functions/helpers/isRole";
 const prisma = new PrismaClient();
 
 export default async function handler(req: any, res: any) {
@@ -13,10 +15,12 @@ export default async function handler(req: any, res: any) {
 }
 
 async function deleteUser(id: number, req: any, res: any) {
-  const token = await getToken({req});
-  if (!token) {
+  const isRoleValid = await isRole(req, [RoleList.SUPERVISOR, RoleList.SUPER]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
+
+  const token = await getTokenInfo(req);
 
   //get the company id from the logged in user
   const user = await prisma.user.findUnique({

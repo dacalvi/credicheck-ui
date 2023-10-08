@@ -1,13 +1,19 @@
 import {PrismaClient} from "@prisma/client";
+import {RoleList} from "constants/roles";
+import {getTokenInfo} from "functions/helpers/getTokenInfo";
+import {isRole} from "functions/helpers/isRole";
 import {addToQueue} from "functions/queue";
 import {generateUUID} from "functions/uuid";
-import {getToken} from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: any, res: any) {
-  const token = await getToken({req});
-  if (!token) {
+  const isRoleValid = await isRole(req, [
+    RoleList.SUPERVISOR,
+    RoleList.SUPER,
+    RoleList.AGENTE,
+  ]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
@@ -25,9 +31,12 @@ export default async function handler(req: any, res: any) {
 
 async function createProcess(req: any, res: any) {
   const data = req.body;
-  const token = await getToken({req});
-
-  if (!token) {
+  const isRoleValid = await isRole(req, [
+    RoleList.SUPERVISOR,
+    RoleList.SUPER,
+    RoleList.AGENTE,
+  ]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
@@ -74,33 +83,22 @@ async function createProcess(req: any, res: any) {
 }
 
 async function getProcesses(req: any, res: any) {
-  const token = await getToken({req});
-
-  if (!token) {
+  //TODO: Refactor this!
+  const isRoleValid = await isRole(req, [
+    RoleList.SUPERVISOR,
+    RoleList.SUPER,
+    RoleList.AGENTE,
+  ]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
-  //get the user company
-  const user = await prisma.user.findUnique({
-    where: {
-      id: Number(token.id),
-    },
-    select: {
-      role: {
-        select: {
-          name: true,
-        },
-      },
-      company: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
+  const token = await getTokenInfo(req);
 
-  if (user?.role.name === "supervisor") {
+  const isSupervisor = await isRole(req, [RoleList.SUPERVISOR]);
+  const isAgente = await isRole(req, [RoleList.AGENTE]);
+
+  if (isSupervisor) {
     //get the processes for the current company
     const processes = await prisma.process.findMany({
       select: {
@@ -141,7 +139,7 @@ async function getProcesses(req: any, res: any) {
         client: {
           owner: {
             company: {
-              id: user.company.id,
+              id: Number(token.companyId),
             },
           },
         },
@@ -149,7 +147,7 @@ async function getProcesses(req: any, res: any) {
       },
     });
     return processes;
-  } else if (user?.role.name === "agente") {
+  } else if (isAgente) {
     //process by agent
     const processes = await prisma.process.findMany({
       where: {

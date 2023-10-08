@@ -89,9 +89,7 @@ const Index: React.FC = () => {
   const loadIndicatorTemplate = async (id: number) => {
     if (!id) return;
     setLoadingIndicatorTemplate(true);
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_URL + `/indicator_templates/${id}`
-    );
+    const response = await fetch(`/api/indicator_templates/${id}`);
     const data = await response.json();
     setIndicatorTemplate(data.indicatorTemplate);
     setLoadingIndicatorTemplate(false);
