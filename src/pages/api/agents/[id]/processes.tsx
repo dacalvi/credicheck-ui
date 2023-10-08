@@ -1,16 +1,13 @@
 import {PrismaClient} from "@prisma/client";
+import {RoleList} from "constants/roles";
+import {getTokenInfo} from "functions/helpers/getTokenInfo";
+import {isRole} from "functions/helpers/isRole";
 import {addToQueue} from "functions/queue";
 import {generateUUID} from "functions/uuid";
-import {getToken} from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: any, res: any) {
-  const token = await getToken({req});
-  if (!token) {
-    return res.status(401).json({message: "Unauthorized", success: false});
-  }
-
   if (req.method === "GET") {
     const processes = await getProcesses(req, res);
     return res.status(200).json({processes, success: true});
@@ -25,11 +22,6 @@ export default async function handler(req: any, res: any) {
 
 async function createProcess(req: any, res: any) {
   const data = req.body;
-  const token = await getToken({req});
-
-  if (!token) {
-    return res.status(401).json({message: "Unauthorized", success: false});
-  }
 
   //get the indicators based on the template selected by the user
   const indicators = await prisma.indicator.findMany({
@@ -74,11 +66,16 @@ async function createProcess(req: any, res: any) {
 }
 
 async function getProcesses(req: any, res: any) {
-  const token = await getToken({req});
-
-  if (!token) {
+  const isRoleValid = await isRole(req, [
+    RoleList.SUPERVISOR,
+    RoleList.SUPER,
+    RoleList.AGENTE,
+  ]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
+
+  const token = await getTokenInfo(req);
 
   //get the user company
   const user = await prisma.user.findUnique({

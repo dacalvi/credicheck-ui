@@ -1,8 +1,8 @@
 import {PrismaClient} from "@prisma/client";
 import {yearsOfActivity} from "constants/indicators/years-of-activity";
 import {RoleList} from "constants/roles";
+import {getTokenInfo} from "functions/helpers/getTokenInfo";
 import {isRole} from "functions/helpers/isRole";
-import {getToken} from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
@@ -23,32 +23,17 @@ export default async function handler(req: any, res: any) {
 async function updateIndicators(req: any, res: any) {
   const data = req.body;
 
-  const token = await getToken({req});
-  if (!token) {
+  const isRoleValid = await isRole(req, [
+    RoleList.SUPERVISOR,
+    RoleList.SUPER,
+    RoleList.AGENTE,
+  ]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
-  //get the user company
-  const user = await prisma.user.findUnique({
-    where: {
-      id: Number(token.id),
-    },
-    select: {
-      role: {
-        select: {
-          name: true,
-        },
-      },
-      company: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-
-  const companyId = Number(user?.company.id);
+  const token = await getTokenInfo(req);
+  const companyId = token.companyId;
 
   //update the template
   await prisma.indicatorTemplate.update({
@@ -59,7 +44,7 @@ async function updateIndicators(req: any, res: any) {
       name: data.name,
       company: {
         connect: {
-          id: companyId,
+          id: Number(companyId),
         },
       },
     },
@@ -88,10 +73,16 @@ async function updateIndicators(req: any, res: any) {
 async function createIndicators(req: any, res: any) {
   const data = req.body;
 
-  const token = await getToken({req});
-  if (!token) {
+  const isRoleValid = await isRole(req, [
+    RoleList.SUPERVISOR,
+    RoleList.SUPER,
+    RoleList.AGENTE,
+  ]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
+
+  const token = await getTokenInfo(req);
 
   //get the user company
   const user = await prisma.user.findUnique({
