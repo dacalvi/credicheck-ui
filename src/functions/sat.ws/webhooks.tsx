@@ -83,9 +83,12 @@ export const addWebhook = async (payload: WebhookPayloadType) => {
       },
       data: {
         url:
-          process.env.ENVIRONMENT === "development"
+          process.env.NEXT_PUBLIC_VERCEL_ENV === "development"
             ? process.env.TUNNEL_URL + "/api/webhooks/sat.ws"
-            : process.env.VERCEL_URL + "/api/webhooks/sat.ws",
+            : process.env.NEXT_PUBLIC_PROTOCOL +
+              "://" +
+              process.env.VERCEL_URL +
+              "/api/webhooks/sat.ws",
         events: payload.events,
         enabled: true,
       },

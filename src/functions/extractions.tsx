@@ -5,9 +5,13 @@ export const createExtraction = async (uuid: string | null) => {
   if (uuid === "") return null;
 
   const targetUrl =
-    process.env.ENVIRONMENT === "development"
+    process.env.NEXT_PUBLIC_VERCEL_ENV === "development"
       ? process.env.TUNNEL_URL + "/api/extractions/" + uuid
-      : process.env.VERCEL_URL + "/api/extractions/" + uuid;
+      : process.env.NEXT_PUBLIC_PROTOCOL +
+        "://" +
+        process.env.NEXT_PUBLIC_VERCEL_URL +
+        "/api/extractions/" +
+        uuid;
 
   const fetchUrl = `https://api.serverlessq.com?id=${process.env.SERVERLESSQ_QUEUE_ID}&target=${targetUrl}`;
 

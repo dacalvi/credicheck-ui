@@ -53,29 +53,22 @@ export const yearsOfActivity = async (
 
     const config: IndicatorConfigType = JSON.parse(indicator.config);
 
-    //TODO: need to make sure of this if is > or >=
+    //TODO: stress this indicator
 
-    const index = config.segments.findIndex(
-      (element) => yearsOfActivity > element
-    );
-
-    if (index !== -1) {
-      return {
-        processId: payload.processId,
-        uuid: payload.uuid,
-        result: config.segmentResults[index + 1],
-        score: 100,
-        result_explanation: `${yearsOfActivity}`,
-      };
-    } else {
-      return {
-        processId: payload.processId,
-        uuid: payload.uuid,
-        result: config.segmentResults[0],
-        score: 0,
-        result_explanation: `${yearsOfActivity}`,
-      };
+    let rango = 0;
+    for (let i = 0; i < config.segments.length; i++) {
+      if (yearsOfActivity > config.segments[i]) {
+        rango = i + 1;
+      }
     }
+
+    return {
+      processId: payload.processId,
+      uuid: payload.uuid,
+      result: config.segmentResults[rango],
+      score: 100,
+      result_explanation: `${yearsOfActivity}`,
+    };
   } catch (error) {
     return null;
   }

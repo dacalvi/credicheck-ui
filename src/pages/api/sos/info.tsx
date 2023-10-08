@@ -1,11 +1,13 @@
-import {get_url} from "functions/helpers";
+import {getToken} from "next-auth/jwt";
 
 export default async function handler(req: any, res: any) {
   if (req.method === "GET") {
+    const token = await getToken({req});
     return res.status(200).json({
       message: "Hello, world2",
-      localUrl: get_url(), // http://localhost:3000
+      vercelUrl: process.env.NEXT_PUBLIC_VERCEL_URL, // http://localhost:3000
       success: true,
+      token: token,
     });
   } else {
     return res
