@@ -1,12 +1,14 @@
 import {PrismaClient} from "@prisma/client";
 import {yearsOfActivity} from "constants/indicators/years-of-activity";
+import {RoleList} from "constants/roles";
+import {isRole} from "functions/helpers/isRole";
 import {getToken} from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: any, res: any) {
-  const token = await getToken({req});
-  if (!token) {
+  const isRoleValid = await isRole(req, [RoleList.SUPERVISOR]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
