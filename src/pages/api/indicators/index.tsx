@@ -11,8 +11,7 @@ export default async function handler(req: any, res: any) {
   }
 
   if (req.method === "GET") {
-    const indicators = await getIndicators(req, res);
-    return res.status(200).json({indicators, success: true});
+    return await getIndicators(req, res);
   } else if (req.method === "POST") {
     return await createIndicators(req, res);
   } else if (req.method === "PUT") {
@@ -180,7 +179,8 @@ async function getIndicators(req: any, res: any) {
   });
 
   if (user?.role.name === "supervisor") {
-    return {indicators: [yearsOfActivity]};
+    const indicators = {indicators: [yearsOfActivity]};
+    return res.status(200).json({indicators, success: true});
   } else {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
