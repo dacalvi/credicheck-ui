@@ -1,7 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import {yearsOfActivity} from "constants/indicators/years-of-activity";
 import {RoleList} from "constants/roles";
-import {getTokenInfo} from "functions/helpers/getTokenInfo";
 import {isRole} from "functions/helpers/isRole";
 import {getToken} from "next-auth/jwt";
 
@@ -155,29 +154,9 @@ async function getIndicators(req: any, res: any) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
 
-  const token = await getTokenInfo(req);
+  const isSupervisor = await isRole(req, [RoleList.SUPERVISOR]);
 
-  //get the user company
-  const user = await prisma.user.findUnique({
-    where: {
-      id: Number(token.id),
-    },
-    select: {
-      role: {
-        select: {
-          name: true,
-        },
-      },
-      company: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-
-  if (user?.role.name === "supervisor") {
+  if (isSupervisor) {
     const indicators = {indicators: [yearsOfActivity]};
     return res.status(200).json({indicators, success: true});
   } else {

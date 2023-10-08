@@ -6,9 +6,5 @@ export async function getTokenInfo(req: any) {
     secret: secret,
   });
 
-  if (!token) {
-    return {};
-  } else {
-    return token;
-  }
+  return token ? token : {};
 }
