@@ -1,17 +1,13 @@
 import {PrismaClient} from "@prisma/client";
 import {yearsOfActivity} from "constants/indicators/years-of-activity";
 import {RoleList} from "constants/roles";
+import {getTokenInfo} from "functions/helpers/getTokenInfo";
 import {isRole} from "functions/helpers/isRole";
 import {getToken} from "next-auth/jwt";
 
 const prisma = new PrismaClient();
 
 export default async function handler(req: any, res: any) {
-  const isRoleValid = await isRole(req, [RoleList.SUPERVISOR]);
-  if (!isRoleValid) {
-    return res.status(401).json({message: "Unauthorized", success: false});
-  }
-
   if (req.method === "GET") {
     return await getIndicators(req, res);
   } else if (req.method === "POST") {
@@ -154,11 +150,12 @@ async function createIndicators(req: any, res: any) {
 }
 
 async function getIndicators(req: any, res: any) {
-  const token = await getToken({req});
-
-  if (!token) {
+  const isRoleValid = await isRole(req, [RoleList.SUPERVISOR]);
+  if (!isRoleValid) {
     return res.status(401).json({message: "Unauthorized", success: false});
   }
+
+  const token = await getTokenInfo(req);
 
   //get the user company
   const user = await prisma.user.findUnique({
