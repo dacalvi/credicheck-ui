@@ -13,6 +13,7 @@ export default async function handler(req: any, res: any) {
 async function sendMail(req: any, res: any) {
   const data = req.body;
 
+  //TODO: Send this to env variables
   const fetchUrl = `https://rapidprod-sendgrid-v1.p.rapidapi.com/mail/send`;
 
   const headers = {

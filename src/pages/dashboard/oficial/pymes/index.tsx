@@ -114,6 +114,8 @@ const Index: React.FC = () => {
                         ? "text-rose-600"
                         : prospect.credentials_status === "active"
                         ? "text-lime-300"
+                        : prospect.credentials_status === "valid"
+                        ? "text-lime-300"
                         : "text-gray-900"
                     }>
                     {prospect.rfc}
