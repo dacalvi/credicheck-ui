@@ -1,7 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
   FiActivity,
-  FiBarChart,
   FiBarChart2,
   FiClock,
   FiCompass,
@@ -91,54 +90,7 @@ const initialState: NavigationState[] = [
         icon: <FiUsers size={20} />,
         title: "Pymes",
         roleId: 3,
-        items: [
-          {
-            url: "/dashboard/oficial/pymes",
-            title: "Ver Pymes",
-            roleId: 3,
-            items: [],
-          },
-          {
-            url: "/dashboard/oficial/pymes/crear",
-            title: "Crear Pyme",
-            roleId: 3,
-            items: [],
-          },
-        ],
-      },
-      {
-        url: "/dashboard/reportes",
-        icon: <FiFileText size={20} />,
-        title: "Reportes",
-        roleId: 3,
-        items: [
-          {
-            url: "/dashboard/oficial/reportes/crear",
-            title: "Crear Reporte",
-            roleId: 3,
-            items: [],
-          },
-          {
-            url: "/dashboard/oficial/reportes",
-            title: "Ver Reportes",
-            roleId: 3,
-            items: [],
-          },
-        ],
-      },
-      {
-        url: "/dashboard/oficial/graficos",
-        icon: <FiBarChart size={20} />,
-        title: "Graficos",
-        roleId: 3,
-        items: [
-          {
-            url: "/dashboard/oficial/graficos",
-            title: "Listar Graficos",
-            roleId: 3,
-            items: [],
-          },
-        ],
+        items: [],
       },
       /* Supervisor */
       {
