@@ -12,7 +12,7 @@ const Dropdown: React.FC = () => {
   const image = data?.user?.image || profilePic;
 
   return (
-    <Menu as="div" className="relative hidden lg:inline-block text-left mx-4">
+    <Menu as="div" className="relative hidden lg:inline-block text-left pr-4">
       <div>
         <Menu.Button className="focus:outline-none">
           <div className="relative w-8 h-8">
