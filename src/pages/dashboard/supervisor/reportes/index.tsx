@@ -10,9 +10,6 @@ import {FiClock, FiCheck, FiMinus, FiTrash} from "react-icons/fi";
 import {getColor} from "functions/colors";
 
 import {Tooltip, PieChart, Pie, Cell, ResponsiveContainer} from "recharts";
-import Line1 from "components/charts/line-1";
-import Area1 from "components/charts/area-1";
-import ConfigurableChart from "components/charts/configurableChart";
 
 type Step = {
   id: number;
@@ -126,8 +123,7 @@ const Index: React.FC = () => {
     await loadProcessCall();
 
     setLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loadProcessCall]);
 
   const deleteProcess = async (id: number) => {
     const confirm = window.confirm(
@@ -139,7 +135,6 @@ const Index: React.FC = () => {
         method: "DELETE",
       });
       await response.json();
-
       //reload the processes
       await loadProcessCall();
     }
@@ -153,13 +148,6 @@ const Index: React.FC = () => {
       router.replace("/auth/signin");
     } else {
       loadProcesses();
-
-      //call the loadProcesses function every 5 seconds
-      const interval = setInterval(() => {
-        loadProcessCall();
-      }, 5000);
-
-      return () => clearInterval(interval);
     }
   }, [loadProcessCall, loadProcesses, router, status]);
 
@@ -173,72 +161,21 @@ const Index: React.FC = () => {
           />
         </div>
 
-        <div>
-          <button
-            className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-            onClick={() => router.push("/dashboard/supervisor/graficos")}>
-            Personalizar Graficos
-          </button>
-        </div>
+        <div></div>
       </div>
-      <div className="flex mb-20">
-        <div className="mr-10">
-          <ConfigurableChart
-            description={
-              <span>Monto facturado por mes vs. Empleados</span>
-            }></ConfigurableChart>
-        </div>
 
-        <div className="mr-10">
-          <Widget
-            description={<span>Monto facturado por mes vs. Empleados</span>}>
-            <div className="w-72">
-              <Line1 />
-            </div>
-          </Widget>
-        </div>
-        <div className="mr-10">
-          <Widget description={<span>Empleados Vs. Creditos Financieros</span>}>
-            <div className="w-72">
-              <Line1 />
-            </div>
-          </Widget>
-        </div>
-        <div className="mr-10">
-          <Widget
-            description={<span>Creditos Financieros Vs. Monto Facturado</span>}>
-            <div className="w-72">
-              <Area1 />
-            </div>
-          </Widget>
-        </div>
-      </div>
       <div className="flex justify-between mb-8">
         <div>
           <SectionTitle title="Reportes" subtitle="Listar Reportes" />
         </div>
-
-        <div className="flex flex-row">
-          <div className="mr-10">
-            <button
-              className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-              onClick={() =>
-                router.push("/dashboard/supervisor/reportes/crear")
-              }>
-              Crear Nuevo Reporte
-            </button>
-          </div>
-
-          <div>
-            <button
-              className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
-              onClick={() => router.push("/dashboard/supervisor/indicadores")}>
-              Personalizar Indicadores
-            </button>
-          </div>
+        <div>
+          <button
+            className="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue"
+            onClick={() => router.push("/dashboard/oficial/reportes/crear")}>
+            Crear Nuevo Reporte
+          </button>
         </div>
       </div>
-
       <Widget>
         {loading ? (
           <div className="flex justify-center">
@@ -252,7 +189,7 @@ const Index: React.FC = () => {
             <div className="text-gray-500 w-full text-center p-5">
               No hay reportes de análisis iniciados todavía.
               <br></br>
-              <Link legacyBehavior href="/dashboard/reportes/crear">
+              <Link legacyBehavior href="/dashboard/oficial/reportes/crear">
                 <a className="text-blue-500 hover:text-blue-700">
                   Crear Nuevo Reporte
                 </a>
@@ -297,7 +234,7 @@ const Index: React.FC = () => {
                     <div className="ml-3 mt-1">
                       <div className="flex">
                         #{process.id} {process.client.firstName}{" "}
-                        {process.client.lastName} - {process.name}{" "}
+                        {process.client.lastName} - {process.name}
                         <FiTrash
                           onClick={(e) => {
                             e.stopPropagation();
@@ -312,51 +249,6 @@ const Index: React.FC = () => {
                   </span>
                 </Accordion.Title>
                 <Accordion.Content>
-                  <div className="flex justify-between mb-8">
-                    <div>
-                      <SectionTitle
-                        title="Indicadores generales a lo largo del tiempo"
-                        subtitle={
-                          "Indicadores Particulares para " +
-                          process.client.firstName +
-                          " " +
-                          process.client.lastName
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="flex mb-20">
-                    <div className="mr-10">
-                      <Widget
-                        description={
-                          <span>Monto facturado por mes vs. Empleados</span>
-                        }>
-                        <div className="w-72">
-                          <Line1 />
-                        </div>
-                      </Widget>
-                    </div>
-                    <div className="mr-10">
-                      <Widget
-                        description={
-                          <span>Empleados Vs. Creditos Financieros</span>
-                        }>
-                        <div className="w-72">
-                          <Line1 />
-                        </div>
-                      </Widget>
-                    </div>
-                    <div className="mr-10">
-                      <Widget
-                        description={
-                          <span>Creditos Financieros Vs. Monto Facturado</span>
-                        }>
-                        <div className="w-72">
-                          <Line1 />
-                        </div>
-                      </Widget>
-                    </div>
-                  </div>
                   <div className="flex flex-row w-full">
                     <div className="w-28">
                       <div style={{width: 80}}>
@@ -417,82 +309,53 @@ const Index: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="w-3/4">
-                      <div className="flex flex-col">
+                    <div className="w-3/4 ">
+                      <div className="flex flex-row flex-wrap">
                         {process.steps.map((step, index) => (
-                          <div className="flex flex-row" key={index}>
-                            <div className="w-1/2">
+                          <div className="flex flex-row flex-wrap" key={index}>
+                            <div className="">
                               {step.state === "PENDING" ? (
-                                <div className="flex flex-row">
-                                  <FiClock
-                                    color="gray"
-                                    size={22}
-                                    className="mt-1 mb-1 ml-1"
-                                  />{" "}
-                                  <div className="text-gray pt-1 pl-2">
-                                    {step.name}
+                                <div>
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[75px]">
+                                      {step.name}
+                                    </div>
+                                    <div className="rounded-md w-48 h-16">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : step.result === "SKIP" ? (
                                 <div>
-                                  <div className="flex flex-row">
-                                    <FiCheck
-                                      color="green"
-                                      size={22}
-                                      className="mt-1 mb-1 ml-1"
-                                    />{" "}
-                                    <div className="text-gray pt-1 pl-2">
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[30px]">
                                       {step.name}
                                     </div>
-                                  </div>
-                                  <div className="ml-10 mb-5">
-                                    <small>
-                                      <pre>{step.resultExplanation}</pre>
-                                    </small>
+                                    <div className="rounded-md w-48 h-16 bg-green-300 text-black p-3">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : step.result === "MANUAL" ? (
                                 <div>
-                                  <div className="flex flex-row">
-                                    <FiMinus
-                                      color="yellow"
-                                      size={22}
-                                      className="mt-1 mb-1 ml-1"
-                                    />{" "}
-                                    <div className="text-gray pt-1 pl-2">
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[75px]">
                                       {step.name}
                                     </div>
-                                  </div>
-                                  <div className="flex ml-10 mb-5">
-                                    <small>
-                                      <pre>{step.resultExplanation}</pre>
-                                    </small>
-                                    <button className="ml-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-green-600 border border-transparent rounded-lg active:bg-green-600 hover:bg-green-700 focus:outline-none focus:shadow-outline-blue">
-                                      Aprobar
-                                    </button>
-                                    <button className="ml-4 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-red-600 hover:bg-red-700 focus:outline-none focus:shadow-outline-blue">
-                                      Rechazar
-                                    </button>
+                                    <div className="rounded-md w-48 h-16 bg-lime-300">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : step.result === "REJECT" ? (
                                 <div>
-                                  <div className="flex flex-row">
-                                    <FiMinus
-                                      color="red"
-                                      size={22}
-                                      className="mt-1 mb-1 ml-1"
-                                    />{" "}
-                                    <div className="text-gray pt-1 pl-2">
-                                      <div className="flex flex-row">
-                                        {step.name}
-                                      </div>
+                                  <div className="mx-2 mb-10">
+                                    <div className="max-w-[200px] min-h-[75px]">
+                                      {step.name}
                                     </div>
-                                  </div>
-                                  <div className="ml-10 mb-5">
-                                    <small>
-                                      <pre>{step.resultExplanation}</pre>
-                                    </small>
+                                    <div className="rounded-md w-48 h-16 bg-red-400 text-black p-3">
+                                      {step.resultExplanation}
+                                    </div>
                                   </div>
                                 </div>
                               ) : null}

@@ -206,7 +206,7 @@ const Index: React.FC = () => {
       <div className="flex justify-between mb-8">
         <div>
           <SectionTitle
-            title="Informacion del Cliente"
+            title="Informacion de la Pyme"
             subtitle={client?.companyName}
           />
         </div>
@@ -216,7 +216,7 @@ const Index: React.FC = () => {
       {loading ? (
         <div className="flex">
           <Spinner color="info" aria-label="Cargando Cache" />
-          <div className="ml-2 mt-1">Cargando Cliente</div>
+          <div className="ml-2 mt-1">Cargando Pyme</div>
         </div>
       ) : (
         <div className="flex flex-col">
@@ -638,7 +638,7 @@ const Index: React.FC = () => {
                       <div className="text-gray-500 w-full text-center p-5">
                         <Link
                           legacyBehavior
-                          href="/dashboard/oficial/reportes/crear">
+                          href="/dashboard/supervisor/reportes/crear">
                           <a className="text-blue-500 hover:text-blue-700">
                             Crear Nuevo Reporte
                           </a>

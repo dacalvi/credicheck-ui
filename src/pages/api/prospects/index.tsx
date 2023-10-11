@@ -97,6 +97,7 @@ async function getProspects(req: any, res: any) {
             lastName: true,
           },
         },
+        credentials_status: true,
       },
     });
     return supervisorProspects;
