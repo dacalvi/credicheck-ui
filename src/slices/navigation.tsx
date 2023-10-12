@@ -1,11 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
   FiActivity,
-  FiBarChart2,
   FiClock,
   FiCompass,
   FiDatabase,
-  FiFileText,
   FiUsers,
 } from "react-icons/fi";
 import {PiBankFill, PiWebhooksLogoBold} from "react-icons/pi";
