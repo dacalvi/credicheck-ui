@@ -14,20 +14,51 @@ const Index: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [clients, setClients] = useState<any[]>([]);
   const [clientsLoading, setClientsLoading] = useState(false);
+  const [clientValid, setClientValid] = useState(false);
+  const [indicatorTemplates, setIndicatorTemplates] = useState<any[]>([]);
 
   const loadClients = async () => {
     setClientsLoading(true);
     const response = await fetch("/api/prospects");
     const data = await response.json();
+
+    if (data.prospects.length === 0) {
+      alert(
+        "No hay pymes registradas, por favor registra una pyme antes de crear un reporte"
+      );
+      router.push("/dashboard/oficial/pymes/crear");
+      return;
+    }
+
     const clients = data.prospects.map((prospect: any) => {
       return {
         key: prospect.id,
-        value: `${prospect.companyName} - ${prospect.rfc}
-        ${prospect.owner.email}`,
+        value:
+          prospect.firstName +
+          " " +
+          prospect.lastName +
+          prospect.companyName +
+          " - " +
+          prospect.rfc,
+        credentials_status: prospect.credentials_status,
       };
     });
     setClients(clients);
     setClientsLoading(false);
+  };
+
+  const loadIndicatorTemplates = async () => {
+    const response = await fetch("/api/indicator_templates");
+    const data = await response.json();
+    const indicatorTemplates = data.indicatorTemplates.map(
+      (indicatorTemplate: any) => {
+        return {
+          key: indicatorTemplate.id,
+          value: indicatorTemplate.name,
+        };
+      }
+    );
+    setIndicatorTemplates(indicatorTemplates);
   };
 
   useEffect(() => {
@@ -35,19 +66,46 @@ const Index: React.FC = () => {
       router.replace("/auth/signin");
     } else {
       loadClients();
+      loadIndicatorTemplates();
     }
   }, [router, status]);
 
-  const {control, handleSubmit} = useForm({
+  const {control, handleSubmit, register} = useForm({
     defaultValues: {
       name: "",
       description: "",
       clientId: "",
+      indicatorTemplate: "",
     },
   });
 
+  const checkIfCredentialsArePresent = async (clientId: string) => {
+    const client = clients.find((client) => client.key === Number(clientId));
+    if (!client) {
+      return false;
+    }
+    if (client.credentials_status === "valid") {
+      setClientValid(true);
+      return true;
+    } else {
+      setClientValid(false);
+      alert("El cliente todavia no tiene sus credenciales cargadas");
+      return false;
+    }
+  };
+
   const onSubmit = async (data: any) => {
     try {
+      //check if data.clientId is empty and prevent submit, show error message
+      if (data.clientId === "") {
+        alert("Selecciona un cliente");
+        return;
+      }
+
+      if (await !checkIfCredentialsArePresent(data.clientId)) {
+        return;
+      }
+
       setLoading(true);
       await fetch("/api/processes", {
         method: "POST",
@@ -56,9 +114,8 @@ const Index: React.FC = () => {
         },
         body: JSON.stringify(data),
       });
-
       setLoading(false);
-      router.push("/dashboard/supervisor/reportes");
+      router.push("/dashboard/oficial/reportes");
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
@@ -90,8 +147,38 @@ const Index: React.FC = () => {
                   render={({field}) => (
                     <Select
                       placeholder="Selecciona un cliente"
-                      {...field}
                       options={clients}
+                      {...register("clientId", {
+                        onChange: (e) => {
+                          checkIfCredentialsArePresent(e.target.value);
+                        },
+                      })}
+                      {...field}
+                    />
+                  )}
+                />
+              </div>
+
+              <div>
+                <div className="mb-2 block">
+                  <Label
+                    htmlFor="indicatorTemplate"
+                    value="Plantilla de Reporte"
+                  />
+                </div>
+                <Controller
+                  name="indicatorTemplate"
+                  control={control}
+                  render={({field}) => (
+                    <Select
+                      placeholder="Selecciona una plantilla"
+                      options={indicatorTemplates}
+                      {...register("indicatorTemplate", {
+                        onChange: (e) => {
+                          checkIfCredentialsArePresent(e.target.value);
+                        },
+                      })}
+                      {...field}
                     />
                   )}
                 />
@@ -136,10 +223,10 @@ const Index: React.FC = () => {
               </div>
 
               <div className="mt-4">
-                <Button disabled={loading} type="submit">
+                <Button disabled={loading || !clientValid} type="submit">
                   {loading && <Spinner aria-label="Spinner button example" />}
                   <span className={loading ? "pl-3" : ""}>
-                    {loading ? "Guardando...." : "Guardar"}
+                    {loading ? "Creando nuevo reporte...." : "Crear Reporte"}
                   </span>
                 </Button>
               </div>

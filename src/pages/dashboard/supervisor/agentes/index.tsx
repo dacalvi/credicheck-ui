@@ -3,6 +3,7 @@ import {useSession} from "next-auth/react";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {Button, Spinner, Table} from "flowbite-react";
+import Link from "next/link";
 
 type User = {
   firstName: string;
@@ -91,7 +92,19 @@ const Index: React.FC = () => {
       {loading ? (
         <div className="flex">
           <Spinner color="info" aria-label="Info spinner example" />
-          <div className="ml-2 mt-1">Cargando Usuarios</div>
+          <div className="ml-2 mt-1">Cargando Oficiales de Cuenta</div>
+        </div>
+      ) : users.length === 0 ? (
+        <div className="flex justify-center">
+          <div className="text-gray-500 w-full text-center p-5">
+            No hay oficiales de cuenta todavía.
+            <br></br>
+            <Link legacyBehavior href="/dashboard/supervisor/agentes/crear">
+              <a className="text-blue-500 hover:text-blue-700">
+                Crear Oficial de Cuentas
+              </a>
+            </Link>
+          </div>
         </div>
       ) : (
         <Table>

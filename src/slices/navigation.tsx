@@ -1,11 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {
   FiActivity,
-  FiBarChart2,
   FiClock,
   FiCompass,
   FiDatabase,
-  FiFileText,
   FiUsers,
 } from "react-icons/fi";
 import {PiBankFill, PiWebhooksLogoBold} from "react-icons/pi";
@@ -102,31 +100,10 @@ const initialState: NavigationState[] = [
       },
 
       {
-        url: "/dashboard/supervisor/clientes",
+        url: "/dashboard/supervisor/pymes",
         icon: <FiUsers size={20} />,
         title: "Pymes",
         items: [],
-        roleId: 2,
-      },
-
-      {
-        url: "/dashboard/supervisor/reportes",
-        icon: <FiFileText size={20} />,
-        title: "Reportes",
-        items: [
-          {
-            url: "/dashboard/supervisor/reportes/crear",
-            title: "Crear Reporte",
-            roleId: 2,
-            items: [],
-          },
-          {
-            url: "/dashboard/supervisor/reportes",
-            title: "Ver Reportes",
-            roleId: 2,
-            items: [],
-          },
-        ],
         roleId: 2,
       },
       {
@@ -147,13 +124,6 @@ const initialState: NavigationState[] = [
             items: [],
           },
         ],
-        roleId: 2,
-      },
-      {
-        url: "/dashboard/supervisor/graficos",
-        icon: <FiBarChart2 size={20} />,
-        title: "Graficos",
-        items: [],
         roleId: 2,
       },
       /* Publicas */

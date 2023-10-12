@@ -10,7 +10,7 @@ export default async function handler(req: any, res: any) {
     res.status(200).json({company});
   } else if (req.method === "PUT") {
     const company = await updateCompany(req.query.id, req.body);
-    res.status(200).json({company});
+    res.status(200).json({company, success: true});
   } else if (req.method === "DELETE") {
     await deleteCompany(req.query.id, req, res);
   } else {
