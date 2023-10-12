@@ -134,18 +134,24 @@ const Index: React.FC = () => {
     };
   }
 
-  const loadProcessCall = useCallback(async () => {
-    const response = await fetch("/api/processes");
-    const data = await response.json();
+  const loadProcessCall = useCallback(
+    async (uuid: string | string[] | undefined = "") => {
+      if (uuid === "") {
+        uuid = router.query.uuid;
+      }
+      const response = await fetch(`/api/processes/client/${uuid}`);
+      const data = await response.json();
 
-    //enrich the data.processes with the scoreSum and set it to the score property of the process
-    data.processes?.forEach((process: Process) => {
-      calculateScoreSum(process);
-      getPieDataByResult(process);
-    });
+      //enrich the data.processes with the scoreSum and set it to the score property of the process
+      data.processes?.forEach((process: Process) => {
+        calculateScoreSum(process);
+        getPieDataByResult(process);
+      });
 
-    setProcesses(data.processes);
-  }, []);
+      setProcesses(data.processes);
+    },
+    []
+  );
 
   const deleteProcess = async (id: number) => {
     const confirm = window.confirm(
@@ -196,7 +202,7 @@ const Index: React.FC = () => {
     if (router.query.uuid && status === "authenticated") {
       loadClient();
       loadExtractions();
-      loadProcessCall();
+      loadProcessCall(router.query.uuid);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.uuid, status]);
