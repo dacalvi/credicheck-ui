@@ -20,6 +20,7 @@ import {
 import Link from "next/link";
 import {Cell, Pie, PieChart, ResponsiveContainer} from "recharts";
 import {getColor} from "functions/colors";
+import ContentLoader from "react-content-loader";
 
 type Step = {
   id: number;
@@ -134,18 +135,24 @@ const Index: React.FC = () => {
     };
   }
 
-  const loadProcessCall = useCallback(async () => {
-    const response = await fetch("/api/processes");
-    const data = await response.json();
+  const loadProcessCall = useCallback(
+    async (uuid: string | string[] | undefined = "") => {
+      if (uuid === "") {
+        uuid = router.query.uuid;
+      }
+      const response = await fetch(`/api/processes/client/${uuid}`);
+      const data = await response.json();
 
-    //enrich the data.processes with the scoreSum and set it to the score property of the process
-    data.processes?.forEach((process: Process) => {
-      calculateScoreSum(process);
-      getPieDataByResult(process);
-    });
+      //enrich the data.processes with the scoreSum and set it to the score property of the process
+      data.processes?.forEach((process: Process) => {
+        calculateScoreSum(process);
+        getPieDataByResult(process);
+      });
 
-    setProcesses(data.processes);
-  }, []);
+      setProcesses(data.processes);
+    },
+    []
+  );
 
   const deleteProcess = async (id: number) => {
     const confirm = window.confirm(
@@ -196,7 +203,7 @@ const Index: React.FC = () => {
     if (router.query.uuid && status === "authenticated") {
       loadClient();
       loadExtractions();
-      loadProcessCall();
+      loadProcessCall(router.query.uuid);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.uuid, status]);
@@ -222,7 +229,10 @@ const Index: React.FC = () => {
         <div className="flex flex-col">
           <div className="flex flex-row">
             <div>
-              <Widget title="SAT" description={<span>Credenciales</span>}>
+              <Widget
+                title="SAT"
+                description={<span>Credenciales</span>}
+                className="h-40">
                 <div className="mx-3">
                   {client?.credentials_status === "pending" && (
                     <Badge
@@ -493,21 +503,12 @@ const Index: React.FC = () => {
                               <div className="flex">
                                 #{process.id} {process.client.firstName}{" "}
                                 {process.client.lastName} - {process.name}
-                                <FiTrash
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteProcess(process.id);
-                                  }}
-                                  size={15}
-                                  className="ml-2"
-                                  color="red"
-                                />
                               </div>
                             </div>
                           </span>
                         </Accordion.Title>
                         <Accordion.Content>
-                          <div className="flex flex-row w-full">
+                          <div className="flex flex-row justify-between w-full">
                             <div className="w-28">
                               <div style={{width: 80}}>
                                 <ResponsiveContainer height={80} width={80}>
@@ -579,16 +580,31 @@ const Index: React.FC = () => {
                                     key={index}>
                                     <div className="">
                                       {step.state === "PENDING" ? (
-                                        <div>
-                                          <div className="mx-2 mb-10">
-                                            <div className="max-w-[200px] min-h-[75px]">
-                                              {step.name}
-                                            </div>
-                                            <div className="rounded-md w-48 h-16">
-                                              {step.resultExplanation}
-                                            </div>
-                                          </div>
-                                        </div>
+                                        <ContentLoader
+                                          speed={2}
+                                          width={476}
+                                          height={124}
+                                          viewBox="0 0 476 124"
+                                          backgroundColor="#171717"
+                                          foregroundColor="#262626">
+                                          <rect
+                                            x="0"
+                                            y="0"
+                                            rx="2"
+                                            ry="2"
+                                            width="140"
+                                            height="10"
+                                          />
+
+                                          <rect
+                                            x="0"
+                                            y="20"
+                                            rx="2"
+                                            ry="2"
+                                            width="180"
+                                            height="55"
+                                          />
+                                        </ContentLoader>
                                       ) : step.result === "SKIP" ? (
                                         <div>
                                           <div className="mx-2 mb-10">
@@ -627,6 +643,17 @@ const Index: React.FC = () => {
                                   </div>
                                 ))}
                               </div>
+                            </div>
+                            <div className="flex items-end w-6">
+                              <FiTrash
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  deleteProcess(process.id);
+                                }}
+                                size={15}
+                                className="ml-2 cursor-pointer"
+                                color="red"
+                              />
                             </div>
                           </div>
                         </Accordion.Content>
