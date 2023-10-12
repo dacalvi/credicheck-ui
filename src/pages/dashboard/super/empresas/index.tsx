@@ -48,7 +48,7 @@ const Index: React.FC = () => {
   }, [router, status]);
 
   const editCompany = async (id: number) => {
-    router.push(`/dashboard/super/empresas/${id}`);
+    router.push(`/dashboard/super/empresas/edit/${id}`);
   };
 
   return (
