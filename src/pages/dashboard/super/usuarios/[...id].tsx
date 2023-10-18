@@ -4,7 +4,7 @@ import SectionTitle from "components/section-title";
 import Widget from "components/widget";
 import {Input} from "components/react-hook-form/input";
 import {Label} from "flowbite-react";
-import {FormProvider, useForm} from "react-hook-form";
+import {Controller, FormProvider, useForm} from "react-hook-form";
 import {Loading} from "components/loading";
 import {useState} from "react";
 import Alert from "components/alerts";
@@ -18,6 +18,7 @@ import {useAppSelector} from "store";
 export type FormProps = {
   email: string;
   password: string;
+  repassword: string;
   roleId: number | null;
   companyId: number | null;
 };
@@ -66,19 +67,24 @@ const Index: React.FC = () => {
     handleSubmit,
     reset,
     formState: {errors},
+    control,
+    register,
+    setValue,
   } = methods;
 
   const [loading, setLoading] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [roleId, setRoleId] = useState<number | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [companyId, setCompanyId] = useState<number | null>(null);
 
   const onSubmit = async (data: FormProps) => {
     try {
       setLoading(true);
       data.roleId = roleId;
+      data.companyId = companyId;
       const response = await fetch("/api/users", {
-        method: "POST",
+        method: "PUT",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       });
@@ -87,8 +93,9 @@ const Index: React.FC = () => {
       } else {
         setLoading(false);
         setShowSuccessMessage(true);
-        reset();
-        //set a success banner here
+        //empty password fields
+        setValue("password", "");
+        setValue("repassword", "");
       }
       //check response, if success is false, dont take them to success page
     } catch (error) {
@@ -116,6 +123,9 @@ const Index: React.FC = () => {
             password: data.user.password,
           });
           setRoleId(data.user.roleId);
+          setCompanyId(data.user.companyId);
+          setValue("companyId", data.user.companyId);
+          setValue("roleId", data.user.roleId);
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -154,6 +164,7 @@ const Index: React.FC = () => {
                       id="email"
                       name="email"
                       type="email"
+                      readonly={true}
                       rules={{
                         required: "Email es requerido",
                         minLength: {
@@ -174,7 +185,6 @@ const Index: React.FC = () => {
                       name="password"
                       type="password"
                       rules={{
-                        required: "Contraseña es requerida",
                         minLength: {
                           value: 4,
                           message:
@@ -194,11 +204,10 @@ const Index: React.FC = () => {
                   <InputWrapper outerClassName="sm:col-span-12">
                     <Label>Repetir Contraseña</Label>
                     <Input
-                      id="password"
-                      name="password"
+                      id="repassword"
+                      name="repassword"
                       type="password"
                       rules={{
-                        required: "Contraseña es requerida",
                         minLength: {
                           value: 4,
                           message:
@@ -211,40 +220,50 @@ const Index: React.FC = () => {
                         },
                       }}
                     />
-                    {errors?.password?.message && (
-                      <ErrorMessage>{errors.password.message}</ErrorMessage>
+                    {errors?.repassword?.message && (
+                      <ErrorMessage>{errors.repassword.message}</ErrorMessage>
                     )}
                   </InputWrapper>
-
                   <InputWrapper outerClassName="sm:col-span-12">
-                    <Label>Rol</Label>
-                    <Select
-                      id="roleId"
-                      width="w-48"
+                    <Controller
                       name="roleId"
-                      placeholder="Seleccione un rol"
-                      options={rolesArray}
-                      rules={{
-                        required: "Rol es requerido",
-                      }}
+                      control={control}
+                      render={({field}) => (
+                        <Select
+                          id="roleId"
+                          width="w-48"
+                          placeholder="Selecciona unn rol"
+                          options={rolesArray}
+                          {...register("roleId", {
+                            onChange: (e) => {
+                              setRoleId(e.target.value);
+                            },
+                          })}
+                          {...field}
+                        />
+                      )}
                     />
                   </InputWrapper>
 
                   <InputWrapper outerClassName="sm:col-span-12">
-                    <Label>Empresa</Label>
-                    <Select
-                      id="companyId"
-                      width="w-48"
+                    <Controller
                       name="companyId"
-                      placeholder="Seleccione una empresa"
-                      options={companiesArray}
-                      rules={{
-                        required: "Empresa es requerido",
-                      }}
+                      control={control}
+                      render={({field}) => (
+                        <Select
+                          id="companyId"
+                          width="w-48"
+                          placeholder="Selecciona una Pyme"
+                          options={companiesArray}
+                          {...register("companyId", {
+                            onChange: (e) => {
+                              setCompanyId(e.target.value);
+                            },
+                          })}
+                          {...field}
+                        />
+                      )}
                     />
-                    {errors?.companyId?.message && (
-                      <ErrorMessage>{errors.companyId.message}</ErrorMessage>
-                    )}
                   </InputWrapper>
                 </div>
               </div>
