@@ -29,6 +29,61 @@ export default async function handler(req: any, res: any) {
       });
     }
     return await createUser(req, res);
+  } else if (req.method === "PUT") {
+    // eslint-disable-next-line no-console
+    console.log(req.body);
+
+    //check that all fields are filled
+    if (!req.body.email || !req.body.roleId || !req.body.companyId) {
+      return res.status(400).json({message: "Missing fields", success: false});
+    }
+
+    //check that email exists
+    const user = await prisma.user.findUnique({
+      where: {
+        email: req.body.email,
+      },
+    });
+    if (!user) {
+      return res.status(400).json({message: "User not found", success: false});
+    }
+
+    if (req.body.password.length > 0) {
+      if (
+        req.body.password.length >= 4 &&
+        req.body.password.length <= 16 &&
+        //the same with repassword
+        req.body.password === req.body.repassword
+      ) {
+        const hashedPassword = await generatePassword(req.body.password);
+        await prisma.user.update({
+          where: {
+            email: req.body.email,
+          },
+          data: {
+            password: hashedPassword,
+          },
+        });
+      } else {
+        return res.status(400).json({
+          message: "Password lenght invalid or they dont match",
+          success: false,
+        });
+      }
+    }
+
+    //make the prisma update of roleId and companyId
+    await prisma.user.update({
+      where: {
+        email: req.body.email,
+      },
+      data: {
+        roleId: Number(req.body.roleId),
+        companyId: Number(req.body.companyId),
+      },
+    });
+
+    return res.status(200).json({success: true});
   } else if (req.method === "GET") {
     const users = await getUsers();
     return res.status(200).json({users, success: true});

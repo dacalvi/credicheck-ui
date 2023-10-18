@@ -17,6 +17,7 @@ export type InputProps = {
   rules?: Record<string, any>;
   width?: string;
   placeholder?: string;
+  readonly?: boolean;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -26,6 +27,7 @@ export const Input: React.FC<InputProps> = ({
   rules = {},
   width = "w-full",
   placeholder = "",
+  readonly = false,
 }) => {
   const {register} = useFormContext();
   return (
@@ -35,6 +37,7 @@ export const Input: React.FC<InputProps> = ({
       type={type}
       name={name}
       id={id}
+      readOnly={readonly}
       className={`form-input block ${width} border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-700 flex-grow-1 focus:border-blue-500 focus:ring-0 sm:text-sm rounded-md`}
     />
   );

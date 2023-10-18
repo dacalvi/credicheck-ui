@@ -20,6 +20,7 @@ async function getUser(id: number) {
           name: true,
         },
       },
+      companyId: true,
     },
     where: {
       id: Number(id),
