@@ -124,6 +124,7 @@ model Indicator {
   template           IndicatorTemplate             @relation(fields: [templateId], references: [id])
   templateId         Int                         @default(1)
   config              String?                       @db.Text
+  checked             Boolean                       @default(false)
   @@index([sourceId])
 }
 

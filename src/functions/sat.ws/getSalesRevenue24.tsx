@@ -10,7 +10,7 @@ type IndicatorConfigType = {
   resultScores: number[];
 };
 
-export const getSalesRevenue = async (
+export const getSalesRevenue24 = async (
   payload: CommonPayloadType
 ): Promise<AssociatedFunctionResponseType> => {
   const prisma = new PrismaClient();
@@ -21,14 +21,17 @@ export const getSalesRevenue = async (
     );
 
     //get the first day of month from 12 months ago
+
     const today = new Date();
     const lastYear = new Date();
     lastYear.setFullYear(today.getFullYear() - 1);
+    const twoyearsago = new Date();
+    lastYear.setFullYear(today.getFullYear() - 2);
 
     const salesrevenue_response = await sdk.insights.getSalesRevenue(
       payload.rfc,
+      twoyearsago.toISOString().split("T")[0],
       lastYear.toISOString().split("T")[0],
-      today.toISOString().split("T")[0],
       "monthly",
       "total"
     );

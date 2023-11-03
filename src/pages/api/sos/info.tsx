@@ -5,6 +5,7 @@ import {isRole} from "functions/helpers/isRole";
 export default async function handler(req: any, res: any) {
   if (req.method === "GET") {
     const isRoleValid = await isRole(req, [
+      RoleList.AGENTE,
       RoleList.SUPER,
       RoleList.SUPERVISOR,
     ]);

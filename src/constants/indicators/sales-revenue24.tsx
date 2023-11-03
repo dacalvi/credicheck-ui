@@ -1,8 +1,7 @@
 import {Result} from "constants/values";
 
-export const yearsOfActivity = {
-  id: 1,
-  name: "Años de actividad",
+export const salesRevenue24 = {
+  name: "Monto Facturado últimos 24 meses",
   order: 0,
   sourceId: 1,
   source: {
@@ -10,7 +9,7 @@ export const yearsOfActivity = {
     name: "SAT.WS",
     order: 0,
   },
-  associated_function: "years-of-activity",
+  associated_function: "sales-revenue24",
   defaultConfig: {
     segments: [5, 10],
     segmentResults: [Result.REJECT, Result.MANUAL, Result.SKIP],

@@ -14,6 +14,7 @@ import {clientPortfolio} from "functions/moffin.mx/client-portfolio";
 import {financialLoanHistory} from "functions/moffin.mx/financial-loan-history";
 import {financialClosedLoanHistory} from "functions/moffin.mx/financial-closed-loan-history";
 import {consumerLoanHistory} from "functions/moffin.mx/consumer-loan-history";
+import {getSalesRevenue24} from "functions/sat.ws/getSalesRevenue24";
 
 const prisma = new PrismaClient();
 
@@ -86,6 +87,10 @@ async function call_associated_function(step: StepType) {
 
   if (step?.indicator.associated_function === "sales-revenue") {
     saveResult(await getSalesRevenue(payload));
+  }
+
+  if (step?.indicator.associated_function === "sales-revenue24") {
+    saveResult(await getSalesRevenue24(payload));
   }
 
   if (step?.indicator.associated_function === "black-list-status") {

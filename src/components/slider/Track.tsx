@@ -19,17 +19,17 @@ export const Track = (props: any) => {
   return (
     <StyledTrack {...props} index={props.index}>
       {props.rangeStates[props.index] === Result.REJECT && (
-        <div className={`text-white ${props.index > 0 ? "ml-6" : ""}`}>
+        <div className={`text-white ${props.index > 0 ? "ml-14" : ""}`}>
           Rechazo
         </div>
       )}
       {props.rangeStates[props.index] === Result.MANUAL && (
-        <div className={`text-black ${props.index > 0 ? "ml-6" : ""}`}>
+        <div className={`text-black ${props.index > 0 ? "ml-14" : ""}`}>
           Manual
         </div>
       )}
       {props.rangeStates[props.index] === Result.SKIP && (
-        <div className={`text-white ${props.index > 0 ? "ml-6" : ""}`}>
+        <div className={`text-white ${props.index > 0 ? "ml-14" : ""}`}>
           Aprobar
         </div>
       )}

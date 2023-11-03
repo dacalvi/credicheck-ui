@@ -2,22 +2,21 @@ import {useEffect, useState} from "react";
 import {FiCheck, FiCircle} from "react-icons/fi";
 
 export type IndicatorProps = {
-  id: number;
   title?: React.ReactNode;
   description?: React.ReactNode;
   isChecked?: boolean;
-  onChange: (id: number, checked: boolean) => void;
+  onChange: (associated_function: string, checked: boolean) => void;
+  associated_function: string;
 };
 
 const Indicator: React.FC<IndicatorProps> = ({
-  id,
+  associated_function,
   title,
   description,
   isChecked,
   onChange,
 }) => {
   const [checked, setChecked] = useState(false);
-
   useEffect(() => {
     if (isChecked) {
       setChecked(isChecked);
@@ -29,13 +28,13 @@ const Indicator: React.FC<IndicatorProps> = ({
 
   const toggleChecked = () => {
     setChecked(!checked);
-    onChange(id, !checked);
+    onChange(associated_function, !checked);
   };
 
   return (
     <div
       onClick={toggleChecked}
-      className={`mr-5 w-64 p-4 mb-4 rounded-lg  border border-gray-100 ${
+      className={`mr-5 w-56 p-4 mb-4 rounded-lg  border border-gray-100 ${
         checked ? "bg-slate-600" : "dark:bg-gray-900"
       }  dark:border-gray-800`}>
       {(title || description) && (
