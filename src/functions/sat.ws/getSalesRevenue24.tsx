@@ -22,29 +22,29 @@ export const getSalesRevenue24 = async (
 
     //get the first day of month from 12 months ago
 
-    const today = new Date();
-    const lastYear = new Date();
-    lastYear.setFullYear(today.getFullYear() - 1);
-    const twoyearsago = new Date();
-    lastYear.setFullYear(today.getFullYear() - 2);
+    const start = new Date();
+    start.setFullYear(start.getFullYear() - 2);
+    start.setDate(1);
+
+    const end = new Date();
+    end.setFullYear(end.getFullYear() - 1);
+    end.setDate(0);
 
     const salesrevenue_response = await sdk.insights.getSalesRevenue(
       payload.rfc,
-      twoyearsago.toISOString().split("T")[0],
-      lastYear.toISOString().split("T")[0],
+      start.toISOString().split("T")[0],
+      end.toISOString().split("T")[0],
       "monthly",
       "total"
     );
 
-    if (salesrevenue_response.data.length === 0) {
-      return null;
-    }
-
-    //please, add up every mxnAmount property in salesrevenue_response.data  and store the result in acc_salesRevenue
     let acc_salesRevenue = 0;
-    salesrevenue_response.data.forEach((element) => {
-      acc_salesRevenue += element.mxnAmount;
-    });
+    if (salesrevenue_response.data.length > 0) {
+      //please, add up every mxnAmount property in salesrevenue_response.data  and store the result in acc_salesRevenue
+      salesrevenue_response.data.forEach((element) => {
+        acc_salesRevenue += element.mxnAmount;
+      });
+    }
 
     //get the indicator from the database, from the indicatorId in the indicator table
     const indicator = await prisma.indicator.findUnique({
