@@ -36,7 +36,7 @@ async function getIndicatorTemplate(id: number) {
     },
   });
 
-  const result = {...indicatorTemplate};
+  const result: any = {...indicatorTemplate};
 
   const newIndicatorsList = availableIndicators.indicators.map(
     (availableIndicator) => {

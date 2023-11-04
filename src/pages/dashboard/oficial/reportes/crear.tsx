@@ -73,6 +73,7 @@ const Index: React.FC = () => {
       loadClients();
       loadIndicatorTemplates();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, status]);
 
   const {control, handleSubmit, register} = useForm({

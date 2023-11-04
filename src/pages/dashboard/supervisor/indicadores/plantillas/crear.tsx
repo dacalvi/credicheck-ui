@@ -144,7 +144,7 @@ const Index: React.FC = () => {
                     {indicators &&
                       indicators.map((indicator) => (
                         <Indicator
-                          id={indicator.id}
+                          associated_function={indicator.associated_function}
                           key={indicator.id}
                           title={indicator.source.name}
                           description={indicator.name}

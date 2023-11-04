@@ -1,7 +1,6 @@
 import {Result} from "constants/values";
 
 export const yearsOfActivity = {
-  id: 1,
   name: "Años de actividad",
   order: 0,
   sourceId: 1,

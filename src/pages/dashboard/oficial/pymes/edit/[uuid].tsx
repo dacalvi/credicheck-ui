@@ -151,6 +151,7 @@ const Index: React.FC = () => {
 
       setProcesses(data.processes);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
