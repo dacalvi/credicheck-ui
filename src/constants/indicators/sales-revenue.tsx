@@ -1,7 +1,7 @@
 import {Result} from "constants/values";
 
-export const yearsOfActivity = {
-  name: "Años de actividad",
+export const salesRevenue = {
+  name: "Monto Facturado últimos 12 meses",
   order: 0,
   sourceId: 1,
   source: {
@@ -9,10 +9,10 @@ export const yearsOfActivity = {
     name: "SAT.WS",
     order: 0,
   },
-  associated_function: "years-of-activity",
+  associated_function: "sales-revenue",
   defaultConfig: {
-    segments: [5, 10],
-    segmentResults: [Result.REJECT, Result.MANUAL, Result.SKIP],
+    segments: [10, 30],
+    segmentResults: [Result.REJECT, Result.SKIP, Result.SKIP],
     resultScores: [0, 50, 100],
   },
   config: "",

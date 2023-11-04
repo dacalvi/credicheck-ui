@@ -20,7 +20,7 @@ import {
 import Link from "next/link";
 import {Cell, Pie, PieChart, ResponsiveContainer} from "recharts";
 import {getColor} from "functions/colors";
-import ContentLoader from "react-content-loader";
+import {FrontIndicator} from "components/indicators/FrontIndicator";
 
 type Step = {
   id: number;
@@ -151,6 +151,7 @@ const Index: React.FC = () => {
 
       setProcesses(data.processes);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -579,66 +580,10 @@ const Index: React.FC = () => {
                                     className="flex flex-row flex-wrap"
                                     key={index}>
                                     <div className="">
-                                      {step.state === "PENDING" ? (
-                                        <ContentLoader
-                                          speed={2}
-                                          width={476}
-                                          height={124}
-                                          viewBox="0 0 476 124"
-                                          backgroundColor="#171717"
-                                          foregroundColor="#262626">
-                                          <rect
-                                            x="0"
-                                            y="0"
-                                            rx="2"
-                                            ry="2"
-                                            width="140"
-                                            height="10"
-                                          />
-
-                                          <rect
-                                            x="0"
-                                            y="20"
-                                            rx="2"
-                                            ry="2"
-                                            width="180"
-                                            height="55"
-                                          />
-                                        </ContentLoader>
-                                      ) : step.result === "SKIP" ? (
-                                        <div>
-                                          <div className="mx-2 mb-10">
-                                            <div className="max-w-[200px] min-h-[30px]">
-                                              {step.name}
-                                            </div>
-                                            <div className="rounded-md w-48 h-16 bg-green-300 text-black p-3">
-                                              {step.resultExplanation}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      ) : step.result === "MANUAL" ? (
-                                        <div>
-                                          <div className="mx-2 mb-10">
-                                            <div className="max-w-[200px] min-h-[30px]">
-                                              {step.name}
-                                            </div>
-                                            <div className="rounded-md w-48 h-16 bg-yellow-500 text-black p-1">
-                                              {step.resultExplanation}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      ) : step.result === "REJECT" ? (
-                                        <div>
-                                          <div className="mx-2 mb-10">
-                                            <div className="max-w-[200px] min-h-[75px]">
-                                              {step.name}
-                                            </div>
-                                            <div className="rounded-md w-48 h-16 bg-red-400 text-black p-3">
-                                              {step.resultExplanation}
-                                            </div>
-                                          </div>
-                                        </div>
-                                      ) : null}
+                                      <FrontIndicator
+                                        step={step}
+                                        index={index}
+                                      />
                                     </div>
                                   </div>
                                 ))}

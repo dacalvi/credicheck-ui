@@ -135,6 +135,7 @@ const Index: React.FC = () => {
     if (router.query.id) {
       getUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query.id, reset]);
 
   return (

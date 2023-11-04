@@ -1,8 +1,14 @@
 import {PrismaClient} from "@prisma/client";
 import {yearsOfActivity} from "constants/indicators/years-of-activity";
+import {taxComplianceCheck} from "constants/indicators/tax-compliance-check";
 import {RoleList} from "constants/roles";
 import {getTokenInfo} from "functions/helpers/getTokenInfo";
 import {isRole} from "functions/helpers/isRole";
+import {salesRevenue} from "constants/indicators/sales-revenue";
+import {salesRevenue24} from "constants/indicators/sales-revenue24";
+import {blackListStatus} from "constants/indicators/black-list-status";
+import {percentOfGrowYoy} from "constants/indicators/percent-of-grow-yoy";
+import {percentBigClientsConcentration} from "constants/indicators/percent-big-clients-concentration";
 
 const prisma = new PrismaClient();
 
@@ -50,18 +56,36 @@ async function updateIndicators(req: any, res: any) {
     },
   });
 
-  //update config and name in indicators from data
+  //update config and name in indicators from data or create them if id dont exist
+  const indicators = data.indicators.map((indicator: any) => {
+    return {
+      id: indicator.id ? Number(indicator.id) : undefined,
+      name: indicator.name,
+      order: indicator.order,
+      sourceId: indicator.sourceId,
+      associated_function: indicator.associated_function,
+      templateId: Number(data.id),
+      config: JSON.stringify(indicator.config),
+      checked: indicator.checked,
+    };
+  });
+
   await Promise.all(
-    data.indicators.map(async (indicator: any) => {
-      await prisma.indicator.update({
-        where: {
-          id: Number(indicator.id),
-        },
-        data: {
-          name: indicator.name,
-          config: JSON.stringify(indicator.config),
-        },
-      });
+    indicators.map(async (indicator: any) => {
+      const indicatorId = indicator.id;
+      delete indicator.id;
+      if (indicatorId) {
+        await prisma.indicator.update({
+          where: {
+            id: Number(indicatorId),
+          },
+          data: indicator,
+        });
+      } else {
+        await prisma.indicator.create({
+          data: indicator,
+        });
+      }
     })
   );
 
@@ -148,7 +172,17 @@ async function getIndicators(req: any, res: any) {
   const isSupervisor = await isRole(req, [RoleList.SUPERVISOR]);
 
   if (isSupervisor) {
-    const indicators = {indicators: [yearsOfActivity]};
+    const indicators = {
+      indicators: [
+        yearsOfActivity,
+        taxComplianceCheck,
+        salesRevenue,
+        salesRevenue24,
+        blackListStatus,
+        percentOfGrowYoy,
+        percentBigClientsConcentration,
+      ],
+    };
     return res.status(200).json({indicators, success: true});
   } else {
     return res.status(401).json({message: "Unauthorized", success: false});

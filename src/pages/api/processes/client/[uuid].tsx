@@ -71,6 +71,13 @@ async function getProcesses(req: any, res: any, uuid: string) {
             score: true,
             uuid: true,
             resultExplanation: true,
+            indicator: {
+              select: {
+                id: true,
+                name: true,
+                associated_function: true,
+              },
+            },
           },
         },
       },
@@ -117,6 +124,13 @@ async function getProcesses(req: any, res: any, uuid: string) {
             score: true,
             uuid: true,
             resultExplanation: true,
+            indicator: {
+              select: {
+                id: true,
+                name: true,
+                associated_function: true,
+              },
+            },
           },
         },
         state: true,

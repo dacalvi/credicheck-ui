@@ -15,6 +15,7 @@ type CheckedIndicator = {
     name: string;
   };
   checked: boolean;
+  associated_function: string;
 };
 
 const Index: React.FC = () => {
@@ -73,15 +74,15 @@ const Index: React.FC = () => {
           {indicators &&
             indicators.map((indicator) => (
               <Indicator
-                id={indicator.id}
+                associated_function={indicator.associated_function}
                 key={indicator.id}
                 title={indicator.source.name}
                 description={indicator.name}
                 isChecked={indicator.checked}
-                onChange={(id, checked) => {
+                onChange={(associated_function, checked) => {
                   //change checked status in state
                   const newIndicators = indicators.map((indicator) => {
-                    if (indicator.id === id) {
+                    if (indicator.associated_function === associated_function) {
                       return {...indicator, checked: checked};
                     } else {
                       return indicator;

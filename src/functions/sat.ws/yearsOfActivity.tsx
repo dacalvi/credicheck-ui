@@ -66,7 +66,7 @@ export const yearsOfActivity = async (
       processId: payload.processId,
       uuid: payload.uuid,
       result: config.segmentResults[rango],
-      score: 100,
+      score: config.resultScores[rango],
       result_explanation: `${yearsOfActivity}`,
     };
   } catch (error) {

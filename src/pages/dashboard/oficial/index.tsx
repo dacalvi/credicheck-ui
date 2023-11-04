@@ -40,6 +40,8 @@ type Process = {
     email: string;
     firstName: string;
     lastName: string;
+    companyName: string;
+    uuid: string;
   };
   percent: number;
 };
@@ -175,10 +177,14 @@ const Index: React.FC = () => {
                     {processes?.map((process, i) => (
                       <tr key={i}>
                         <td className="px-3 py-2 border-b border-gray-100 dark:border-gray-800 whitespace-nowrap">
-                          <span className="ml-2">
+                          <span className="">
+                            <Link
+                              legacyBehavior
+                              href={`/dashboard/oficial/pymes/edit/${process.client.uuid}`}>
+                              {process.client.companyName}
+                            </Link>{" "}
+                            <br />
                             {process.name} {process.description}
-                            {" - "}
-                            {process.client.firstName} {process.client.lastName}
                           </span>
                         </td>
 

@@ -50,6 +50,11 @@ const Index: React.FC = () => {
   const loadIndicatorTemplates = async () => {
     const response = await fetch("/api/indicator_templates");
     const data = await response.json();
+    if (data.indicatorTemplates.length === 0) {
+      alert("No hay plantillas de reportes, contactese con su supervisor");
+      router.push("/dashboard/oficial/pymes");
+      return;
+    }
     const indicatorTemplates = data.indicatorTemplates.map(
       (indicatorTemplate: any) => {
         return {
@@ -68,6 +73,7 @@ const Index: React.FC = () => {
       loadClients();
       loadIndicatorTemplates();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router, status]);
 
   const {control, handleSubmit, register} = useForm({

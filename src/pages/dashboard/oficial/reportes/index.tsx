@@ -10,6 +10,7 @@ import {FiClock, FiCheck, FiMinus, FiTrash} from "react-icons/fi";
 import {getColor} from "functions/colors";
 
 import {Tooltip, PieChart, Pie, Cell, ResponsiveContainer} from "recharts";
+import {FrontIndicator} from "components/indicators/FrontIndicator";
 
 type Step = {
   id: number;
@@ -314,51 +315,7 @@ const Index: React.FC = () => {
                         {process.steps.map((step, index) => (
                           <div className="flex flex-row flex-wrap" key={index}>
                             <div className="">
-                              {step.state === "PENDING" ? (
-                                <div>
-                                  <div className="mx-2 mb-10">
-                                    <div className="max-w-[200px] min-h-[75px]">
-                                      {step.name}
-                                    </div>
-                                    <div className="rounded-md w-48 h-16">
-                                      {step.resultExplanation}
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : step.result === "SKIP" ? (
-                                <div>
-                                  <div className="mx-2 mb-10">
-                                    <div className="max-w-[200px] min-h-[30px]">
-                                      {step.name}
-                                    </div>
-                                    <div className="rounded-md w-48 h-16 bg-green-300 text-black p-3">
-                                      {step.resultExplanation}
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : step.result === "MANUAL" ? (
-                                <div>
-                                  <div className="mx-2 mb-10">
-                                    <div className="max-w-[200px] min-h-[75px]">
-                                      {step.name}
-                                    </div>
-                                    <div className="rounded-md w-48 h-16 bg-lime-300">
-                                      {step.resultExplanation}
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : step.result === "REJECT" ? (
-                                <div>
-                                  <div className="mx-2 mb-10">
-                                    <div className="max-w-[200px] min-h-[75px]">
-                                      {step.name}
-                                    </div>
-                                    <div className="rounded-md w-48 h-16 bg-red-400 text-black p-3">
-                                      {step.resultExplanation}
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : null}
+                              <FrontIndicator step={step} index={index} />
                             </div>
                           </div>
                         ))}

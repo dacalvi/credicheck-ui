@@ -1,7 +1,8 @@
 import {Result} from "constants/values";
 
-export const yearsOfActivity = {
-  name: "Años de actividad",
+export const percentOfGrowYoy = {
+  id: 1,
+  name: "% de Crecimiento YoY",
   order: 0,
   sourceId: 1,
   source: {
@@ -9,7 +10,7 @@ export const yearsOfActivity = {
     name: "SAT.WS",
     order: 0,
   },
-  associated_function: "years-of-activity",
+  associated_function: "percent-of-grow-yoy",
   defaultConfig: {
     segments: [5, 10],
     segmentResults: [Result.REJECT, Result.MANUAL, Result.SKIP],

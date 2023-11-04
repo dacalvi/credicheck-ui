@@ -45,6 +45,7 @@ async function createProcess(req: any, res: any) {
     select: {
       id: true,
       name: true,
+      checked: true,
     },
     where: {
       templateId: Number(data.indicatorTemplate),
@@ -59,16 +60,18 @@ async function createProcess(req: any, res: any) {
     },
   });
 
-  const steps = indicators.map((indicator, index) => {
-    return {
-      name: indicator.name,
-      description: "Reporte para " + indicator.name,
-      processId: newProcess.id,
-      indicatorId: indicator.id,
-      order: index,
-      uuid: generateUUID(),
-    };
-  });
+  const steps = indicators
+    .filter((indicator) => indicator.checked)
+    .map((indicator, index) => {
+      return {
+        name: indicator.name,
+        description: "Reporte para " + indicator.name,
+        processId: newProcess.id,
+        indicatorId: indicator.id,
+        order: index,
+        uuid: generateUUID(),
+      };
+    });
 
   await prisma.step.createMany({
     data: steps,
@@ -165,10 +168,12 @@ async function getProcesses(req: any, res: any) {
         description: true,
         client: {
           select: {
+            uuid: true,
             id: true,
             email: true,
             firstName: true,
             lastName: true,
+            companyName: true,
           },
         },
         steps: {
@@ -180,6 +185,13 @@ async function getProcesses(req: any, res: any) {
             result: true,
             score: true,
             uuid: true,
+            indicator: {
+              select: {
+                id: true,
+                name: true,
+                associated_function: true,
+              },
+            },
             resultExplanation: true,
           },
         },

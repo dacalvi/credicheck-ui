@@ -8,6 +8,8 @@ import {Controller, FormProvider, useForm} from "react-hook-form";
 import Indicator from "components/indicator";
 import {ErrorMessage} from "components/forms/error-message";
 import {YearsOfActivityParameters} from "components/indicators/YearsOfActivityParameters";
+import {SalesRevenueParameters} from "components/indicators/SalesRevenueParameters";
+import {SalesRevenue24Parameters} from "components/indicators/SalesRevenueParameters24";
 /*
 
 type IndicatorType = {
@@ -102,7 +104,11 @@ const Index: React.FC = () => {
       indicators: indicatorTemplate?.indicators,
     };
 
+    // eslint-disable-next-line no-console
+    console.log(payload);
+
     setSaveLoading(true);
+
     try {
       const fetchResponse = (await fetch("/api/indicators", {
         method: "PUT",
@@ -168,17 +174,20 @@ const Index: React.FC = () => {
                       indicatorTemplate?.indicators.map((indicator, index) => (
                         <Indicator
                           key={index}
-                          id={indicator.id}
+                          associated_function={indicator.associated_function}
                           title={indicator.source.name}
                           description={indicator.name}
                           isChecked={indicator.checked}
-                          onChange={(id, checked: boolean) => {
+                          onChange={(associated_function, checked: boolean) => {
                             //upadte indicatorTemplate checked state
                             const newIndicatorTemplate = {
                               ...indicatorTemplate,
                               indicators: indicatorTemplate?.indicators.map(
                                 (indicator) => {
-                                  if (indicator.id === id) {
+                                  if (
+                                    indicator.associated_function ===
+                                    associated_function
+                                  ) {
                                     return {
                                       ...indicator,
                                       checked,
@@ -200,12 +209,15 @@ const Index: React.FC = () => {
                 {/* Parametros */}
                 <Widget title="Parametros" description="">
                   {indicatorTemplate?.indicators &&
-                  indicatorTemplate?.indicators.length > 0 ? (
+                  indicatorTemplate?.indicators.length > 0 &&
+                  indicatorTemplate?.indicators.some(
+                    (indicator) => indicator.checked
+                  ) ? (
                     <Accordion collapseAll={true}>
-                      {indicatorTemplate?.indicators.map((indicator) => {
+                      {indicatorTemplate?.indicators.map((indicator, index) => {
                         if (indicator.checked) {
                           return (
-                            <Accordion.Panel key={indicator.id}>
+                            <Accordion.Panel key={index}>
                               <Accordion.Title>
                                 {indicator.name}
                               </Accordion.Title>
@@ -214,11 +226,14 @@ const Index: React.FC = () => {
                                   switch (indicator.associated_function) {
                                     case "years-of-activity":
                                       return (
-                                        /* TODO: Traer desde base de datos o configuracion valores por defecto */
                                         <YearsOfActivityParameters
-                                          defaultConfig={indicator.config}
+                                          defaultConfig={
+                                            indicator.config &&
+                                            indicator.config !== ""
+                                              ? indicator.config
+                                              : indicator.defaultConfig
+                                          }
                                           onChange={(data: any) => {
-                                            //update 'years-of-activity' config in indicatorTemplate
                                             const newIndicatorTemplate = {
                                               ...indicatorTemplate,
                                               indicators:
@@ -244,6 +259,80 @@ const Index: React.FC = () => {
                                           }}
                                         />
                                       );
+
+                                    case "sales-revenue":
+                                      return (
+                                        <SalesRevenueParameters
+                                          defaultConfig={
+                                            indicator.config &&
+                                            indicator.config !== ""
+                                              ? indicator.config
+                                              : indicator.defaultConfig
+                                          }
+                                          onChange={(data: any) => {
+                                            const newIndicatorTemplate = {
+                                              ...indicatorTemplate,
+                                              indicators:
+                                                indicatorTemplate?.indicators.map(
+                                                  (indicator) => {
+                                                    if (
+                                                      indicator.associated_function ===
+                                                      "sales-revenue"
+                                                    ) {
+                                                      return {
+                                                        ...indicator,
+                                                        config: data,
+                                                      };
+                                                    } else {
+                                                      return indicator;
+                                                    }
+                                                  }
+                                                ),
+                                            };
+                                            setIndicatorTemplate(
+                                              newIndicatorTemplate
+                                            );
+                                          }}
+                                        />
+                                      );
+
+                                    case "sales-revenue24":
+                                      return (
+                                        <SalesRevenue24Parameters
+                                          defaultConfig={
+                                            indicator.config &&
+                                            indicator.config !== ""
+                                              ? indicator.config
+                                              : indicator.defaultConfig
+                                          }
+                                          onChange={(data: any) => {
+                                            //update 'years-of-activity' config in indicatorTemplate
+                                            const newIndicatorTemplate = {
+                                              ...indicatorTemplate,
+                                              indicators:
+                                                indicatorTemplate?.indicators.map(
+                                                  (indicator) => {
+                                                    if (
+                                                      indicator.associated_function ===
+                                                      "sales-revenue24"
+                                                    ) {
+                                                      return {
+                                                        ...indicator,
+                                                        config: data,
+                                                      };
+                                                    } else {
+                                                      return indicator;
+                                                    }
+                                                  }
+                                                ),
+                                            };
+                                            setIndicatorTemplate(
+                                              newIndicatorTemplate
+                                            );
+                                          }}
+                                        />
+                                      );
+
                                     default:
                                       return null;
                                   }
@@ -252,7 +341,7 @@ const Index: React.FC = () => {
                             </Accordion.Panel>
                           );
                         } else {
-                          return <></>;
+                          return <div key={index}></div>;
                         }
                       })}
                     </Accordion>

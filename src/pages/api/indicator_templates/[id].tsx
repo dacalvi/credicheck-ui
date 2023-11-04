@@ -27,6 +27,7 @@ async function getIndicatorTemplate(id: number) {
           source: true,
           associated_function: true,
           config: true,
+          checked: true,
         },
       },
     },
@@ -35,7 +36,7 @@ async function getIndicatorTemplate(id: number) {
     },
   });
 
-  const result = {...indicatorTemplate};
+  const result: any = {...indicatorTemplate};
 
   const newIndicatorsList = availableIndicators.indicators.map(
     (availableIndicator) => {
@@ -49,7 +50,8 @@ async function getIndicatorTemplate(id: number) {
         return {
           ...availableIndicator,
           ...indicatorIntemplate,
-          checked: true,
+          id: indicatorIntemplate.id,
+          checked: indicatorIntemplate.checked,
           config: JSON.parse(indicatorIntemplate.config || ""),
         };
       } else {
