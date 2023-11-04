@@ -33,15 +33,12 @@ export const getSalesRevenue = async (
       "total"
     );
 
-    if (salesrevenue_response.data.length === 0) {
-      return null;
-    }
-
-    //please, add up every mxnAmount property in salesrevenue_response.data  and store the result in acc_salesRevenue
     let acc_salesRevenue = 0;
-    salesrevenue_response.data.forEach((element) => {
-      acc_salesRevenue += element.mxnAmount;
-    });
+    if (salesrevenue_response.data.length > 0) {
+      salesrevenue_response.data.forEach((element) => {
+        acc_salesRevenue += element.mxnAmount;
+      });
+    }
 
     //get the indicator from the database, from the indicatorId in the indicator table
     const indicator = await prisma.indicator.findUnique({
