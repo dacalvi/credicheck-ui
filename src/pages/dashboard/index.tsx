@@ -12,6 +12,9 @@ const Index: React.FC = () => {
       router.replace("/auth/signin");
     }
 
+    /* TODO: 
+    Dejar de usar numeros para los roles 
+    */
     if (data?.user?.roleId === 2) {
       router.replace("/dashboard/supervisor");
     } else if (data?.user?.roleId === 3) {
